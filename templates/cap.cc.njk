@@ -1,0 +1,67 @@
+{% extends "tsp.cc.njk" %}
+
+{% block capacity %}
+  const std::vector<int64> demands{
+  {{ demands | join(", ") }}
+  };
+  const std::vector<int64> vehicle_capacities{ {{ vehicle_capacities | join(", ") }} };
+{% endblock %}
+
+{% block dimension %}
+  const int demand_callback_index = routing.RegisterUnaryTransitCallback(
+      [&data, &manager](int64 from_index) -> int64 {
+        // Convert from routing variable Index to demand NodeIndex.
+        int from_node = manager.IndexToNode(from_index).value();
+        return data.demands[from_node];
+      });
+
+  routing.AddDimensionWithVehicleCapacity(
+      demand_callback_index,
+      int64{0},
+      data.vehicle_capacities,
+      true,
+      "Capacity");
+{% endblock %}
+
+{% block output %}
+  if (argc > 1) {
+    std::ofstream ofile;
+    ofile.open (argv[1]); 
+
+    int64 total_distance{0};
+    int64 total_load{0};
+    json output;
+    std::vector<json> vehicles;
+    for (int vehicle_id = 0; vehicle_id < data.num_vehicles; ++vehicle_id) {
+      int64 index = routing.Start(vehicle_id);
+      int64 route_distance{0};
+      int64 route_load{0};
+      json route;
+      std::vector<int64> path;
+      std::vector<int64> loads;
+      while (routing.IsEnd(index) == false) {
+        int64 node_index = manager.IndexToNode(index).value();
+        path.push_back(node_index);
+        route_load += data.demands[node_index];
+        loads.push_back(route_load);
+        int64 previous_index = index;
+        index = solution->Value(routing.NextVar(index));
+        route_distance +=
+            routing.GetArcCostForVehicle(previous_index, index, int64{vehicle_id});
+      }
+      path.push_back(manager.IndexToNode(index).value());
+      route["path"] = path;
+      route["load"] = loads;
+      route["distance"] = route_distance;
+      total_distance += route_distance;
+      vehicles.push_back(route);
+    }
+    output["vehicles"] = vehicles;
+    output["total_distance"] = total_distance;
+    output["solver_time"] = routing.solver()->wall_time();
+
+    ofile << output.dump();
+    ofile.close();
+    std::cout << "Wrote to output file\n";
+  }
+{% endblock %}

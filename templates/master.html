@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="/css/node.css">
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.css' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Nunito+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+
+
+</head>
+
+<body>
+        
+        <div style="min-width: 100%; min-height:100%; transition: 0.2s;" id="surround-container">
+                <div id = "no-nodes" style=" transition : 0.5s; top:0; margin-top: -15px;  color : white;background: linear-gradient(96deg, #11998e,#38ef7d)">
+                        <p style="padding: 10px;">You have no nodes available.<span style="color:white;  font-weight: bold">  Add Nodes </span></p>
+                </div>  
+        <div id = "progress-loader" class="progress white">
+                <div class="indeterminate lime accent-3"></div>
+            </div>
+            <div  id = "loader" class="loader">Loading...</div> 
+
+                  
+    <div class="node-list" id="node-list">
+        <div style="display: flex; width: 100%; justify-content: space-between; color: white;">
+            <h5>Node List</h5>
+            <img id="close-node-list" style="margin:10px;" width="18" height="18" src="/images/close.png">
+        </div>
+        <div id="options">
+            <button class="accordion">Variables</button>
+            <div class="panel">
+                <p id="package">Package</p>
+                <p id="number">Number</p>
+            </div>
+            <button class="accordion">Calculate</button>
+            <div class="panel">
+                <p id="add">Add</p>
+                <p id="multiply">Multiply</p>
+                <p id="calc_distance">Calculate Distance</p>
+            </div>
+            <button class="accordion">Solvers</button>
+            <div class="panel">
+                <p id="route_solver">Route Solver</p>
+            </div>
+        </div>
+    </div>
+  
+        {%block content%} {%endblock%}
+    </div>
+</body>
+<script>
+    window.onload = ()=>{
+        setTimeout(()=>{
+        document.getElementById('surround-container').style.opacity = "1"
+        document.getElementById('loader').style.display = "none"
+        },'1000')
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/rete@1.4.1/build/rete.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.6/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-vue-render-plugin@0.3.5/build/vue-render-plugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-connection-plugin@0.8.3-rc.1/build/connection-plugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/alight@0.14.1/alight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-context-menu-plugin@0.5.2/build/context-menu-plugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-area-plugin@0.2.1/build/area-plugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-comment-plugin@0.3.0/build/comment-plugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-history-plugin@0.1.0/build/history-plugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/rete-connection-mastery-plugin@0.1.0/build/connection-mastery-plugin.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
+<script type="text/javascript" src="/js/materialize.min.js"></script>
+<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.2.0/mapbox-gl-geocoder.min.js'></script>
+<script src="/js/core.js"></script>
+<script src="/js/other.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</html>

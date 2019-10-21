@@ -1,0 +1,41 @@
+{%extends 'master.html' %} {%block content%}
+<div id="mapModal" class="modal">
+    <div class="modal-content">
+        <div id="map"></div>
+    </div>
+    <div class="rtl-alignment">
+        <div id="cancel" style="background:dodgerblue; border-radius: 20px;box-shadow: 10px -10px 20px black; padding-left: 20px; padding-right:20px; padding-top:8px; padding-bottom: 8px; color: white; font-family: 'Nunito Sans', sans-serif; font-weight: bold; margin-left: 20px; margin-top: 10%; cursor: pointer;">
+            Cancel
+        </div>
+        <div id="append-val" class="append-value" style="background:dodgerblue; border-radius: 20px;box-shadow: 10px -10px 20px black;  padding-left: 20px; padding-right:20px; padding-top:8px; padding-bottom: 8px; color: white; font-family: 'Nunito Sans', sans-serif; font-weight: bold; margin-left: 20px; margin-top: 10%; cursor: pointer;">
+            Done
+        </div>
+    </div>
+</div>
+
+<div class="toolbar">
+    <p id="app-name">NodeCanvas</p>
+    <div class="menu-options">
+        <ul>
+            <li id="openNodeMenu" class="popup" onmouseenter="showPopupNodes()">
+                <i class="material-icons">bubble_chart</i>
+                        <span class="popuptext" id="myPopup">Nodes</span>
+            </li>
+            <li  class="popup" onmouseenter="showPopupBuild()"> 
+                <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
+                <span class="popuptext" id="buildSolution">Build Solution</span>
+            </li>
+            <li id="openNodeMenu">
+                <i class="material-icons">live_help</i>
+               
+            </li>
+            <li id="openNodeMenu">
+                <i class="material-icons">person_pin</i>
+            
+            </li>
+        </ul>
+    </div>
+
+</div>
+<div id="rete"></div>
+{%endblock%}
