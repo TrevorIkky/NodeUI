@@ -1,0 +1,437 @@
+:root {
+    --path-color: black;
+}
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background: white;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+#app-name {
+    color: black;
+    margin-left: 20px;
+    font-family: 'Great Vibes', cursive;
+    font-size: 1.9rem;
+    font-weight: bolder;
+   
+}
+#surround-container{
+    margin-top: -5px;
+    opacity: 0;
+    transition: 0.2s;
+}
+
+#progress-loader{
+    margin: 0px;
+    height: 0;
+} 
+.control input,
+.node .input-control input {
+    width: 140px;
+    border-style: none !important;
+}
+
+.socket{
+    background-color: black !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin-left: -20px;
+
+
+}
+
+
+ path{
+   stroke:var(--path-color) !important;
+   stroke-width: 3px !important;
+}
+.node {
+    background: rgb(216, 213, 213) !important;
+    width: 140px;
+    border-style: solid !important;
+    border-color:  yellowgreen !important;
+}
+
+.node .title,
+.node .output-title,
+.node .input-title {
+    color: black !important;
+    font-family: 'Nunito Sans', sans-serif !important;
+}
+
+
+#map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#open-map {
+    cursor: pointer;
+}
+
+.rtl-alignment {
+    display: flex;
+    justify-content: end;
+    margin-right: 20px;
+}
+
+select, input{
+    width: 100%;
+    border-radius: 30px;
+    background-color: silver;
+    padding: 2px 6px;
+    border: 1px solid yellowgreen;
+    font-size: 110%;
+    width: 170px;
+}
+
+
+
+
+textarea {
+    width: 140px;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    height: 40px;
+}
+
+
+
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+    -webkit-animation-name: fadeIn;
+    /* Fade in the background */
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+
+
+/* Modal Content */
+
+.modal-content {
+    position: fixed;
+    bottom: 0;
+    background-color: #fefefe;
+    width: 100%;
+    top: 30%;
+    -webkit-animation-name: slideIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: slideIn;
+    animation-duration: 0.4s
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+.modal-body {
+    padding: 2px 16px;
+}
+
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+
+/* Add Animation */
+
+@-webkit-keyframes slideIn {
+    from {
+        bottom: -300px;
+        opacity: 0
+    }
+    to {
+        bottom: 0;
+        opacity: 1
+    }
+}
+
+@keyframes slideIn {
+    from {
+        bottom: -300px;
+        opacity: 0
+    }
+    to {
+        bottom: 0;
+        opacity: 1
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.menu-options{
+    margin-top: 15px;
+}
+.menu-options ul li{
+    display: inline-block;
+    list-style-type: none;
+    margin-right: 40px;
+    font-size: 1rem;
+    color:black;
+    cursor: pointer;
+   
+}
+
+#close-node-list{
+    cursor: pointer;
+}
+
+
+.menu-options ul li:hover{
+    color: #c6ff00;
+    transition: 0.2s;
+    font-size: 1.2rem;
+    padding:10px; 
+   
+}
+
+.menu-options ul li a{
+    text-decoration: none;
+    color: black; 
+}
+
+.menu-options ul li a:hover{
+    text-decoration: none;
+    color: firebrick;
+    transition: 0.2s;
+    font-size: 1.2rem;
+    padding:10px; 
+}
+
+.node-list{
+    background: black;
+    position: fixed;
+    width: 0;
+    z-index: 1;
+    top: 0; 
+    right: 0;
+    height:100%;
+    transition: 0.2s;
+    color:black;
+    opacity: 1;
+}
+
+#options{
+    margin-top: 20px;
+    margin-left:10px;
+    margin-right: 10px;
+    border-radius: 5px;
+
+}
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    
+  }
+  
+  .active, .accordion:hover {
+    background-color: #ccc;
+  }
+  
+  .accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+  
+  .active:after {
+    content: "\2212";
+  }
+  
+  .panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    color: black;
+
+  }
+
+
+
+
+.popup {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-top:10px;
+   
+  }
+ 
+  .popup .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 4px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+ 
+  }
+  
+
+  .popup .popuptext::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  
+  .popup .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+  }
+
+  @-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+  }
+  
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+  }
+
+  .loader,
+.loader:before,
+.loader:after {
+  background: yellowgreen;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+.loader {
+  color: yellowgreen;
+  text-indent: -9999em;
+  margin: 88px auto;
+  position: absolute;
+  left: 50%;
+  top:30%;
+  font-size: 11px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em;
+    height: 5em;
+  }
+}
