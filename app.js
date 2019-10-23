@@ -32,7 +32,6 @@ app.post('/register/add', async (req, res)=>{
   } catch (error) {
     res.send(error);
   }
-
 });
 
 app.post('/login/authenticate', async (req, res)=>{
