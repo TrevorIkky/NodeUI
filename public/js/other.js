@@ -1,8 +1,8 @@
 /* eslint-disable require-jsdoc */
-
+M.AutoInit();
 const nodeList = document.getElementById('node-list');
 const modal = document.getElementById('mapModal');
-const cancel = document.getElementById('cancel');
+// const cancel = document.getElementById('cancel');
 const appendToNode = document.getElementById('append-val');
 const openNodeMenu = document.getElementById('openNodeMenu');
 const surroundContainer = document.getElementById('surround-container');
@@ -111,16 +111,20 @@ geocoder.on('result', (event) => {
 map.addControl(geocoder);
 
 function openModal(key, nodeid) {
-  modal.style.display = 'block';
+  // modal.style.display = 'block';
+  var instance = M.Modal.getInstance(modal);
+  console.log(instance);
   map.resize();
+  // map.invalidateSize();
+  instance.open();
   appendToNode.setAttribute('data-node-key', key);
   appendToNode.setAttribute('data-node-id', nodeid);
 }
 
 
-cancel.onclick = function() {
-  modal.style.display = 'none';
-};
+// cancel.onclick = function() {
+  // modal.style.display = 'none';
+// };
 
 appendToNode.onclick = function() {
   const nodeId = appendToNode.getAttribute('data-node-id');
@@ -129,10 +133,11 @@ appendToNode.onclick = function() {
 
     searchedNode.controls.get('latlngNode').setValue(resultLatLng);
     searchedNode.data.latlngNode = resultLatLng;
-
     console.log(searchedNode);
     editor.trigger('process');
     modal.style.display = 'none';
+    var instance = M.Modal.getInstance(modal);
+    instance.close();
   } else {
     console.log('coordinates are null')
   };
