@@ -1,0 +1,39 @@
+
+
+body{
+    background: white;
+    width:50%;
+    height:50%;
+}
+
+.center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); /* for IE 9 */
+    -webkit-transform: translate(-50%, -50%); /* for Safari */
+    width: 390px;
+    height: 420px;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 0 10px gray;
+  }
+
+  .center h4 {
+    font-family: 'Great Vibes', cursive; 
+  }
+  #login-info-text{
+    margin-left:15px;
+    margin-right: 15px;
+    font-family: 'Nunito Sans', sans-serif;
+    margin-top: 20px;
+  }
+
+  #input-row{
+      margin-left:10px;
+      margin-right:10px;
+  }
+
+ 
+

@@ -3,6 +3,7 @@ const nunjucks = require('nunjucks');
 const express = require('express');
 const fs = require('fs');
 const util = require('./public/js/util');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.use(express.json());
@@ -13,8 +14,42 @@ nunjucks.configure('templates', {
   express: app,
   trimBlocks: true,
 });
+
+
 app.get('/', (req, res) => {
   return res.render('index.html');
+});
+
+
+app.post('/register/add', async (req, res)=>{
+  try {
+    const hashedPass = await bcrypt.hash(req.password, 10);
+    // eslint-disable-next-line max-len
+    const userDetails = {name: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
+    console.log(userDetails);
+    // Add userdetails obj to mongo
+    res.status(201).send('Added Successfully');
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+app.post('/login/authenticate', async (req, res)=>{
+  try {
+    // run Query to get username and password from db
+    if (await bcrypt.compare(req.body.password, 'Password from db')) {
+      res.render('index.html');
+    } else {
+      res.send('Incorrect password');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+});
+
+app.get('/login', (req, res) => {
+  return res.render('login.html');
 });
 // Travelling salesmanS
 app.post('/routing/simple', (req, res) => {
@@ -45,7 +80,7 @@ app.post('/routing/capacity', (req, res) => {
     vehicle_capacities: req.body.vehicle_capacities,
   };
 
- 
+
   const renderedTemplate = nunjucks.render('cap.cc.njk', vals);
   const base = util.create_source('routing-capacity', renderedTemplate);
 
