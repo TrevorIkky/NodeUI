@@ -15,8 +15,10 @@
 </head>
 
 <body>
-        
-</div>
+        <div id="no-nodes" style=" transition : 0.5s; top:0; margin-top: -15px;  color : white;background: linear-gradient(96deg, #11998e,#38ef7d)">
+                <p style="padding: 10px;">You have no nodes available.<span style="color:white;  font-weight: bold">  Add Nodes </span></p>
+            </div>      
+</div >
 {%block content%} {%endblock%}
 </div>
 </body>
@@ -26,6 +28,7 @@
         document.getElementById('surround-container').style.opacity = "1"
         document.getElementById('loader').style.display = "none"
         },'1000')
+
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/rete@1.4.1/build/rete.min.js"></script>

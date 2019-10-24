@@ -26,6 +26,8 @@ body {
     margin-top: -5px;
     opacity: 0;
     transition: 0.2s;
+    min-width: 100%;
+    min-height:100%; 
 }
 
 #progress-loader{
@@ -255,22 +257,21 @@ textarea {
 }
 
 .node-list{
-    background: black;
+
     position: fixed;
     width: 0;
     z-index: 1;
-    top: 0; 
-    right: 0;
+    top: 60px; 
+    left: 0;
     height:100%;
     transition: 0.2s;
     color:black;
-    opacity: 1;
+    opacity: 0;
 }
 
 #options{
-    margin-top: 20px;
     margin-left:10px;
-    margin-right: 10px;
+    margin-right: 20px;
     border-radius: 5px;
 
 }
@@ -434,4 +435,50 @@ textarea {
     box-shadow: 0 -2em;
     height: 5em;
   }
+}
+
+.variables{
+  color: linear-gradient(96deg ,#11998e ,#38ef7d);
+}
+.variables p{
+  margin:10px;
+  background: -webkit-linear-gradient(96deg ,#11998e ,#38ef7d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+
+.margintop{
+  margin-top:30px;
+}
+
+.calculators p{
+  margin:10px;
+  background: -webkit-linear-gradient(96deg ,#FF0099 ,#493240);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+
+
+.solvers p{
+  margin:10px;
+  background: -webkit-linear-gradient(96deg ,#283048 ,#859398);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+}
+
+
+.seperator{
+  background: silver;
+  min-height: 1px !important;
+  min-width: 90%;
+  margin-left:10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

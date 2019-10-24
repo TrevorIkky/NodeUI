@@ -1,7 +1,6 @@
 require('dotenv').config();
 const nunjucks = require('nunjucks');
 const express = require('express');
-const fs = require('fs');
 const util = require('./util');
 const bcrypt = require('bcrypt');
 const mongoClient = require('mongoose');
@@ -37,31 +36,26 @@ app.get('/discover', (req, res) => {
 });
 
 
-app.post('/register/add', async (req, res)=>{
+app.post('/register/add', async (req, res) => {
   try {
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     // eslint-disable-next-line max-len
-    const userDetails = {username: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
-    const userObj = new Users(userDetails);
-    userObj.save()
-        .then((data)=>{
-          res.send(data);
-        }).catch((error)=>{
-          res.status(500).send('Error');
-        });
+    const userDetails = {name: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
+    console.log(userDetails);
+    // Add userdetails obj to mongo
+    res.status(201).send('Added Successfully');
   } catch (error) {
     res.send(error);
   }
 });
 
-app.post('/login/authenticate', async (req, res)=>{
+app.post('/login/authenticate', async (req, res) => {
   try {
-     Users.find({username: req.body.username}, (err, user)=>{
+    Users.find({username: req.body.username}, (err, user)=>{
       if (err) console.log(err);
     }).then((user)=>{
-     
+
     });
-    
   } catch (error) {
     console.log(error);
   }
@@ -74,20 +68,20 @@ app.get('/login', (req, res) => {
 app.post('/routing', (req, res) => {
   const data = req.body.data;
   const vals = {
-    matrix: data["distanceMatrix"][0],
-    vehicles: data["vehicles"][0],
+    matrix: data['distanceMatrix'][0],
+    vehicles: data['vehicles'][0],
     start: 0,
   };
-  var template = 'tsp.cc.njk';
-  if (data["vehicleCapacities"].length > 0) {
-    vals["vehicle_capacities"] = data.vehicleCapacities[0];
+  let template = 'tsp.cc.njk';
+  if (data['vehicleCapacities'].length > 0) {
+    vals['vehicle_capacities'] = data.vehicleCapacities[0];
     template = 'cap.cc.njk';
-    if (data["packageSizes"].length > 0) {
-      vals["demands"] = data.packageSizes[0];
+    if (data['packageSizes'].length > 0) {
+      vals['demands'] = data.packageSizes[0];
     }
   }
   if (data.vehicles[0] > 1) {
-      template = 'vrp.cc.njk';
+    template = 'vrp.cc.njk';
   }
   const renderedTemplate = nunjucks.render(template, vals);
   const base = util.create_source('routing', renderedTemplate);

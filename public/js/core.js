@@ -367,6 +367,11 @@ class CalculateDistance extends Rete.Component {
 const container = document.querySelector('#rete');
 const editor = new Rete.NodeEditor('demo@0.1.0', container);
 const add = document.getElementById('add');
+const number = document.getElementById('number');
+const package = document.getElementById('package');
+const multiply = document.getElementById('multiply');
+const calcDist = document.getElementById('calc-distance');
+const routeSolver = document.getElementById('route-solver');
 
 (async () => {
   const components = [new NumComponent(),
@@ -405,15 +410,51 @@ const add = document.getElementById('add');
 
   editor.on('nodecreated', ()=>{
     document.getElementById('no-nodes').style.height = '0';
+    $('#node-list').css({'top': '0px'});
   });
 
   editor.view.resize();
   AreaPlugin.zoomAt(editor);
   editor.trigger('process');
 
+  // TODO...find inprovements to avoid repetition
+
   add.addEventListener('click', async ()=>{
+    const an = await components[1].createNode({num: 2});
+    an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];
+    editor.addNode(an);
+  });
+
+  multiply.addEventListener('click', async ()=>{
+    const an = await components[2].createNode({num: 2});
+    an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];
+    editor.addNode(an);
+  });
+
+
+  number.addEventListener('click', async ()=>{
     const an = await components[0].createNode({num: 2});
-    an.position = [20, 40];
+    an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];
+    editor.addNode(an);
+  });
+
+
+  package.addEventListener('click', async ()=>{
+    const an = await components[5].createNode({num: 2});
+    an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];
+    editor.addNode(an);
+  });
+
+
+  calcDist.addEventListener('click', async ()=>{
+    const an = await components[6].createNode({num: 2});
+    an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];
+    editor.addNode(an);
+  });
+
+  routeSolver.addEventListener('click', async ()=>{
+    const an = await components[7].createNode({num: 2});
+    an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];
     editor.addNode(an);
   });
 })();
@@ -442,7 +483,11 @@ const applyChanges = (resp) =>{
     document.getElementById('progress-loader').style.height = '0px'; console.log('Done');
   }, 1000);
 };
+
+const generateRandomInteger = (min, max) =>{
+  return Math.floor(min + Math.random()*(max + 1 - min));
+}
 const returnEditorNodes = async () =>{
-  var solver = editor.nodes.find((node) => node.name == 'Solver');
+  const solver = editor.nodes.find((node) => node.name == 'Solver');
   return solver.data;
 };
