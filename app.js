@@ -65,7 +65,7 @@ app.post('/routing/simple', (req, res) => {
   });*/
 });
 
-app.post('/routing/data', (req, res) => {
+app.post('/routing/', (req, res) => {
   console.log(req.body.data);
   return res.status(200);
 });

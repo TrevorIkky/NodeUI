@@ -7,6 +7,8 @@ numSocket.combineWith(anyTypeSocket);
 stringSocket.combineWith(anyTypeSocket);
 arraySocket.combineWith(anyTypeSocket);
 
+const postURL = 'http://localhost:3000'
+
 
 const vueControlComponent = {
   props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'inputtype'],
@@ -276,7 +278,7 @@ class RouteSolverComponent extends Rete.Component {
     const inputDistanceArr = new Rete.Input('distanceArr', 'Distance Matrix', arraySocket);
     const inputVehicleCount = new Rete.Input('vehicleCount', 'Number of vehicles', numSocket);
     const vehiclesArr = new Rete.Input('vehicleArr', 'Vehicles', arraySocket);
-    const result = new Rete.Output('result', 'Result', arraySocket);
+    const result = new Rete.Output('result', 'Result', stringSocket);
     return node.addInput(inputPackageSizeArr)
         .addInput(inputDistanceArr)
         .addInput(inputVehicleCount)
@@ -285,7 +287,10 @@ class RouteSolverComponent extends Rete.Component {
   }
 
   worker(node, inputs, outputs) {
-
+    node.data.packageSizes = inputs['packageArr'];
+    node.data.distanceMatriz = inputs['distanceArr'];
+    node.data.vehicles= inputs['vehicleCount'];
+    node.data.vehicleCapacities = inputs['vehicleArr'];
   }
 }
 
@@ -335,22 +340,24 @@ class CalculateDistance extends Rete.Component {
   worker(node, inputs, outputs) {
     const input = Array.from(inputs['location']);
     const distanceArr = [];
+    const inarr = input.map((element) => {
+      const latlng = element.split(',', 2);
+      const to = turf.point([parseFloat(latlng[1]), parseFloat(latlng[0])]);
+      return to;
+    });
     input.forEach((element) => {
       const latlng = element.split(',', 2);
+      const from = turf.point([parseFloat(latlng[1]), parseFloat(latlng[0])]);
 
       // Change to user's prefered location
-      const from = turf.point([-1.308869, 36.8098883]);
-      const to = turf.point([parseFloat(latlng[1]), parseFloat(latlng[0])]);
-      const options = {units: 'kilometers'};
-      const distance = turf.distance(from, to, options);
-      console.log(latlng[1]);
-      console.log('Calculate Distance' + distance);
-      const distanceInfoObj = {
-        beginAt: from,
-        endAt: to,
-        calculatedDistance: distance,
-      };
-      distanceArr.push(distanceInfoObj);
+      // const from = turf.point([-1.308869, 36.8098883]);
+      const distM = inarr.map((element) => {
+        const options = {units: 'kilometers'};
+        const distance = turf.distance(from, element, options);
+        return distance;
+      })
+      console.log(distM);
+      distanceArr.push(distM);
     });
 
     outputs['matrix'] = distanceArr;
@@ -424,7 +431,7 @@ $('#build-solution').on('click', async ()=>{
 const applyChanges = (resp) =>{
   console.log(resp);
   setTimeout(()=>{
-    axios.post('http://localhost:3000/routing/data', {
+    axios.post(postURL + '/routing', {
       data: resp,
     }).then( (response)=> {
       console.log(response);
@@ -436,5 +443,6 @@ const applyChanges = (resp) =>{
   }, 1000);
 };
 const returnEditorNodes = async () =>{
-  return editor.toJSON();
+  var solver = editor.nodes.find((node) => node.name == 'Solver');
+  return JSON.stringify(solver.data);
 };

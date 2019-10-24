@@ -114,9 +114,9 @@ function openModal(key, nodeid) {
   // modal.style.display = 'block';
   var instance = M.Modal.getInstance(modal);
   console.log(instance);
-  map.resize();
   // map.invalidateSize();
   instance.open();
+  map.resize();
   appendToNode.setAttribute('data-node-key', key);
   appendToNode.setAttribute('data-node-id', nodeid);
 }
