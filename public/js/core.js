@@ -288,7 +288,7 @@ class RouteSolverComponent extends Rete.Component {
 
   worker(node, inputs, outputs) {
     node.data.packageSizes = inputs['packageArr'];
-    node.data.distanceMatriz = inputs['distanceArr'];
+    node.data.distanceMatrix = inputs['distanceArr'];
     node.data.vehicles= inputs['vehicleCount'];
     node.data.vehicleCapacities = inputs['vehicleArr'];
   }
@@ -354,7 +354,7 @@ class CalculateDistance extends Rete.Component {
       const distM = inarr.map((element) => {
         const options = {units: 'kilometers'};
         const distance = turf.distance(from, element, options);
-        return distance;
+        return Math.floor(distance);
       })
       console.log(distM);
       distanceArr.push(distM);
@@ -444,5 +444,5 @@ const applyChanges = (resp) =>{
 };
 const returnEditorNodes = async () =>{
   var solver = editor.nodes.find((node) => node.name == 'Solver');
-  return JSON.stringify(solver.data);
+  return solver.data;
 };
