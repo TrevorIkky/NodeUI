@@ -1,4 +1,4 @@
-POST http://localhost:8000/routing/simple
+POST http://localhost:3000/routing/simple
 Content-Type: application/json
 
 {
@@ -45,4 +45,25 @@ Content-Type: application/json
   "demands" : [0, 1, 1, 2, 4, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8],
   "vehicle_capacities" : [15, 15, 15, 15],
   "span_coefficient": 100
+}
+
+###
+
+POST http://localhost:3000/register/add
+Content-Type: application/json
+
+{
+  "username" : "Ikky",
+  "email" : "trevor.mwaniki@strathmore.edu",
+  "password" : "Password123"
+}
+
+
+###
+POST http://localhost:3000/login/authenticate
+Content-Type: application/json
+
+{
+  "username": "Ikky",
+  "password" : "Password123"
 }

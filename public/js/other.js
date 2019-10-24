@@ -39,20 +39,13 @@ function showPopupBuild() {
   }, 3000);
 }
 openNodeMenu.addEventListener('click', function() {
-  nodeList.style.width = '400px';
-  nodeList.style.border = 'gray solid';
-  nodeList.style.borderWidth = '1px';
+  nodeList.style.width = '300px';
   nodeList.style.opacity = '1';
-  nodeList.style.marginTop = '5px';
-  nodeList.style.marginLeft = '5px';
-  surroundContainer.style.marginRight = '400px';
-
+  surroundContainer.style.marginLeft = '300px';
 });
 
 closeNodeList.addEventListener('click', function() {
   nodeList.style.width = '0';
-  nodeList.style.border = 'transparent';
-  nodeList.style.borderWidth = '0';
   nodeList.style.opacity = '0';
   surroundContainer.style.marginLeft = '0';
 

@@ -1,9 +1,11 @@
 require('dotenv').config();
 const nunjucks = require('nunjucks');
 const express = require('express');
-const fs = require('fs');
 const util = require('./util');
 const bcrypt = require('bcrypt');
+const mongoClient = require('mongoose');
+
+const Users = require('./models/User');
 
 const app = express();
 app.use(express.json());
@@ -15,15 +17,28 @@ nunjucks.configure('templates', {
   trimBlocks: true,
 });
 
+mongoClient.Promise = global.Promise;
+
+mongoClient.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(()=>{
+      console.log('Connected');
+    }).catch((error)=>{
+      console.log('There was an error');
+    });
+
 
 app.get('/', (req, res) => {
   return res.render('index.html');
 });
 
+app.get('/discover', (req, res) => {
+  return res.render('discover.html');
+});
 
-app.post('/register/add', async (req, res)=>{
+
+app.post('/register/add', async (req, res) => {
   try {
-    const hashedPass = await bcrypt.hash(req.password, 10);
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
     // eslint-disable-next-line max-len
     const userDetails = {name: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
     console.log(userDetails);
@@ -34,18 +49,16 @@ app.post('/register/add', async (req, res)=>{
   }
 });
 
-app.post('/login/authenticate', async (req, res)=>{
+app.post('/login/authenticate', async (req, res) => {
   try {
-    // run Query to get username and password from db
-    if (await bcrypt.compare(req.body.password, 'Password from db')) {
-      res.render('index.html');
-    } else {
-      res.send('Incorrect password');
-    }
+    Users.find({username: req.body.username}, (err, user)=>{
+      if (err) console.log(err);
+    }).then((user)=>{
+
+    });
   } catch (error) {
     console.log(error);
   }
-
 });
 
 app.get('/login', (req, res) => {
@@ -55,20 +68,20 @@ app.get('/login', (req, res) => {
 app.post('/routing', (req, res) => {
   const data = req.body.data;
   const vals = {
-    matrix: data["distanceMatrix"][0],
-    vehicles: data["vehicles"][0],
+    matrix: data['distanceMatrix'][0],
+    vehicles: data['vehicles'][0],
     start: 0,
   };
-  var template = 'tsp.cc.njk';
-  if (data["vehicleCapacities"].length > 0) {
-    vals["vehicle_capacities"] = data.vehicleCapacities[0];
+  let template = 'tsp.cc.njk';
+  if (data['vehicleCapacities'].length > 0) {
+    vals['vehicle_capacities'] = data.vehicleCapacities[0];
     template = 'cap.cc.njk';
-    if (data["packageSizes"].length > 0) {
-      vals["demands"] = data.packageSizes[0];
+    if (data['packageSizes'].length > 0) {
+      vals['demands'] = data.packageSizes[0];
     }
   }
   if (data.vehicles[0] > 1) {
-      template = 'vrp.cc.njk';
+    template = 'vrp.cc.njk';
   }
   const renderedTemplate = nunjucks.render(template, vals);
   const base = util.create_source('routing', renderedTemplate);

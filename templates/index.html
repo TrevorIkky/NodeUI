@@ -1,33 +1,68 @@
 {%extends 'master.html' %} {%block content%}
+<div id="surround-container">
+    <div id="progress-loader" class="progress white">
+        <div class="indeterminate lime accent-3"></div>
+    </div>
+    <div id="loader" class="loader">Loading...</div>
+
+    <div class="node-list" id="node-list">
+        <div style="display: flex; width: 100%; justify-content: space-between;">
+            <p style="font-size: 18.5px; margin:20px;">Nodes</p>
+            <img id="close-node-list" style="margin:22px;" width="15" height="15" src="/images/close.png">
+        </div>
+        <div id="options">
+           <div class="variables">
+               <p>Variables</p>
+               <div class="seperator"></div>
+               <p id="number">Number</p>
+               <p id = "package">Package</p>
+           </div>
+           <div class="calculators margintop">
+                <p>Calculate</p>
+                <div class="seperator"></div>
+                <p id = "add">Add</p>
+                <p id = "multiply">Multiply</p>
+                <p id = "calc-distance">Calculate Distance</p>
+            </div>
+
+            <div class="solvers margintop">
+                    <p>Calculators</p>
+                    <div class="seperator"></div>
+                    <p id= "route-solver">Routing Solver</p>
+                </div>
+        </div>
+    </div>
+
 <div id="mapModal" class="modal">
   <div id="map"></div>
   <a id="append-val" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">done</i></a>
   <a href="#mapModal" class="modal-close btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">close</i></a>
 </div>
 
-<div class="toolbar">
-  <p id="app-name">NodeCanvas</p>
-  <div class="menu-options">
-    <ul>
-      <li id="openNodeMenu" class="popup" onmouseenter="showPopupNodes()">
-        <i class="material-icons">bubble_chart</i>
-        <span class="popuptext" id="myPopup">Nodes</span>
-      </li>
-      <li  class="popup" onmouseenter="showPopupBuild()"> 
-        <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
-        <span class="popuptext" id="buildSolution">Build Solution</span>
-      </li>
-      <li id="openNodeMenu">
-        <i class="material-icons">live_help</i>
+    <div class="toolbar">
+        <p id="app-name">NodeCanvas</p>
+        <div class="menu-options">
+            <ul>
+                <li id="openNodeMenu" class="popup" onmouseenter="showPopupNodes()">
+                    <i class="material-icons">bubble_chart</i>
+                    <span class="popuptext" id="myPopup">Nodes</span>
+                </li>
+                <li class="popup" onmouseenter="showPopupBuild()">
+                    <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
+                    <span class="popuptext" id="buildSolution">Build Solution</span>
+                </li>
+                <li id="openNodeMenu">
+                    <i class="material-icons">live_help</i>
 
-      </li>
-      <li id="openNodeMenu">
-        <i class="material-icons">person_pin</i>
+                </li>
+                <li id="openNodeMenu">
+                    <i class="material-icons">person_pin</i>
+                </li>
+            </ul>
+        </div>
 
-      </li>
-    </ul>
-  </div>
-
+    </div>
+    <div id="rete"></div>
 </div>
-<div id="rete"></div>
+
 {%endblock%}
