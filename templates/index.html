@@ -1,36 +1,32 @@
 {%extends 'master.html' %} {%block content%}
 <div id="mapModal" class="modal">
-    <div class="modal-content">
-        <div id="map"></div>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-      <a href="#!" id="append-val" class="append-value waves-effect waves-green btn-flat">Done</a>
-    </div>
+  <div id="map"></div>
+  <a id="append-val" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">done</i></a>
+  <a href="#mapModal" class="modal-close btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">close</i></a>
 </div>
 
 <div class="toolbar">
-    <p id="app-name">NodeCanvas</p>
-    <div class="menu-options">
-        <ul>
-            <li id="openNodeMenu" class="popup" onmouseenter="showPopupNodes()">
-                <i class="material-icons">bubble_chart</i>
-                        <span class="popuptext" id="myPopup">Nodes</span>
-            </li>
-            <li  class="popup" onmouseenter="showPopupBuild()"> 
-                <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
-                <span class="popuptext" id="buildSolution">Build Solution</span>
-            </li>
-            <li id="openNodeMenu">
-                <i class="material-icons">live_help</i>
-               
-            </li>
-            <li id="openNodeMenu">
-                <i class="material-icons">person_pin</i>
-            
-            </li>
-        </ul>
-    </div>
+  <p id="app-name">NodeCanvas</p>
+  <div class="menu-options">
+    <ul>
+      <li id="openNodeMenu" class="popup" onmouseenter="showPopupNodes()">
+        <i class="material-icons">bubble_chart</i>
+        <span class="popuptext" id="myPopup">Nodes</span>
+      </li>
+      <li  class="popup" onmouseenter="showPopupBuild()"> 
+        <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
+        <span class="popuptext" id="buildSolution">Build Solution</span>
+      </li>
+      <li id="openNodeMenu">
+        <i class="material-icons">live_help</i>
+
+      </li>
+      <li id="openNodeMenu">
+        <i class="material-icons">person_pin</i>
+
+      </li>
+    </ul>
+  </div>
 
 </div>
 <div id="rete"></div>

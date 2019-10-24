@@ -23,8 +23,6 @@ for (i = 0; i < acc.length; i++) {
   });
 }
 
-
-
 function showPopupNodes() {
   const popup = document.getElementById('myPopup');
   popup.classList.toggle('show');
@@ -111,20 +109,13 @@ geocoder.on('result', (event) => {
 map.addControl(geocoder);
 
 function openModal(key, nodeid) {
-  // modal.style.display = 'block';
   var instance = M.Modal.getInstance(modal);
   console.log(instance);
-  // map.invalidateSize();
   instance.open();
   map.resize();
   appendToNode.setAttribute('data-node-key', key);
   appendToNode.setAttribute('data-node-id', nodeid);
 }
-
-
-// cancel.onclick = function() {
-  // modal.style.display = 'none';
-// };
 
 appendToNode.onclick = function() {
   const nodeId = appendToNode.getAttribute('data-node-id');

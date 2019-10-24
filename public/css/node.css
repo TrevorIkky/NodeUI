@@ -73,6 +73,11 @@ body {
     height: 100%;
 }
 
+/* hide search icon within search box */
+.mapboxgl-ctrl-geocoder--icon-search {
+  visibility:hidden;
+}
+
 #open-map {
     cursor: pointer;
 }
@@ -92,8 +97,6 @@ select, input{
     font-size: 110%;
     width: 170px;
 }
-
-
 
 
 textarea {
