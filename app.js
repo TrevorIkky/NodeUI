@@ -4,6 +4,9 @@ const express = require('express');
 const fs = require('fs');
 const util = require('./public/js/util');
 const bcrypt = require('bcrypt');
+const mongoClient = require('mongoose');
+
+const Users = require('./models/User');
 
 const app = express();
 app.use(express.json());
@@ -15,20 +18,37 @@ nunjucks.configure('templates', {
   trimBlocks: true,
 });
 
+mongoClient.Promise = global.Promise;
+
+mongoClient.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(()=>{
+      console.log('Connected');
+    }).catch((error)=>{
+      console.log('There was an error');
+    });
+
 
 app.get('/', (req, res) => {
   return res.render('index.html');
 });
 
+app.get('/discover', (req, res) => {
+  return res.render('discover.html');
+});
+
 
 app.post('/register/add', async (req, res)=>{
   try {
-    const hashedPass = await bcrypt.hash(req.password, 10);
+    const hashedPass = await bcrypt.hash(req.body.password, 10);
     // eslint-disable-next-line max-len
-    const userDetails = {name: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
-    console.log(userDetails);
-    // Add userdetails obj to mongo
-    res.status(201).send('Added Successfully');
+    const userDetails = {username: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
+    const userObj = new Users(userDetails);
+    userObj.save()
+        .then((data)=>{
+          res.send(data);
+        }).catch((error)=>{
+          res.status(500).send('Error');
+        });
   } catch (error) {
     res.send(error);
   }
@@ -36,16 +56,15 @@ app.post('/register/add', async (req, res)=>{
 
 app.post('/login/authenticate', async (req, res)=>{
   try {
-    // run Query to get username and password from db
-    if (await bcrypt.compare(req.body.password, 'Password from db')) {
-      res.render('index.html');
-    } else {
-      res.send('Incorrect password');
-    }
+     Users.find({username: req.body.username}, (err, user)=>{
+      if (err) console.log(err);
+    }).then((user)=>{
+     
+    });
+    
   } catch (error) {
     console.log(error);
   }
-
 });
 
 app.get('/login', (req, res) => {

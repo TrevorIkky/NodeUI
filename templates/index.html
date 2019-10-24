@@ -1,4 +1,39 @@
 {%extends 'master.html' %} {%block content%}
+
+<div style="min-width: 100%; min-height:100%; transition: 0.2s;" id="surround-container">
+    <div id = "no-nodes" style=" transition : 0.5s; top:0; margin-top: -15px;  color : white;background: linear-gradient(96deg, #11998e,#38ef7d)">
+            <p style="padding: 10px;">You have no nodes available.<span style="color:white;  font-weight: bold">  Add Nodes </span></p>
+    </div>  
+<div id = "progress-loader" class="progress white">
+    <div class="indeterminate lime accent-3"></div>
+</div>
+<div  id = "loader" class="loader">Loading...</div> 
+
+      
+<div class="node-list" id="node-list">
+<div style="display: flex; width: 100%; justify-content: space-between; color: white;">
+<h5>Node List</h5>
+<img id="close-node-list" style="margin:10px;" width="18" height="18" src="/images/close.png">
+</div>
+<div id="options">
+<button class="accordion">Variables</button>
+<div class="panel">
+    <p id="package">Package</p>
+    <p id="number">Number</p>
+</div>
+<button class="accordion">Calculate</button>
+<div class="panel">
+    <p id="add">Add</p>
+    <p id="multiply">Multiply</p>
+    <p id="calc_distance">Calculate Distance</p>
+</div>
+<button class="accordion">Solvers</button>
+<div class="panel">
+    <p id="route_solver">Route Solver</p>
+</div>
+</div>
+</div>
+
 <div id="mapModal" class="modal">
     <div class="modal-content">
         <div id="map"></div>
@@ -8,7 +43,6 @@
       <a href="#!" id="append-val" class="append-value waves-effect waves-green btn-flat">Done</a>
     </div>
 </div>
-
 <div class="toolbar">
     <p id="app-name">NodeCanvas</p>
     <div class="menu-options">
@@ -34,4 +68,6 @@
 
 </div>
 <div id="rete"></div>
+</div>
+
 {%endblock%}
