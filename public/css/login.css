@@ -14,7 +14,7 @@ body{
     -ms-transform: translate(-50%, -50%); /* for IE 9 */
     -webkit-transform: translate(-50%, -50%); /* for Safari */
     width: 370px;
-    height: 440px;
+    height: 420px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 0 10px gray;
