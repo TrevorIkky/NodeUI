@@ -471,7 +471,9 @@ $('#build-solution').on('click', async ()=>{
 document.addEventListener('DOMContentLoaded', function() {
   var elems = document.querySelectorAll('.modal');
   var instances = M.Modal.init(elems, {
-    onOpenEnd: () => { map.resize(); },
+    onOpenEnd: () => {
+      map.resize(); 
+    },
   });
 });
 

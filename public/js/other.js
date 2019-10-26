@@ -60,6 +60,9 @@ const map = new mapboxgl.Map({
   center: [36.8098883, -1.308869],
 });
 
+document.getElementById('account').addEventListener('click', ()=>{
+  window.location = '/login';
+})
 
 const currentLocationMarker = new mapboxgl.Marker();
 currentLocationMarker.setLngLat([36.8098883, -1.308869]);
