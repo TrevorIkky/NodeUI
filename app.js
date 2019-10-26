@@ -4,11 +4,13 @@ const express = require('express');
 const util = require('./util');
 const bcrypt = require('bcrypt');
 const mongoClient = require('mongoose');
+const bodyParser = require('body-parser');
 
 const Users = require('./models/User');
 
 const app = express();
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.static('public'));
 const port = 3000;
 nunjucks.configure('templates', {
@@ -40,21 +42,30 @@ app.post('/register/add', async (req, res) => {
   try {
     const hashedPass = await bcrypt.hash(req.body.password, 10);
     // eslint-disable-next-line max-len
-    const userDetails = {name: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
-    console.log(userDetails);
-    // Add userdetails obj to mongo
-    res.status(201).send('Added Successfully');
+    const userDetails = {username: req.body.username, email: req.body.email, password: hashedPass, created: Date.now()};
+    const usersObj = new Users(userDetails);
+    usersObj.save().then(()=>{
+      res.send('OK');
+    }).catch((err)=>{
+      res.send('INVALID');
+    });
   } catch (error) {
     res.send(error);
   }
 });
 
-app.post('/login/authenticate', async (req, res) => {
+
+app.post('/login/validate', (req, res) => {
   try {
     Users.find({username: req.body.username}, (err, user)=>{
       if (err) console.log(err);
-    }).then((user)=>{
-
+      bcrypt.compare(req.body.password, user[0].password, (error, match)=>{
+        if (match) {
+          return res.send('OK');
+        } else {
+          return res.send('INVALID');
+        }
+      });
     });
   } catch (error) {
     console.log(error);

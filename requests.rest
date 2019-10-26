@@ -49,6 +49,16 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:3000/login/validate
+Content-Type: application/json
+
+{
+  "username" : "Ikky",
+  "password" : "Password123"
+}
+
+###
+
 POST http://localhost:3000/register/add
 Content-Type: application/json
 
@@ -59,11 +69,3 @@ Content-Type: application/json
 }
 
 
-###
-POST http://localhost:3000/login/authenticate
-Content-Type: application/json
-
-{
-  "username": "Ikky",
-  "password" : "Password123"
-}

@@ -13,16 +13,28 @@ body{
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%); /* for IE 9 */
     -webkit-transform: translate(-50%, -50%); /* for Safari */
-    width: 380px;
-    height: 420px;
+    width: 370px;
+    height: 440px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 0 10px gray;
   }
 
-  .center h4 {
+  .center #app-title {
     font-family: 'Great Vibes', cursive; 
+    font-size: 2rem;
   }
+
+  #center-register{
+    opacity: 0;
+    z-index: -1;
+   transition: 0.4s;
+  }
+
+  #center-login{
+    transition: 0.4s;
+    z-index: 1;
+   }
   #login-info-text{
     margin-left:15px;
     margin-right: 15px;

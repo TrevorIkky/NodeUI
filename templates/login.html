@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css" media="screen,projection">
     <link rel="stylesheet" href="/css/login.css">
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Nunito+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Nunito+Sans&display=swap" rel="stylesheet">
@@ -10,27 +10,119 @@
 </head>
 
 <body>
-    <div class="center">
-        <h4>NodeCanvas</h4>
-      
-        <div id = "input-row" class="row">
-            <div class="input-field col s12">
-                <input id="username" type="text">
-                <label for="username">Username</label>
-            </div>
-            <div style = "margin-top: -5px;" class="input-field col s12">
-                    <input id="password" type="password">
-                    <label for="password">Password</label>
-                </div>
-              
+
+        <div id = "center-register" class="center">
+                <form  id = "register-form" method="POST" action="/login/validate">
+                    <p id = "app-title">NodeCanvas</p>
+                    <div id="input-row" class="row">
+                        <div class="input-field col s12">
+                            <input name = "username" id="rusername" type="text">
+                            <label for="rusername">Username</label>
+                        </div>
+                        <div  style="margin-top: -5px;" class="input-field col s12">
+                                <input id="email" type="email" class="validate">
+                                <label for="email">Email</label>
+                                <span class="helper-text" data-error="wrong" data-success="right">Helper</span>
+                              </div>
+                        <div style="margin-top: -5px;" class="input-field col s12">
+                            <input  name = "rpassword" id="rpassword" type="password">
+                            <label for="rpassword">Password</label>
+                        </div>
+                
+                    </div>
+                
+                    <div id = "register-btn" style="background: linear-gradient(96deg, #11998e, #38ef7d); margin-left: 20px; margin-right: 20px;  color: white; font-weight: bold; border-radius: 10px; cursor: pointer;" class="login-btn">
+                        <p style="padding-top: 8px; padding-bottom: 8px;">REGISTER</p>
+                    </div>
+                    <p style = "color:red; display: none;" id = "error-registering">An error occured please <span style="font-weight: bold; color: red;"> try again</span></p>
+                    <p id="register-info-text">If you have an account you can always <span id = "login-action" style="font-weight: bold; cursor: pointer;">Log in. </span></p>
+                </form>
         </div>
-      
-        <div style="background: linear-gradient(96deg, #11998e, #38ef7d); margin-left: 20px; margin-right: 20px;  color: white; font-weight: bold; border-radius: 10px;" class="login-btn">
-                <p style="padding-top: 8px; padding-bottom: 8px;">Login</p>
-            </div>
-            <p id="login-info-text">If you do not have an account you can always get started by <span style="font-weight: bold;">registering. </span></p>
-        <div>
+
+    <div id = "center-login" class="center">
+            <form  id = "login-form" method="POST" action="/login/validate">
+                <p id = "app-title">NodeCanvas</p>
+                <div style="margin-top: -10px;" id="input-row" class="row">
+                    <div class="input-field col s12">
+                        <input name = "username" id="username" type="text">
+                        <label for="username">Username</label>
+                    </div>
+                    <div style="margin-top: -5px;" class="input-field col s12">
+                        <input  name = "password" id="password" type="password">
+                        <label for="password">Password</label>
+                    </div>
+            
+                </div>
+            
+                <div id = "login-btn" style="background: linear-gradient(96deg, #11998e, #38ef7d); margin-left: 20px; margin-right: 20px;  color: white; font-weight: bold; border-radius: 10px; cursor: pointer;" class="login-btn">
+                    <p style="padding-top: 8px; padding-bottom: 8px;">Login</p>
+                </div>
+                <p style = "color:red; display: none;" id = "invalid-credentials">Username or Password is <span style="font-weight: bold; color: red;"> incorrect</span></p>
+                <p style="margin-top:3px;" id="login-info-text">If you do not have an account you can always get started by <span id="register-action" style="font-weight: bold; cursor: pointer;">registering. </span></p>
+            </form>
+    </div> 
+    
+    
+    
+    
+    
 </body>
 <script type="text/javascript" src="/js/materialize.min.js" defer></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+
+document.getElementById('login-btn').addEventListener('click', ()=>{
+    perfAction('http://localhost:3000/login/validate',
+      document.getElementById('username').value,
+      '',
+       document.getElementById('password').value,
+       document.getElementById('invalid-credentials'));
+
+});
+
+document.getElementById('register-action').addEventListener('click',()=>{
+    document.getElementById('center-login').style.zIndex = '-1'
+    document.getElementById('center-login').style.opacity = '0'
+    document.getElementById('center-register').style.opacity = '1'
+    document.getElementById('center-register').style.zIndex = '1'
+    document.getElementById('center-register').style.height = '460px'
+
+});
+
+document.getElementById('login-action').addEventListener('click',()=>{
+    document.getElementById('center-login').style.zIndex = '1'
+    document.getElementById('center-login').style.opacity = '1'
+    document.getElementById('center-register').style.opacity = '0'
+    document.getElementById('center-register').style.zIndex = '-1'
+});
+
+document.getElementById('register-btn').addEventListener('click', ()=>{
+    perfAction('http://localhost:3000/register/add',
+      document.getElementById('rusername').value,
+      document.getElementById('email').value,
+       document.getElementById('rpassword').value,
+       document.getElementById('invalid-credentials'));
+
+});
+
+
+const perfAction = (url,username, email, password,resultview) =>{
+ axios.post(url, {
+    username: username,
+    email: email,
+    password: password,
+  }).then( (response)=> {
+      if(response.data == 'OK'){
+          window.location = '/';
+      }else{
+         resultview.style.display = 'block';
+      }
+  }).catch( (error)=> {
+    console.log(error);
+  });
+};
+
+
+</script>
 
 </html>
