@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>Route for problem {{ problemId }}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+body { margin:0; padding:0; }
+#map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+  </head>
+  <body>
+
+    <div id='map'></div>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.4.0/mapbox-gl.js'></script>
+    <script>
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
+      mapboxgl.accessToken = '{{ accessToken}}';
+      const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v10',
+      });
+      map.on('load', (event) => {
+        $.ajax({
+          url:'{{ resultsURL }}',
+          type: "GET",
+          success: function(data) {
+            var result = data[0];
+            map.setCenter(result.locations[0]);
+            map.setZoom(6);
+            var pointIndex = 0;
+            const points = result.locations.map((elem) => {
+              pointIndex += 1;
+              return {
+                "type": 'Feature',
+                'id': `point${pointIndex}`,
+                "properties": { },
+                "geometry": {
+                  "type": 'Point',
+                  "coordinates": elem,
+                }
+              };
+            });
+            const lines = result.vehicles.map((elem) => {
+              var line = [];
+              elem.path.forEach((pth) => {
+                line.push(result.locations[pth]);
+              });
+              return {
+                "type": 'Feature',
+                "properties": { },
+                "geometry": {
+                  "type": 'LineString',
+                  "coordinates": line,
+                }
+              }
+            });
+            map.addLayer({
+              "id": "points",
+              "type": "circle",
+              "source": {
+                type: 'geojson',
+                data: {
+                  type: 'FeatureCollection',
+                  features: points,
+                },
+              }
+            });
+            /*
+            var pointIndex = 0;
+            points.forEach((elem) => {
+              pointIndex += 1;
+              map.addLayer({
+                'id': 'label-style',
+                'type': 'symbol',
+                'source': `point${pointIndex}`,
+                'layout': {
+                  'text-field': `${pointIndex}`,
+
+                },
+                'paint': {
+                  'text-color': 'red'
+
+                }
+              });
+            })
+            */
+
+            map.addLayer({
+              "id": "lines",
+              "type": "line",
+              "properties": { },
+              "source": {
+                type: 'geojson',
+                data: {
+                  type: 'FeatureCollection',
+                  features: lines,
+                },
+              },
+              "layout": {
+                "line-join": "round",
+                "line-cap": "round"
+              },
+              "paint": {
+                "line-color": getRandomColor(),
+                "line-width": 4
+              }
+            });
+          },
+          error: function(error) { console.log(error); },
+      });
+      });
+    </script>
+
+  </body>
+</html>
+
+

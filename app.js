@@ -3,7 +3,6 @@ const nunjucks = require('nunjucks');
 const express = require('express');
 const util = require('./util');
 const bcrypt = require('bcrypt');
-const mongoClient = require('mongoose');
 const bodyParser = require('body-parser');
 const Results = require('./models/Results');
 const Users = require('./models/User');
@@ -70,6 +69,15 @@ app.get('/routing/:id', getRoutingResults, (req, res) => {
   res.json(res.results);
 });
 
+app.get('/results/:id', (req, res) => {
+  const vals = {
+    problemId: req.params.id,
+    resultsURL: '/routing/'+ req.params.id,
+    accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
+  };
+  res.render('map.output.njk', vals);
+});
+
 app.post('/routing', (req, res) => {
   const data = req.body.data;
   const vals = {
@@ -109,7 +117,7 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 async function getRoutingResults(req, res, next) {
   let results;
   try {
-    results = await Results.Routing.findById(req.params.id);
+    results = await Results.Routing.find({problemId: req.params.id});
     if (results == null) {
       return res.status(404).json({ message: "Cannot find problem results"});
     }

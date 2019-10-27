@@ -477,19 +477,34 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+// Extract all locations from package nodes
+const findLocations = (nodes) => {
+  return nodes.filter((node) => node.name == 'Package')
+    .map((elem) => {
+      const coords = elem.data.latlngNode.split(',', 2);
+      return coords.map(parseFloat);
+    });
+};
 
 const applyChanges = (resp) =>{
   console.log(resp);
+  /*
+   * meta field contains information that is passed on to
+   * be stored together with the model's results
+   */
+  resp["meta"] = {
+    locations:findLocations(editor.nodes)
+  }
   setTimeout(()=>{
     axios.post(postURL + '/routing', {
       data: resp,
     }).then( (response)=> {
       console.log(response);
+      // eslint-disable-next-line max-len
+      document.getElementById('progress-loader').style.height = '0px'; console.log('Done');
     }).catch( (error)=> {
       console.log(error);
     });
-    // eslint-disable-next-line max-len
-    document.getElementById('progress-loader').style.height = '0px'; console.log('Done');
   }, 1000);
 };
 
