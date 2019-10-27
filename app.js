@@ -5,7 +5,7 @@ const util = require('./util');
 const bcrypt = require('bcrypt');
 const mongoClient = require('mongoose');
 const bodyParser = require('body-parser');
-
+const Results = require('./models/Results');
 const Users = require('./models/User');
 
 const app = express();
@@ -18,16 +18,6 @@ nunjucks.configure('templates', {
   express: app,
   trimBlocks: true,
 });
-
-mongoClient.Promise = global.Promise;
-
-mongoClient.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(()=>{
-      console.log('Connected');
-    }).catch((error)=>{
-      console.log('There was an error');
-    });
-
 
 app.get('/', (req, res) => {
   return res.render('index.html');
@@ -76,6 +66,10 @@ app.get('/login', (req, res) => {
   return res.render('login.html');
 });
 
+app.get('/routing/:id', getRoutingResults, (req, res) => {
+  res.json(res.results);
+});
+
 app.post('/routing', (req, res) => {
   const data = req.body.data;
   const vals = {
@@ -97,9 +91,31 @@ app.post('/routing', (req, res) => {
   const renderedTemplate = nunjucks.render(template, vals);
   const base = util.create_source('routing', renderedTemplate);
   util.compile_and_run(base, function(results) {
-    console.log(results);
-    res.status(201).json(results);
+    results["problemId"] = base.split('/')[2];
+    results["locations"] = data.meta.locations;
+    const resultsObj = new Results.Routing(results);
+    resultsObj.save().then(()=>{
+      console.log(results);
+      res.status(201).location('/routing/' + base).send();
+    }).catch((err)=>{
+      console.log(err);
+      res.status(422).json({ message: "Could not save results"});;
+    });
   });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
+
+async function getRoutingResults(req, res, next) {
+  let results;
+  try {
+    results = await Results.Routing.findById(req.params.id);
+    if (results == null) {
+      return res.status(404).json({ message: "Cannot find problem results"});
+    }
+  } catch (err){
+    return res.status(500).json({ message: err.message });
+  }
+  res.results = results;
+  next();
+}
