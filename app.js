@@ -86,15 +86,17 @@ app.post('/routing', (req, res) => {
     start: 0,
   };
   let template = 'tsp.cc.njk';
+
+  if (data.vehicles[0] > 1) {
+    template = 'vrp.cc.njk';
+  }
+
   if (data['vehicleCapacities'].length > 0) {
     vals['vehicle_capacities'] = data.vehicleCapacities[0];
     template = 'cap.cc.njk';
     if (data['packageSizes'].length > 0) {
       vals['demands'] = data.packageSizes[0];
     }
-  }
-  if (data.vehicles[0] > 1) {
-    template = 'vrp.cc.njk';
   }
   const renderedTemplate = nunjucks.render(template, vals);
   const base = util.create_source('routing', renderedTemplate);

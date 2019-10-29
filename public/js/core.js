@@ -289,7 +289,7 @@ class RouteSolverComponent extends Rete.Component {
   worker(node, inputs, outputs) {
     node.data.packageSizes = inputs['packageArr'];
     node.data.distanceMatrix = inputs['distanceArr'];
-    node.data.vehicles= inputs['vehicleCount'];
+    node.data.vehicles = inputs['vehicleCount'];
     node.data.vehicleCapacities = inputs['vehicleArr'];
   }
 }
