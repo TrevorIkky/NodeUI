@@ -65,10 +65,23 @@ app.get('/login', (req, res) => {
   return res.render('login.html');
 });
 
+app.get('/embed/:id', (req, res) => {
+  if(req.params.id.startsWith('routing')) {
+    template = 'map.output.njk';
+  }
+  const vals = {
+    problemId: req.params.id,
+    resultsURL: '/routing/'+ req.params.id,
+    accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
+  };
+
+  const renderedTemplate = nunjucks.render(template, vals);
+  res.json({ embedding: renderedTemplate });
+});
+
 app.get('/routing/:id', getRoutingResults, (req, res) => {
   res.json(res.results);
 });
-
 app.get('/results/:id', (req, res) => {
   const vals = {
     problemId: req.params.id,
