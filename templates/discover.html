@@ -1,13 +1,51 @@
-{% extends 'master.html'%}
-{%block content%}
-<div class = "main-search-div">
-    <div class="search-bar">
-            <div class="row">
-                    <div class="input-field col s12">
-                      <input placeholder="Search for something" id="search" type="text" class="validate">
-                 
-                    </div>
-    </div>
+<!DOCTYPE html>
+<html>
+<head> 
+    <link rel="stylesheet" href="/css/discover.css">
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes|Nunito+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+</head>
 
-</div>
-{%endblock%}
+<body>
+    <div class="main-search-div">
+      <form method="GET" action="/discover/search"> 
+          <div class="search-bar">
+              <h4 id = "discovery-title">
+                Observers
+              </h4>
+              <div class = "search-container">
+                  <input  placeholder="Search for something" id="search" type="text" class="validate">
+              </div>
+              </div>
+      </form>
+      
+        
+          <div class="grid">
+          
+            {% for result in results %}
+            <div class="grid-item">
+                <p>{{result.solver_time}}</p>
+                <p>{{result.total_distance}}</p>
+            </div>
+            {% else %}
+            <div>Empty!</div>
+          
+            {% endfor %}
+            </div>       
+        </div>
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="/js/materialize.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+<script defer>
+    $('.grid').masonry({
+  // options
+  itemSelector: '.grid-item',
+  columnWidth: 300,
+  gutter:15,
+});
+  </script>
+</html>

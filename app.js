@@ -1,16 +1,26 @@
+/* eslint-disable require-jsdoc */
 require('dotenv').config();
 const nunjucks = require('nunjucks');
 const express = require('express');
 const util = require('./util');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
-const Results = require('./models/Results');
-const Users = require('./models/User');
+const mongoose = require('mongoose');
 
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
+mongoose.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true});
+const db =mongoose.connection;
+db.on('error', (error) => console.error(error));
+db.once('open', () => console.log('Connected to  database'));
+
+mongoose.Promise = global.Promise;
+const Results = require('./models/Result');
+const Users = require('./models/User');
+
 const port = 3000;
 nunjucks.configure('templates', {
   autoescape: false,
@@ -23,7 +33,37 @@ app.get('/', (req, res) => {
 });
 
 app.get('/discover', (req, res) => {
-  return res.render('discover.html');
+  try {
+    Results.find({}, (err, result)=>{
+      console.log(result);
+
+    }).then((result)=>{
+    
+      return res.render('discover.html', {results: result});
+  
+    }).catch((error)=>{
+      console.log(error);
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get('/discover/search', (req, res) => {
+  try {
+    Results.find({}, (err, result)=>{
+      console.log(result);
+
+    }).then((result)=>{
+    
+      return res.render('discover.html', {results: result});
+  
+    }).catch((error)=>{
+      console.log(error);
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 
@@ -114,15 +154,19 @@ app.post('/routing', (req, res) => {
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
-async function getRoutingResults(req, res, next) {
+function getRoutingResults(req, res, next) {
   let results;
+  console.log(req.params.id);
   try {
-    results = await Results.Routing.find({problemId: req.params.id});
+    results = Results.Routing.find({problemId: req.params.id}, (err, result)=>{
+     
+
+    });
     if (results == null) {
-      return res.status(404).json({ message: "Cannot find problem results"});
-    }
-  } catch (err){
-    return res.status(500).json({ message: err.message });
+      return res.status(404);
+    }  
+  } catch (err) {
+    return res.status(500);
   }
   res.results = results;
   next();
