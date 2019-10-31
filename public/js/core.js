@@ -77,6 +77,41 @@ class NumControl extends Rete.Control {
   }
 }
 
+const vueTextControl = {
+  props: ['readonly', 'emitter', 'ikey', 'getData', 'putData'],
+  template: '<input type="text" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop=""/>',
+  data() {
+    return {
+      value: '',
+    }
+  },
+  methods: {
+    change(e){
+      this.value = e.target.value;
+      this.update();
+    },
+    update() {
+      if (this.ikey)
+        this.putData(this.ikey, this.value)
+      this.emitter.trigger('process');
+    }
+  },
+  mounted() {
+    this.value = this.getData(this.ikey);
+  }
+};
+
+class StringControl extends Rete.Control {
+  constructor(emitter, key, readonly) {
+    super(key);
+    this.component = vueTextControl;
+    this.props = { emitter, ikey: key, readonly };
+  }
+  setValue(val) {
+    this.vueContext.value = val;
+  }
+}
+
 const vueLogComponent = {
   props: ['emitter', 'isReadOnly', 'ikey', 'putData', 'getData'],
   template: '<textarea type="text" :readonly="isReadOnly" :value="textVal"  @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""></textarea>',
@@ -135,7 +170,6 @@ class TextControl extends Rete.Control {
   }
 }
 
-
 const vueMapsButtonComponents = {
   props: ['emitter', 'key', 'nodeid'],
   template: '<button id = "openMapFromNode" @click="openMap($event)">Add Location<button>',
@@ -145,12 +179,10 @@ const vueMapsButtonComponents = {
   methods: {
     openMap(event) {
       openModal(this.key, this.nodeid);
-      console.log('clicked');
     },
 
   },
 };
-
 
 class MapsButtonControl extends Rete.Control {
   constructor(emitter, key, nodeid) {
@@ -164,6 +196,45 @@ class MapsButtonControl extends Rete.Control {
   }
 }
 
+const vueMapOutputButtonComponents = {
+  props: ['emitter', 'key', 'nodeid'],
+  template: '<button @click="open($event)">Open Map</button>',
+  data() {
+    return;
+  },
+  methods: {
+    open(event) {
+      var location = this.emitter.nodes.find(n => n.id == this.nodeid).data.location
+      window.open(location);
+    },
+  },
+};
+
+class MapOutputButtonControl extends Rete.Control {
+  constructor(emitter, key, nodeid) {
+    super(key);
+    this.component = vueMapOutputButtonComponents;
+    this.props = {
+      emitter,
+      key,
+      nodeid,
+    };
+  }
+}
+
+class MapOutputComponent extends Rete.Component {
+  constructor(name = 'Map Output') {
+    super(name);
+  }
+  builder(node) {
+    return node.addInput(new Rete.Input('location', 'Location',stringSocket))
+        .addControl(new MapOutputButtonControl(this.editor, 'mapsButton', node.id))
+  }
+  worker(node, inputs, outputs) {
+    console.log(inputs["location"]);
+    node.data.location =  inputs["location"].length ? inputs['location'][0] : '' ;
+  }
+}
 
 class LogComponent extends Rete.Component {
   constructor() {
@@ -176,6 +247,22 @@ class LogComponent extends Rete.Component {
   worker(node, inputs, outputs) {
     const x = inputs['inNode'].length ? inputs['inNode'][0] : 'Log';
     this.editor.nodes.find((y) => y.id == node.id).controls.get('logPreview').setValue(x);
+  }
+}
+class DebugComponent extends Rete.Component {
+  constructor(){
+    super('Debug');
+  }
+
+  builder(node){
+    node.addOutput(new Rete.Output('res', 'res', stringSocket));
+    node.addControl(new StringControl(this.editor, 'text'));
+  }
+  worker(node, inputs, outputs) {
+    outputs["res"] = node.data.text;
+  }
+  setValue(val) {
+    this.vueContext.value = val;
   }
 }
 
@@ -289,8 +376,9 @@ class RouteSolverComponent extends Rete.Component {
   worker(node, inputs, outputs) {
     node.data.packageSizes = inputs['packageArr'];
     node.data.distanceMatrix = inputs['distanceArr'];
-    node.data.vehicles= inputs['vehicleCount'];
+    node.data.vehicles = inputs['vehicleCount'];
     node.data.vehicleCapacities = inputs['vehicleArr'];
+    outputs['result'] = node.data.result;
   }
 }
 
@@ -371,15 +459,19 @@ const number = document.getElementById('number');
 const package = document.getElementById('package');
 const multiply = document.getElementById('multiply');
 const calcDist = document.getElementById('calc-distance');
+const mapOutput = document.getElementById('map-output');
 const routeSolver = document.getElementById('route-solver');
+const debug = document.getElementById('debug');
 
 (async () => {
   const components = [new NumComponent(),
     new AddComponent(),
+    new DebugComponent(),
     new MultiplierComponent(),
     new AggregateComponent(),
     new LogComponent(),
     new PackageComponent(),
+    new MapOutputComponent(),
     new CalculateDistance(),
     new RouteSolverComponent(),
   ];
@@ -498,10 +590,10 @@ const applyChanges = (resp) =>{
   setTimeout(()=>{
     axios.post(postURL + '/routing', {
       data: resp,
-    }).then( (response)=> {
-      console.log(response);
-      // eslint-disable-next-line max-len
-      document.getElementById('progress-loader').style.height = '0px'; console.log('Done');
+    }).then((response)=> {
+      const solver = editor.nodes.find((node) => node.name == 'Solver');
+      solver.data.result = response.headers.location;
+      document.getElementById('progress-loader').style.height = '0px';
     }).catch( (error)=> {
       console.log(error);
     });

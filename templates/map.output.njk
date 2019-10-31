@@ -37,88 +37,138 @@ body { margin:0; padding:0; }
           success: function(data) {
             var result = data[0];
             map.setCenter(result.locations[0]);
-            map.setZoom(6);
+            map.setZoom(6.5);
             var pointIndex = 0;
             const points = result.locations.map((elem) => {
               pointIndex += 1;
               return {
                 "type": 'Feature',
-                'id': `point${pointIndex}`,
-                "properties": { },
+                "id": `point${pointIndex}`,
+                "properties": { "locindex" : pointIndex },
                 "geometry": {
                   "type": 'Point',
                   "coordinates": elem,
                 }
               };
             });
-            const lines = result.vehicles.map((elem) => {
-              var line = [];
-              elem.path.forEach((pth) => {
-                line.push(result.locations[pth]);
-              });
-              return {
-                "type": 'Feature',
-                "properties": { },
-                "geometry": {
-                  "type": 'LineString',
-                  "coordinates": line,
-                }
+
+            map.addSource("points", {
+              type: "geojson",
+              data: {
+                type: "FeatureCollection",
+                features: points,
               }
             });
+
             map.addLayer({
               "id": "points",
               "type": "circle",
-              "source": {
-                type: 'geojson',
-                data: {
-                  type: 'FeatureCollection',
-                  features: points,
-                },
+              "source": "points",
+              "paint": {
+                "circle-radius": 10,
+                "circle-color": "#448ee4",
+              },
+            });
+
+            map.addLayer({
+              "id": "points-label",
+              "type": "symbol",
+              "source": "points",
+              "layout": {
+                "text-field": "{locindex}",
+                "text-size": 30,
+                "text-offset": [0, 0.5],
               }
             });
-            /*
-            var pointIndex = 0;
-            points.forEach((elem) => {
-              pointIndex += 1;
-              map.addLayer({
-                'id': 'label-style',
-                'type': 'symbol',
-                'source': `point${pointIndex}`,
-                'layout': {
-                  'text-field': `${pointIndex}`,
 
-                },
-                'paint': {
-                  'text-color': 'red'
+            result.vehicles.forEach((vehicle, vi) => {
+              var segments = vehicle.path.map((cur, vi) => {
+                var locs = result.locations;
+                var j = vehicle.path[(vi + 1) % vehicle.path.length];
+                return [locs[cur], locs[j]];
+              });
 
+              if (vehicle.hasOwnProperty('load')) {
+                segments = segments.map((segment, si) => {
+                  console.log(segment);
+                  return [segment, vehicle.load[si] ? "load "+ vehicle.load[si].toString() : '']
+                });
+              }
+
+              map.addSource(`vehicle${vi}`, {
+                type: "geojson",
+                data: {
+                  type: "FeatureCollection",
+                  features: segments.map((segment) => {
+                    return {
+                      "type": "Feature",
+                      "properties": { "load": `${segment[1]}` },
+                      "geometry": {
+                        "type": "LineString",
+                        "coordinates": segment[0],
+                      }
+                    }
+                  }),
                 }
               });
-            })
-            */
+
+              map.addLayer({
+                "id": `vehicle${vi}`,
+                "type": "line",
+                "properties": { },
+                "source": `vehicle${vi}`,
+                "layout": {
+                  "line-cap": "round",
+                },
+                "paint": {
+                  "line-color": getRandomColor(),
+                  "line-width": 4
+                }
+              });
+
+              map.addLayer({
+                "id": `load-label${vi}`,
+                "type": "symbol",
+                "source": `vehicle${vi}`,
+                "layout": {
+                  "text-field": "{load}",
+                  "symbol-placement": "line-center",
+                  "text-font": ["Roboto Condensed Italic"],
+                  "text-anchor": "bottom",
+                  "text-size": 25,
+                }
+              });
+
+            });
+
+
+            /*
+            map.addSource('lines', {
+              type: "geojson",
+              data: {
+                type: "FeatureCollection",
+                features: lines,
+              }
+            });
 
             map.addLayer({
               "id": "lines",
               "type": "line",
               "properties": { },
-              "source": {
-                type: 'geojson',
-                data: {
-                  type: 'FeatureCollection',
-                  features: lines,
-                },
-              },
+              "source": "lines",
               "layout": {
                 "line-join": "round",
-                "line-cap": "round"
+                "line-cap": "round",
               },
               "paint": {
                 "line-color": getRandomColor(),
                 "line-width": 4
               }
             });
+             */
           },
           error: function(error) { console.log(error); },
-      });
+        });
       });
     </script>
 
