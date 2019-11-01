@@ -15,7 +15,7 @@ app.use(express.static('public'));
 mongoose.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true});
 const db =mongoose.connection;
 db.on('error', (error) => console.error(error));
-db.once('open', () => console.log('Connected to  database'));
+db.once('open', () => console.log('Connected to database'));
 
 mongoose.Promise = global.Promise;
 const Results = require('./models/Result');
@@ -171,14 +171,14 @@ async function getRoutingResults(req, res, next) {
   let results;
   let searchedResult;
   try {
-    results = await Results.find({problemId: req.params.id}, (err, result)=>{
+    results = await Results.Routing.find({problemId: req.params.id}, (err, result)=>{
       searchedResult = result;
     });
     if (results == null) {
-      return res.status(404);
+      return res.status(404).json({ message: "Cannot find problem results"});
     }
   } catch (err) {
-    return res.status(500);
+    return res.status(500).json({ message: err.message});
   } 
 
   res.results = searchedResult;
