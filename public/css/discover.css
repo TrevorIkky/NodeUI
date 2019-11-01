@@ -34,6 +34,9 @@
   border-bottom: none!important;
   box-shadow: none!important;
 }
+.grid{
+  margin: 30px;
+}
 
 .grid-item {
   float: left;
@@ -41,5 +44,7 @@
   box-shadow: 0 0 5px gray;
   border-style: none;
   border-radius: 10px;
+  padding: 10px;
+  margin-top: 15px;
 
 }

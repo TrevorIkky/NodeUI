@@ -35,12 +35,10 @@ app.get('/', (req, res) => {
 app.get('/discover', (req, res) => {
   try {
     Results.find({}, (err, result)=>{
-      console.log(result);
 
     }).then((result)=>{
-    
+      console.log(result);
       return res.render('discover.html', {results: result});
-  
     }).catch((error)=>{
       console.log(error);
     });
@@ -49,15 +47,15 @@ app.get('/discover', (req, res) => {
   }
 });
 
-app.get('/discover/search', (req, res) => {
+app.post('/search', (req, res) => {
   try {
-    Results.find({}, (err, result)=>{
-      console.log(result);
-
+    let searchObj = {};
+    if (req.body.id) {
+      searchObj = {problemId: req.body.id};
+    }
+    Results.find(searchObj, (err, result)=>{
     }).then((result)=>{
-    
-      return res.render('discover.html', {results: result});
-  
+      return res.json(result);
     }).catch((error)=>{
       console.log(error);
     });
@@ -113,7 +111,7 @@ app.get('/results/:id', (req, res) => {
   const vals = {
     problemId: req.params.id,
     resultsURL: '/routing/'+ req.params.id,
-    accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
+   accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
   };
   res.render('map.output.njk', vals);
 });
@@ -156,20 +154,20 @@ app.post('/routing', (req, res) => {
 
 app.listen(port, () => console.log(`Listening on port ${port}!`));
 
-function getRoutingResults(req, res, next) {
+async function getRoutingResults(req, res, next) {
   let results;
-  console.log(req.params.id);
+  let searchedResult;
   try {
-    results = Results.Routing.find({problemId: req.params.id}, (err, result)=>{
-     
-
+    results = await Results.find({problemId: req.params.id}, (err, result)=>{
+      searchedResult = result;
     });
     if (results == null) {
       return res.status(404);
-    }  
+    }
   } catch (err) {
     return res.status(500);
-  }
-  res.results = results;
+  } 
+
+  res.results = searchedResult;
   next();
 }
