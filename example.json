@@ -1,0 +1,523 @@
+{
+  "id": "demo@0.1.0",
+  "nodes": {
+    "1": {
+      "id": 1,
+      "data": {
+        "latlngNode": "36.81667,-1.28333"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -760,
+        -407.75
+      ],
+      "name": "Package"
+    },
+    "2": {
+      "id": 2,
+      "data": {
+        "latlngNode": "34.5,-0.62"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -771,
+        -72.25
+      ],
+      "name": "Package"
+    },
+    "3": {
+      "id": 3,
+      "data": {
+        "latlngNode": "35.86667,-1.08333"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -436,
+        -421.25
+      ],
+      "name": "Package"
+    },
+    "4": {
+      "id": 4,
+      "data": {
+        "latlngNode": "37.26667,-1.51667"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -399,
+        43.75
+      ],
+      "name": "Package"
+    },
+    "5": {
+      "id": 5,
+      "data": {
+        "latlngNode": "36.66667,0.08333"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -54,
+        103.75
+      ],
+      "name": "Package"
+    },
+    "6": {
+      "id": 6,
+      "data": {
+        "latlngNode": "38.0288,-0.1009"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -147,
+        -181.25
+      ],
+      "name": "Package"
+    },
+    "7": {
+      "id": 7,
+      "data": {
+        "latlngNode": "38.1629755,1.005149"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        137,
+        -248.25
+      ],
+      "name": "Package"
+    },
+    "8": {
+      "id": 8,
+      "data": {
+        "latlngNode": "40.11667,-3.21944"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        375,
+        11.75
+      ],
+      "name": "Package"
+    },
+    "9": {
+      "id": 9,
+      "data": {
+        "latlngNode": "39.65833,-0.45694"
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": []
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 10,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        289.84266188239076,
+        -522.8276574171689
+      ],
+      "name": "Package"
+    },
+    "10": {
+      "id": 10,
+      "data": {},
+      "inputs": {
+        "location": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 2,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 3,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 4,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 6,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 5,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 7,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 9,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 8,
+              "output": "locationOutNode",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "matrix": {
+          "connections": [
+            {
+              "node": 11,
+              "input": "distanceArr",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        596.0199147159858,
+        -256.15017809831795
+      ],
+      "name": "Calculate Distance"
+    },
+    "11": {
+      "id": 11,
+      "data": {
+        "packageSizes": [],
+        "distanceMatrix": [
+          [
+            [
+              0,
+              264,
+              107,
+              54,
+              170,
+              122,
+              251,
+              324,
+              403
+            ],
+            [
+              264,
+              0,
+              157,
+              318,
+              395,
+              249,
+              432,
+              573,
+              665
+            ],
+            [
+              107,
+              157,
+              0,
+              160,
+              255,
+              137,
+              315,
+              425,
+              508
+            ],
+            [
+              54,
+              318,
+              160,
+              0,
+              150,
+              157,
+              243,
+              281,
+              349
+            ],
+            [
+              170,
+              395,
+              255,
+              150,
+              0,
+              152,
+              97,
+              183,
+              355
+            ],
+            [
+              122,
+              249,
+              137,
+              157,
+              152,
+              0,
+              185,
+              335,
+              479
+            ],
+            [
+              251,
+              432,
+              315,
+              243,
+              97,
+              185,
+              0,
+              208,
+              424
+            ],
+            [
+              324,
+              573,
+              425,
+              281,
+              183,
+              335,
+              208,
+              0,
+              241
+            ],
+            [
+              403,
+              665,
+              508,
+              349,
+              355,
+              479,
+              424,
+              241,
+              0
+            ]
+          ]
+        ],
+        "vehicles": [
+          3
+        ],
+        "vehicleCapacities": [],
+        "meta": {
+          "locations": [
+            [
+              36.81667,
+              -1.28333
+            ],
+            [
+              34.5,
+              -0.62
+            ],
+            [
+              35.86667,
+              -1.08333
+            ],
+            [
+              37.26667,
+              -1.51667
+            ],
+            [
+              36.66667,
+              0.08333
+            ],
+            [
+              38.0288,
+              -0.1009
+            ],
+            [
+              38.1629755,
+              1.005149
+            ],
+            [
+              40.11667,
+              -3.21944
+            ],
+            [
+              39.65833,
+              -0.45694
+            ]
+          ]
+        }
+      },
+      "inputs": {
+        "packageArr": {
+          "connections": []
+        },
+        "distanceArr": {
+          "connections": [
+            {
+              "node": 10,
+              "output": "matrix",
+              "data": {}
+            }
+          ]
+        },
+        "vehicleCount": {
+          "connections": [
+            {
+              "node": 12,
+              "output": "num",
+              "data": {}
+            }
+          ]
+        },
+        "vehicleArr": {
+          "connections": []
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": []
+        }
+      },
+      "position": [
+        866.3977877429738,
+        -320.35140512423146
+      ],
+      "name": "Solver"
+    },
+    "12": {
+      "id": 12,
+      "data": {
+        "num": 3
+      },
+      "inputs": {},
+      "outputs": {
+        "num": {
+          "connections": [
+            {
+              "node": 11,
+              "input": "vehicleCount",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        691.075513678121,
+        19.171142080770792
+      ],
+      "name": "Number"
+    }
+  },
+  "comments": []
+}

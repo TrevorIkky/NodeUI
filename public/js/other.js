@@ -23,21 +23,6 @@ for (i = 0; i < acc.length; i++) {
   });
 }
 
-function showPopupNodes() {
-  const popup = document.getElementById('myPopup');
-  popup.classList.toggle('show');
-  setTimeout(()=>{
-    popup.classList.toggle('show');
-  }, 3000);
-}
-
-function showPopupBuild() {
-  const popup = document.getElementById('buildSolution');
-  popup.classList.toggle('show');
-  setTimeout(()=>{
-    popup.classList.toggle('show');
-  }, 3000);
-}
 openNodeMenu.addEventListener('click', function() {
   nodeList.style.width = '300px';
   nodeList.style.opacity = '1';
@@ -113,6 +98,29 @@ function openModal(key, nodeid) {
   appendToNode.setAttribute('data-node-id', nodeid);
 }
 
+// https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
+function saveEditor() {
+  M.toast({html: 'Saving Editor State',
+    classes:"rounded status"}, 10000);
+  const data = editor.toJSON();
+  var file = new Blob([data], {type: 'aplication/json'});
+  var filename = `${Date.now()}.json`
+  if (window.navigator.msSaveOrOpenBlob) // IE10+
+    window.navigator.msSaveOrOpenBlob(file, filename);
+  else { // Others
+    var a = document.createElement("a"),
+      url = URL.createObjectURL(file);
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function() {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 0);
+  }
+}
+
 appendToNode.onclick = function() {
   const nodeId = appendToNode.getAttribute('data-node-id');
   if (resultLatLng) {
@@ -130,8 +138,35 @@ appendToNode.onclick = function() {
   };
 };
 
+// https://stackoverflow.com/questions/16215771/how-open-select-file-dialog-via-js
+const fileInput = document.getElementById('file-input');
+fileInput.onchange = e => {
+  // getting a hold of the file reference
+  var file = e.target.files[0];
+
+  // setting up the reader
+  var reader = new FileReader();
+  reader.readAsText(file,'UTF-8');
+
+  // here we tell the reader what to do when it's done reading...
+  reader.onload = readerEvent => {
+    M.toast({html: `Restoring restore from ${file.name}`,
+      classes:"rounded status"}, 4000);
+    var content = readerEvent.target.result; // this is the content!
+    if (content !== undefined) {
+      editor.fromJSON(JSON.parse(content));
+    }
+  }
+
+}
+
 window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = 'none';
   }
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+  var elems = document.querySelectorAll('.tooltipped');
+  var instances = M.Tooltip.init(elems);
+});

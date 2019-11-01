@@ -123,6 +123,8 @@ typings/
 
 workspace/
 
+routing.json
+
 or-tools/
 
 .tern-port

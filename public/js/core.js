@@ -207,7 +207,6 @@ const vueEmbedButtonComponents = {
       const solver = findSolverInstance();
       setTimeout(()=>{
         axios.get('/embed/' + solver.data.problemId).then((response)=> {
-          const domparser = new DOMParser()
           const rawHTML = response.data["embedding"];
           const embed = document.getElementById('embed');
           embed.innerHTML = escapeHtml(rawHTML);
@@ -651,6 +650,7 @@ const generateRandomInteger = (min, max) =>{
   return Math.floor(min + Math.random()*(max + 1 - min));
 }
 
+// https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
 function escapeHtml(unsafe) {
     return unsafe
          .replace(/&/g, "&amp;")
