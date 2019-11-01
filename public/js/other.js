@@ -154,8 +154,8 @@ fileInput.onchange = e => {
 
   // here we tell the reader what to do when it's done reading...
   reader.onload = readerEvent => {
-    M.toast({html: `Restoring restore from ${file.name}`,
-      classes:"rounded status"}, 4000);
+    M.toast({html: `Restoring from ${file.name}`,
+      classes:"rounded status"}, 1000);
     var content = readerEvent.target.result; // this is the content!
     if (content !== undefined) {
       editor.fromJSON(JSON.parse(content));

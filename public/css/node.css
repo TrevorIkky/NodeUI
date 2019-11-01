@@ -21,21 +21,21 @@ body {
     font-family: 'Great Vibes', cursive;
     font-size: 1.9rem;
     font-weight: bolder;
-   
+
 }
 #surround-container{
     margin-top: -5px;
     opacity: 0;
     transition: 0.2s;
     min-width: 100%;
-    min-height:100%; 
+    min-height:100%;
 }
 
 #progress-loader{
     margin-top: 5px;
     height: 0;
-  
-} 
+
+}
 .control input,
 .node .input-control input {
     width: 140px;
@@ -61,6 +61,7 @@ body {
     width: 140px;
     border-style: solid !important;
     border-color:  yellowgreen !important;
+    box-shadow: 4px 5px 9px rgba(0,0,0,0.5);
 }
 
 .node .title,
@@ -85,6 +86,7 @@ body {
 #open-map {
     cursor: pointer;
 }
+
 
 .rtl-alignment {
     display: flex;
@@ -232,7 +234,7 @@ textarea {
     font-size: 1rem;
     color:black;
     cursor: pointer;
-   
+
 }
 
 #close-node-list{
@@ -244,13 +246,13 @@ textarea {
     color: #c6ff00;
     transition: 0.2s;
     font-size: 1.2rem;
-    padding:10px; 
-   
+    padding:10px;
+
 }
 
 .menu-options ul li a{
     text-decoration: none;
-    color: black; 
+    color: black;
 }
 
 .menu-options ul li a:hover{
@@ -258,7 +260,7 @@ textarea {
     color: firebrick;
     transition: 0.2s;
     font-size: 1.2rem;
-    padding:10px; 
+    padding:10px;
 }
 
 .node-list{
@@ -266,7 +268,7 @@ textarea {
     position: fixed;
     width: 0;
     z-index: 1;
-    top: 60px; 
+    top: 60px;
     left: 0;
     height:100%;
     transition: 0.2s;
@@ -291,13 +293,13 @@ textarea {
     outline: none;
     font-size: 15px;
     transition: 0.4s;
-    
+
   }
-  
+
   .active, .accordion:hover {
     background-color: #ccc;
   }
-  
+
   .accordion:after {
     content: '\002B';
     color: #777;
@@ -305,11 +307,11 @@ textarea {
     float: right;
     margin-left: 5px;
   }
-  
+
   .active:after {
     content: "\2212";
   }
-  
+
   .panel {
     padding: 0 18px;
     background-color: white;
@@ -332,9 +334,9 @@ textarea {
     -ms-user-select: none;
     user-select: none;
     margin-top:10px;
-   
+
   }
- 
+
   .popup .popuptext {
     visibility: hidden;
     width: 160px;
@@ -348,9 +350,9 @@ textarea {
     bottom: 125%;
     left: 50%;
     margin-left: -80px;
- 
+
   }
-  
+
 
   .popup .popuptext::before {
     content: "";
@@ -362,8 +364,8 @@ textarea {
     border-style: solid;
     border-color: #555 transparent transparent transparent;
   }
-  
-  
+
+
   .popup .show {
     visibility: visible;
     -webkit-animation: fadeIn 1s;
@@ -371,10 +373,10 @@ textarea {
   }
 
   @-webkit-keyframes fadeIn {
-    from {opacity: 0;} 
+    from {opacity: 0;}
     to {opacity: 1;}
   }
-  
+
   @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
@@ -492,5 +494,48 @@ textarea {
   top: auto !important;
   right: auto !important;
   bottom: 2%;
-  left:45%;  
+  left:40%;
+}
+
+  /*
+   * background-size: 10px 10px, 40px 40px, 40px 40px !important;
+   * background:
+   * linear-gradient(-90deg, rgba(0,0,0,.05) 1px, transparent 1px),
+   * linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
+   * linear-gradient(-90deg, rgba(0, 0, 0, .04) 1px, transparent 1px),
+   * linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
+   * linear-gradient(transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
+   * linear-gradient(-90deg, transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
+   * #f2f2f2;
+   */
+#rete {
+  background-size: 20px 20px;
+  background-image:
+  linear-gradient(to right, #f2f2f2 1px, transparent 1px),
+  linear-gradient(to bottom, #f2f2f2 1px, transparent 1px);
+  overflow: hidden;
+}
+
+.context-menu {
+  padding: 10px !important;
+  font-size: 17px;
+}
+
+.context-menu .search {
+  background-color: #dadddf !important;
+  border-bottom: 1px solid #c8cccf !important;
+  color: #211717 !important;
+  width: 150px !important;
+}
+
+.context-menu .item {
+  background-color: #dadddf !important;
+  border-bottom: 1px solid #c8cccf !important;
+  color: #211717 !important;
+  width: 150px !important;
+}
+
+.context-menu .item:hover {
+  background-color: #e5e5e5 !important;
+  color: #211717 !important;
 }
