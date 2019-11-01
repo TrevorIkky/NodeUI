@@ -1,7 +1,7 @@
 const tmp = require('tmp');
 const fs = require('fs');
 const {exec} = require('child_process');
-const randomString = require('randomstring');
+
 
 module.exports = {
   create_source: function(domain, data) {
@@ -46,22 +46,5 @@ module.exports = {
     });
   },
 
-  saveFileProgress: function(data) {
-    // Can include a path...mindful of windows and linux paths
-    const fileName = randomString.generate(5)+'.json';
-    fs.writeFile(fileName, data, (err)=>{
-      if (err) throw err;
-      return fileName;
-    });
-  },
-
-  deleteFile: function(path) {
-    fs.access(path, (error)=>{
-      if (error) throw error;
-      fs.unlink(path, (error)=>{
-        if (error) throw err;
-        return 'OK';
-      });
-    });
-  },
+  
 };

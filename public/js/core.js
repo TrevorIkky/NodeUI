@@ -551,9 +551,9 @@ const debug = document.getElementById('debug');
 
   // TODO...find inprovements to avoid repetition
 
-  document.getElementById('saveNodes').addEventListener('click',async()=>{
+  document.getElementById('saveNodes').addEventListener('click', async()=>{
    axios.post('http://localhost:3000/save', {
-     data: await editor.toJSON(),
+     data:  await JSON.stringify(editor.toJSON()),
    }).then((resp)=>{
      console.log(resp);
    }).catch((error)=>{
