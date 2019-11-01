@@ -16,6 +16,7 @@
         "mapbox-gl": "^1.4.1",
         "mongoose": "^5.7.6",
         "nunjucks": "^3.2.0",
+        "randomstring": "^1.1.5",
         "rete": "^1.4.1",
         "rete-connection-plugin": "^0.8.3",
         "rete-vue-render-plugin": "^0.4.0",

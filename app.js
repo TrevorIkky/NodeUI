@@ -6,6 +6,8 @@ const util = require('./util');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const randomString = require('randomstring');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
@@ -20,6 +22,7 @@ db.once('open', () => console.log('Connected to database'));
 mongoose.Promise = global.Promise;
 const Results = require('./models/Result');
 const Users = require('./models/User');
+const Progress = require('./models/Completion');
 
 const port = 3000;
 nunjucks.configure('templates', {
@@ -63,7 +66,37 @@ app.post('/search', (req, res) => {
     res.status(500).send(error);
   }
 });
-
+app.post('/save', (req, res)=>{
+  // Modifiy to accomodate a specific user
+  const filePath = './saves/'+ randomString.generate(7)+ '.json';
+  fs.writeFile(filePath, req.body.data, (error)=>{
+    if (error) res.send(error);
+    // eslint-disable-next-line max-len
+    const saveObj = new Progress({userId: 'empty', progressPath: filePath});
+    saveObj.save().then((result)=> {
+      return res.json(result);
+    }).catch((err)=>{
+      return res.send(err);
+    });
+  });
+});
+app.post('/nodesave', async (req, res)=>{
+  try {
+    const filePath = util.saveFileProgress(req.body.data);
+    if (filePath) {
+      // user id to be implemented with express-sessions
+      console.log(filePath);
+      const saveObj = new Progress({userId: 'empty', progressPath: filePath});
+      await saveObj.save().then((result)=>{
+        return res.json(result);
+      }).catch((err)=>{
+        return res.statusCode(500).send(err);
+      });
+    }
+  } catch (error) {
+    return res.status(error);
+  }
+});
 
 app.post('/register/add', async (req, res) => {
   try {
@@ -124,7 +157,7 @@ app.get('/results/:id', (req, res) => {
   const vals = {
     problemId: req.params.id,
     resultsURL: '/routing/'+ req.params.id,
-   accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
+    accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
   };
   res.render('map.output.njk', vals);
 });
@@ -179,7 +212,7 @@ async function getRoutingResults(req, res, next) {
     }
   } catch (err) {
     return res.status(500).json({ message: err.message});
-  } 
+  }
 
   res.results = searchedResult;
   next();

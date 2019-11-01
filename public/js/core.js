@@ -550,6 +550,16 @@ const debug = document.getElementById('debug');
 
   // TODO...find inprovements to avoid repetition
 
+  document.getElementById('saveNodes').addEventListener('click', async()=>{
+   axios.post('http://localhost:3000/save', {
+     data:  await JSON.stringify(editor.toJSON()),
+   }).then((resp)=>{
+     console.log(resp);
+   }).catch((error)=>{
+     console.log(error);
+   })
+  })
+
   add.addEventListener('click', async ()=>{
     const an = await components[1].createNode({num: 2});
     an.position = [generateRandomInteger(0, 10), generateRandomInteger(0, 40)];

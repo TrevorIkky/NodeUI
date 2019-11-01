@@ -12,6 +12,7 @@ body {
 .toolbar {
     display: flex;
     justify-content: space-between;
+    margin-top:-15px;
 }
 
 #app-name {
@@ -31,8 +32,9 @@ body {
 }
 
 #progress-loader{
-    margin: 0px;
+    margin-top: 5px;
     height: 0;
+  
 } 
 .control input,
 .node .input-control input {
