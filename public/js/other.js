@@ -64,6 +64,10 @@ document.getElementById('account').addEventListener('click', ()=>{
   window.location = '/login';
 })
 
+document.getElementById('discover').addEventListener('click', ()=>{
+  window.location = '/discover';
+})
+
 const currentLocationMarker = new mapboxgl.Marker();
 currentLocationMarker.setLngLat([36.8098883, -1.308869]);
 currentLocationMarker.addTo(map);

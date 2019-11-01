@@ -8,7 +8,13 @@
     <div class="node-list" id="node-list">
         <div style="display: flex; width: 100%; justify-content: space-between;">
             <p style="font-size: 18.5px; margin:20px;">Nodes</p>
-            <img id="close-node-list" style="margin:22px;" width="15" height="15" src="/images/close.png">
+            <div style="margin-top:20px;">
+              <i class="material-icons">live_help</i>
+                <i  style="margin-left:20px; cursor:pointer" id="saveNodes" class="material-icons">save</i>
+             <i  style="margin-left:20px; cursor:pointer" id="close-node-list" class="material-icons">close</i>
+            
+            </div>
+           
         </div>
         <div id="options">
            <div class="variables">
@@ -63,10 +69,11 @@
                     <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
                     <span class="popuptext" id="buildSolution">Build Solution</span>
                 </li>
-                <li id="openNodeMenu">
-                    <i class="material-icons">live_help</i>
 
+                  <li id="discover">
+                    <i class="material-icons">explore</i>
                 </li>
+              
                 <li id="account">
                     <i class="material-icons">person_pin</i>
                 </li>

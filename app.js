@@ -20,6 +20,7 @@ db.once('open', () => console.log('Connected to  database'));
 mongoose.Promise = global.Promise;
 const Results = require('./models/Result');
 const Users = require('./models/User');
+const Progress = require('./models/Progress');
 
 const port = 3000;
 nunjucks.configure('templates', {
@@ -64,6 +65,23 @@ app.post('/search', (req, res) => {
   }
 });
 
+app.post('/save', async (req, res)=>{
+  try {
+    const filePath = util.saveFileProgress(req.body.data);
+    if (filePath) {
+      // user id to be implemented with express-sessions
+      console.log(filePath);
+      const saveObj = new Progress({userId: 'empty', progressPath: filePath});
+      await saveObj.save().then((result)=>{
+        return res.json(result);
+      }).catch((err)=>{
+        return res.statusCode(500).send(err);
+      });
+    }
+  } catch (error) {
+    return res.status(error);
+  }
+});
 
 app.post('/register/add', async (req, res) => {
   try {
@@ -179,7 +197,7 @@ async function getRoutingResults(req, res, next) {
     }
   } catch (err) {
     return res.status(500);
-  } 
+  }
 
   res.results = searchedResult;
   next();
