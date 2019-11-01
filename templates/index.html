@@ -39,61 +39,18 @@
             </div>
 
             <div class="solvers margintop">
-                    <p>Calculators</p>
+                    <p>Solvers</p>
                     <div class="seperator"></div>
                     <p id= "route-solver">Routing Solver</p>
                 </div>
         </div>
     </div>
-    <div id="options">
-      <div class="variables">
-        <p>Variables</p>
-        <div class="seperator"></div>
-        <p id="number">Number</p>
-        <p id = "package">Package</p>
-        <p id = "debug">Debug</p>
-      </div>
-      <div class="calculators margintop">
-        <p>Calculate</p>
-        <div class="seperator"></div>
-        <p id = "add">Add</p>
-        <p id = "multiply">Multiply</p>
-        <p id = "calc-distance">Calculate Distance</p>
-      </div>
 
 <div id="mapModal" class="modal">
   <div id="map"></div>
   <a id="append-val" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">done</i></a>
   <a href="#mapModal" class="modal-close btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">close</i></a>
 </div>
-
-<div id="embedModal" class="modal">
-  <h4>Copy and Paste the following to embed the result elsewhere</h4>
-  <pre class="prettyprint lang-html" id="embed"></pre>
-</div>
-
-    <div class="toolbar">
-        <p id="app-name">NodeCanvas</p>
-        <div class="menu-options">
-            <ul>
-                <li id="openNodeMenu" class="popup" onmouseenter="showPopupNodes()">
-                    <i class="material-icons">bubble_chart</i>
-                    <span class="popuptext" id="myPopup">Nodes</span>
-                </li>
-                <li class="popup" onmouseenter="showPopupBuild()">
-                    <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
-                    <span class="popuptext" id="buildSolution">Build Solution</span>
-                </li>
-
-                  <li id="discover">
-                    <i class="material-icons">explore</i>
-                </li>
-              
-                <li id="account">
-                    <i class="material-icons">person_pin</i>
-                </li>
-            </ul>
-        </div>
 
   <div id="embedModal" class="modal">
     <h4>Copy and Paste the following to embed the result elsewhere</h4>
@@ -120,6 +77,11 @@
         <li id="openNodeMenu" class="tooltipped" data-position="bottom" data-tooltip="Show Nodes">
           <i class="material-icons">live_help</i>
         </li>
+
+        <li id="discover">
+          <i class="material-icons">explore</i>
+        </li>
+
         <li id="account" class="tooltipped" data-position="bottom" data-tooltip="Account">
           <i class="material-icons">person_pin</i>
         </li>
