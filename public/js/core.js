@@ -196,6 +196,45 @@ class MapsButtonControl extends Rete.Control {
   }
 }
 
+const vueEmbedButtonComponents = {
+  props: ['emitter', 'key', 'nodeid'],
+  template: '<button @click="embed($event)">Embed Output</button>',
+  data() {
+    return;
+  },
+  methods: {
+    embed(event) {
+      const solver = findSolverInstance();
+      setTimeout(()=>{
+        axios.get('/embed/' + solver.data.problemId).then((response)=> {
+          const domparser = new DOMParser()
+          const rawHTML = response.data["embedding"];
+          const embed = document.getElementById('embed');
+          embed.innerHTML = escapeHtml(rawHTML);
+          const modal = document.getElementById('embedModal');
+          var instance = M.Modal.getInstance(modal);
+          PR.prettyPrintOne();
+          instance.open();
+        }).catch( (error)=> {
+          console.log(error);
+        });
+      }, 1000);
+    },
+  },
+};
+
+class EmbedButtonControl extends Rete.Control {
+  constructor(emitter, key, nodeid) {
+    super(key);
+    this.component = vueEmbedButtonComponents;
+    this.props = {
+      emitter,
+      key,
+      nodeid,
+    };
+  }
+}
+
 const vueMapOutputButtonComponents = {
   props: ['emitter', 'key', 'nodeid'],
   template: '<button @click="open($event)">Open Map</button>',
@@ -229,6 +268,7 @@ class MapOutputComponent extends Rete.Component {
   builder(node) {
     return node.addInput(new Rete.Input('location', 'Location',stringSocket))
         .addControl(new MapOutputButtonControl(this.editor, 'mapsButton', node.id))
+        .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id))
   }
   worker(node, inputs, outputs) {
     console.log(inputs["location"]);
@@ -578,6 +618,12 @@ const findLocations = (nodes) => {
     });
 };
 
+const findSolverInstance = () => {
+  const solverNames = ['Solver']
+  const solver = editor.nodes.find((node) => solverNames.includes(node.name));
+  return solver;
+}
+
 const applyChanges = (resp) =>{
   console.log(resp);
   /*
@@ -591,8 +637,9 @@ const applyChanges = (resp) =>{
     axios.post(postURL + '/routing', {
       data: resp,
     }).then((response)=> {
-      const solver = editor.nodes.find((node) => node.name == 'Solver');
+      const solver = findSolverInstance();
       solver.data.result = response.headers.location;
+      solver.data.problemId = response.headers.location.split('/')[2];
       document.getElementById('progress-loader').style.height = '0px';
     }).catch( (error)=> {
       console.log(error);
@@ -603,6 +650,17 @@ const applyChanges = (resp) =>{
 const generateRandomInteger = (min, max) =>{
   return Math.floor(min + Math.random()*(max + 1 - min));
 }
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
+
 const returnEditorNodes = async () =>{
   const solver = editor.nodes.find((node) => node.name == 'Solver');
   return solver.data;
