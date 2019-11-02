@@ -7,13 +7,13 @@
 
     <div class="node-list" id="node-list">
         <div style="margin-left: 20px; margin-top:20px; margin-right:20px; width:90%; display:flex; justify-content: space-evenly;">
-
             <a class="tooltipped a-color" data-position="bottom" data-tooltip="Show Nodes"><i  class="material-icons">live_help</i> <a/>  
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Save current project" onclick="saveEditor()"><i class="material-icons md-18">save</i></a>
-            <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Cloud Upload"><i style="margin-left:20px; cursor:pointer" id="saveNodes" class="material-icons">cloud_upload</i></a>
+            <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Cloud Upload"><i  id="saveNodes" class="material-icons">cloud_upload</i></a>
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Restore previous project" onclick="document.getElementById('file-input').click();"><i class="material-icons md-18">publish</i></a>
+            <a id = "logout" style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Log Out" ><i class="material-icons md-18">exit_to_app</i></a>
             <i style="margin-left:20px; cursor:pointer" id="close-node-list" class="material-icons">close</i>
-
+       
         </div>
 
         <div class="node-search-container">
@@ -80,7 +80,7 @@
                     <i class="material-icons">explore</i>
                 </li>
 
-                <li id="account" class="tooltipped" data-position="bottom" data-tooltip="Account">
+                <li id="account" class="tooltipped" data-position="bottom" data-tooltip="{{username}}">
                     <i class="material-icons">person_pin</i>
                 </li>
             </ul>

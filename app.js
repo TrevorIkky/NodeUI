@@ -8,18 +8,22 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const randomString = require('randomstring');
 const fs = require('fs');
-const session = require('express-session');
+const session = require('client-sessions');
 
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
+
 app.use(session({
-  resave: true, saveUninitialized: true, secret: randomString.generate(10),
+  cookieName: 'session',
+  secret: randomString.generate(10),
+  duration: 30 * 60 * 1000,
+  activeDuration: 60 * 60 * 1000,
 }));
 app.use(express.static('public'));
 
 mongoose.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true});
-const db =mongoose.connection;
+const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database'));
 
@@ -37,12 +41,23 @@ nunjucks.configure('templates', {
 });
 
 app.get('/', (req, res) => {
-  return res.render('index.html');
+  const sessionData = {
+    username: (req.session.username) ? (req.session.username) : 'Account',
+    userid: (req.session.userid) ? (req.session.userid) : '',
+  };
+  return res.render('index.html', sessionData);
 });
 
+app.get('/profile', (req, res)=>{
+  return res.render('profile.html');
+});
+
+app.get('/logout', (req, res)=>{
+  req.session.reset();
+  return res.redirect('/');
+});
 
 app.get('/discover', (req, res) => {
-  
   try {
     Results.find({}, (err, result)=>{
     }).then((result)=>{
@@ -112,12 +127,12 @@ app.post('/register/add', async (req, res) => {
 app.post('/login/validate', (req, res) => {
   try {
     Users.find({username: req.body.username}, (err, user)=>{
-      console.log(user);
       if (err) console.log(err);
-      bcrypt.compare(req.body.password, user.password, (error, match)=>{
+      bcrypt.compare(req.body.password, user[0].password, (error, match)=>{
         if (match) {
-
-          return res.send('OK');
+          req.session.username = user[0].username;
+          req.session.userid = user[0]._id;
+          return res.send('OK');    
         } else {
           return res.send('INVALID');
         }

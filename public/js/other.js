@@ -44,8 +44,17 @@ const map = new mapboxgl.Map({
   center: [36.8098883, -1.308869],
 });
 
+// eslint-disable-next-line max-len
+document.getElementById('account').getAttribute('data-tooltip').toLowerCase() == 'account' ? document.getElementById('logout').style.display == 'none' : document.getElementById('logout').style.display == 'block';
+
 document.getElementById('account').addEventListener('click', ()=>{
-  window.location = '/login';
+  // eslint-disable-next-line max-len
+  document.getElementById('account').getAttribute('data-tooltip').toLowerCase() == 'account' ? window.location = '/login' : window.location = '/profile';
+  ;
+});
+
+document.getElementById('logout').addEventListener('click', ()=>{
+ window.location = '/logout';
 });
 
 document.getElementById('discover').addEventListener('click', ()=>{
