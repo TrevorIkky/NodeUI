@@ -8,10 +8,14 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const randomString = require('randomstring');
 const fs = require('fs');
+const session = require('express-session');
 
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(session({
+  resave: true, saveUninitialized: true, secret: randomString.generate(10),
+}));
 app.use(express.static('public'));
 
 mongoose.connect('mongodb://localhost:27017/nodecanvas', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -20,6 +24,7 @@ db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database'));
 
 mongoose.Promise = global.Promise;
+
 const Results = require('./models/Result');
 const Users = require('./models/User');
 const Progress = require('./models/Completion');
@@ -35,18 +40,18 @@ app.get('/', (req, res) => {
   return res.render('index.html');
 });
 
+
 app.get('/discover', (req, res) => {
+  
   try {
     Results.find({}, (err, result)=>{
-
     }).then((result)=>{
-      console.log(result);
       return res.render('discover.html', {results: result});
     }).catch((error)=>{
-      console.log(error);
+      return res.send(error);
     });
   } catch (error) {
-    res.status(500).send(error);
+    return res.status(500).send(error);
   }
 });
 
@@ -54,7 +59,12 @@ app.post('/search', (req, res) => {
   try {
     let searchObj = {};
     if (req.body.id) {
-      searchObj = {problemId: req.body.id};
+      searchObj = {
+        $or: [
+          {solver_time: parseInt(req.body.id)},
+          {total_distance: parseInt(req.body.id)},
+        ],
+      };
     }
     Results.find(searchObj, (err, result)=>{
     }).then((result)=>{
@@ -80,23 +90,7 @@ app.post('/save', (req, res)=>{
     });
   });
 });
-app.post('/nodesave', async (req, res)=>{
-  try {
-    const filePath = util.saveFileProgress(req.body.data);
-    if (filePath) {
-      // user id to be implemented with express-sessions
-      console.log(filePath);
-      const saveObj = new Progress({userId: 'empty', progressPath: filePath});
-      await saveObj.save().then((result)=>{
-        return res.json(result);
-      }).catch((err)=>{
-        return res.statusCode(500).send(err);
-      });
-    }
-  } catch (error) {
-    return res.status(error);
-  }
-});
+
 
 app.post('/register/add', async (req, res) => {
   try {
@@ -118,9 +112,11 @@ app.post('/register/add', async (req, res) => {
 app.post('/login/validate', (req, res) => {
   try {
     Users.find({username: req.body.username}, (err, user)=>{
+      console.log(user);
       if (err) console.log(err);
-      bcrypt.compare(req.body.password, user[0].password, (error, match)=>{
+      bcrypt.compare(req.body.password, user.password, (error, match)=>{
         if (match) {
+
           return res.send('OK');
         } else {
           return res.send('INVALID');

@@ -6,90 +6,87 @@
     <div id="loader" class="loader">Loading...</div>
 
     <div class="node-list" id="node-list">
-        <div style="display: flex; width: 100%; justify-content: space-between;">
-            <p style="font-size: 18.5px; margin:20px;">Nodes</p>
-            <div style="margin-top:20px;">
-              <i class="material-icons">live_help</i>
-                <i  style="margin-left:20px; cursor:pointer" id="saveNodes" class="material-icons">save</i>
-             <i  style="margin-left:20px; cursor:pointer" id="close-node-list" class="material-icons">close</i>
-            
-            </div>
-           
+        <div style="margin-left: 20px; margin-top:20px; margin-right:20px; width:90%; display:flex; justify-content: space-evenly;">
+
+            <a class="tooltipped a-color" data-position="bottom" data-tooltip="Show Nodes"><i  class="material-icons">live_help</i> <a/>  
+            <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Save current project" onclick="saveEditor()"><i class="material-icons md-18">save</i></a>
+            <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Cloud Upload"><i style="margin-left:20px; cursor:pointer" id="saveNodes" class="material-icons">cloud_upload</i></a>
+            <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Restore previous project" onclick="document.getElementById('file-input').click();"><i class="material-icons md-18">publish</i></a>
+            <i style="margin-left:20px; cursor:pointer" id="close-node-list" class="material-icons">close</i>
+
         </div>
+
+        <div class="node-search-container">
+            <input  placeholder="Search for nodes..." id="node-search" type="text" class="validate">
+        </div>
+
         <div id="options">
-           <div class="variables">
-               <p>Variables</p>
-               <div class="seperator"></div>
-               <p id="number">Number</p>
-               <p id = "package">Package</p>
-               <p id = "debug">Debug</p>
-           </div>
-           <div class="calculators margintop">
-                <p>Calculate</p>
-                <div class="seperator"></div>
-                <p id = "add">Add</p>
-                <p id = "multiply">Multiply</p>
-                <p id = "calc-distance">Calculate Distance</p>
-            </div>
+            <ul id="options-ul">
+                <div data-node-type="variables" class="variables">
+                    <p>Variables</p>
+                    <div class="seperator"></div>
+                    <p id="number">Number</p>
+                    <p id="package">Package</p>
+                    <p id="debug">Debug</p>
+                </div>
+                <div data-node-type="calculators" class="calculators margintop">
+                    <p>Calculate</p>
+                    <div class="seperator"></div>
+                    <p id="add">Add</p>
+                    <p id="multiply">Multiply</p>
+                    <p id="calc-distance">Calculate Distance</p>
+                </div>
 
-           <div class="formatters">
-                <p>Output Display</p>
-                <div class="seperator"></div>
-                <p id = "map-output">Map Output</p>
-            </div>
+                <div data-node-type="formatters" class="formatters">
+                    <p>Output Display</p>
+                    <div class="seperator"></div>
+                    <p id="map-output">Map Output</p>
+                </div>
 
-            <div class="solvers margintop">
+                <div data-node-type="solvers" class="solvers margintop">
                     <p>Solvers</p>
                     <div class="seperator"></div>
-                    <p id= "route-solver">Routing Solver</p>
+                    <p id="route-solver">Routing Solver</p>
                 </div>
+
+            </ul>
+
         </div>
     </div>
 
-<div id="mapModal" class="modal">
-  <div id="map"></div>
-  <a id="append-val" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">done</i></a>
-  <a href="#mapModal" class="modal-close btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">close</i></a>
-</div>
-
-  <div id="embedModal" class="modal">
-    <h4>Copy and Paste the following to embed the result elsewhere</h4>
-    <pre class="prettyprint lang-html" id="embed"></pre>
-  </div>
-  <input id="file-input" type="file" name="name" style="display: none;" />
-  <div class="toolbar">
-    <p id="app-name">NodeCanvas</p>
-    <div class="menu-options">
-      <ul>
-        <li id="openNodeMenu" class="tooltipped" data-position="bottom" data-tooltip="Nodes">
-          <i class="material-icons">bubble_chart</i>
-        </li>
-        <li class="tooltipped" data-position="bottom" data-tooltip="Build Solution">
-          <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
-        </li>
-        <li class="tooltipped" data-position="bottom" data-tooltip="Save current project">
-          <a onclick="saveEditor()"><i class="material-icons md-18">save</i></a>
-        </li>
-        <li class="tooltipped" data-position="bottom" data-tooltip="Restore previous project">
-          <a onclick="document.getElementById('file-input').click();"><i class="material-icons md-18">publish</i></a>
-        </li>
-        </li>
-        <li id="openNodeMenu" class="tooltipped" data-position="bottom" data-tooltip="Show Nodes">
-          <i class="material-icons">live_help</i>
-        </li>
-
-        <li id="discover">
-          <i class="material-icons">explore</i>
-        </li>
-
-        <li id="account" class="tooltipped" data-position="bottom" data-tooltip="Account">
-          <i class="material-icons">person_pin</i>
-        </li>
-      </ul>
+    <div id="mapModal" class="modal">
+        <div id="map"></div>
+        <a id="append-val" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">done</i></a>
+        <a href="#mapModal" class="modal-close btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">close</i></a>
     </div>
 
-  </div>
-  <div id="rete"></div>
-</div>
+    <div id="embedModal" class="modal">
+        <h4>Copy and Paste the following to embed the result elsewhere</h4>
+        <pre class="prettyprint lang-html" id="embed"></pre>
+    </div>
+    <input id="file-input" type="file" name="name" style="display: none;" />
+    <div class="toolbar">
+        <p id="app-name">NodeCanvas</p>
+        <div class="menu-options">
+            <ul>
+                <li id="openNodeMenu" class="tooltipped" data-position="bottom" data-tooltip="Nodes">
+                    <i class="material-icons">bubble_chart</i>
+                </li>
+                <li class="tooltipped" data-position="bottom" data-tooltip="Build Solution">
+                    <img id="build-solution" style="transform: rotate(-45deg);" width="20" height="20" src="/images/build.png">
+                </li>
 
+                <li id="discover" class="tooltipped" data-position="bottom" data-tooltip="Explore">
+                    <i class="material-icons">explore</i>
+                </li>
+
+                <li id="account" class="tooltipped" data-position="bottom" data-tooltip="Account">
+                    <i class="material-icons">person_pin</i>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div id="rete"></div>
+</div>
 {%endblock%}

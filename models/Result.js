@@ -12,7 +12,6 @@ const routingSchema = new mongoose.Schema({
   locations: [[Number]],
 });
 
-module.exports = {
-  Routing: mongoose.model('RoutingSchema', routingSchema),
-};
+module.exports =  mongoose.model('routings', routingSchema);
+
 

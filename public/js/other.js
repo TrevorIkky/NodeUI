@@ -33,7 +33,6 @@ closeNodeList.addEventListener('click', function() {
   nodeList.style.width = '0';
   nodeList.style.opacity = '0';
   surroundContainer.style.marginLeft = '0';
-
 });
 
 let resultLatLng;
@@ -47,11 +46,11 @@ const map = new mapboxgl.Map({
 
 document.getElementById('account').addEventListener('click', ()=>{
   window.location = '/login';
-})
+});
 
 document.getElementById('discover').addEventListener('click', ()=>{
   window.location = '/discover';
-})
+});
 
 const currentLocationMarker = new mapboxgl.Marker();
 currentLocationMarker.setLngLat([36.8098883, -1.308869]);
@@ -93,8 +92,9 @@ geocoder.on('result', (event) => {
 
 map.addControl(geocoder);
 
+
 function openModal(key, nodeid) {
-  var instance = M.Modal.getInstance(modal);
+  const instance = M.Modal.getInstance(modal);
   console.log(instance);
   instance.open();
   map.resize();
@@ -105,15 +105,17 @@ function openModal(key, nodeid) {
 // https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
 function saveEditor() {
   M.toast({html: 'Saving Editor State',
-    classes:"rounded status"}, 10000);
+    classes: 'rounded status'}, 10000);
   const data = editor.toJSON();
-  var file = new Blob([data], {type: 'aplication/json'});
-  var filename = `${Date.now()}.json`
+  const file = new Blob([data], {type: 'aplication/json'});
+  const filename = `${Date.now()}.json`;
   if (window.navigator.msSaveOrOpenBlob) // IE10+
-    window.navigator.msSaveOrOpenBlob(file, filename);
+  {
+window.navigator.msSaveOrOpenBlob(file, filename);
+}
   else { // Others
-    var a = document.createElement("a"),
-      url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(file);
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);
@@ -135,34 +137,33 @@ appendToNode.onclick = function() {
     console.log(searchedNode);
     editor.trigger('process');
     modal.style.display = 'none';
-    var instance = M.Modal.getInstance(modal);
+    const instance = M.Modal.getInstance(modal);
     instance.close();
   } else {
-    console.log('coordinates are null')
+    console.log('coordinates are null');
   };
 };
 
 // https://stackoverflow.com/questions/16215771/how-open-select-file-dialog-via-js
 const fileInput = document.getElementById('file-input');
-fileInput.onchange = e => {
+fileInput.onchange = (e) => {
   // getting a hold of the file reference
-  var file = e.target.files[0];
+  const file = e.target.files[0];
 
   // setting up the reader
-  var reader = new FileReader();
-  reader.readAsText(file,'UTF-8');
+  const reader = new FileReader();
+  reader.readAsText(file, 'UTF-8');
 
   // here we tell the reader what to do when it's done reading...
-  reader.onload = readerEvent => {
+  reader.onload = (readerEvent) => {
     M.toast({html: `Restoring from ${file.name}`,
-      classes:"rounded status"}, 1000);
-    var content = readerEvent.target.result; // this is the content!
+      classes: 'rounded status'}, 1000);
+    const content = readerEvent.target.result; // this is the content!
     if (content !== undefined) {
       editor.fromJSON(JSON.parse(content));
     }
-  }
-
-}
+  };
+};
 
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -171,6 +172,6 @@ window.onclick = function(event) {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.tooltipped');
-  var instances = M.Tooltip.init(elems);
+  const elems = document.querySelectorAll('.tooltipped');
+  const instances = M.Tooltip.init(elems);
 });
