@@ -496,25 +496,16 @@ textarea {
   bottom: 2%;
   left:40%;
 }
-
-  /*
-   * background-size: 10px 10px, 40px 40px, 40px 40px !important;
-   * background:
-   * linear-gradient(-90deg, rgba(0,0,0,.05) 1px, transparent 1px),
-   * linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px),
-   * linear-gradient(-90deg, rgba(0, 0, 0, .04) 1px, transparent 1px),
-   * linear-gradient(rgba(0,0,0,.04) 1px, transparent 1px),
-   * linear-gradient(transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
-   * linear-gradient(-90deg, transparent 3px, #f2f2f2 3px, #f2f2f2 78px, transparent 78px),
-   * #f2f2f2;
-   */
-#rete {
-  background-size: 20px 20px;
-  background-image:
-  linear-gradient(to right, #f2f2f2 1px, transparent 1px),
-  linear-gradient(to bottom, #f2f2f2 1px, transparent 1px);
-  overflow: hidden;
-}
+/*
+ * 
+ * #rete {
+ *   background-size: 20px 20px;
+ *   background-image:
+ *   linear-gradient(to right, #f2f2f2 1px, transparent 1px),
+ *   linear-gradient(to bottom, #f2f2f2 1px, transparent 1px);
+ *   overflow: hidden;
+ * }
+ */
 
 .context-menu {
   padding: 10px !important;
