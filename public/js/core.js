@@ -236,7 +236,7 @@ class EmbedButtonControl extends Rete.Control {
 
 const vueMapOutputButtonComponents = {
   props: ['emitter', 'key', 'nodeid'],
-  template: '<button @click="open($event)">Open Map</button>',
+  template: '<button @click="open($event)">Open Output Map</button>',
   data() {
     return;
   },
@@ -266,8 +266,8 @@ class MapOutputComponent extends Rete.Component {
   }
   builder(node) {
     return node.addInput(new Rete.Input('location', 'Location',stringSocket))
-        .addControl(new MapOutputButtonControl(this.editor, 'mapsButton', node.id))
         .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id))
+        .addControl(new MapOutputButtonControl(this.editor, 'mapsButton', node.id))
   }
   worker(node, inputs, outputs) {
     console.log(inputs["location"]);
@@ -347,7 +347,7 @@ class AggregateComponent extends Rete.Component {
   }
 
   builder(node) {
-    const inNode = new Rete.Input('inNum', 'Number', numSocket, true);
+    const inNode = new Rete.Input('inNum', 'Number', anyTypeSocket, true);
     const counter = new Rete.Output('counterNum', 'Count', numSocket);
     const aggregate = new Rete.Output('aggregateNum', 'Aggregate', arraySocket);
 
@@ -359,6 +359,7 @@ class AggregateComponent extends Rete.Component {
 
   worker(node, inputs, outputs) {
     const aggregation = Array.from(inputs['inNum']);
+    node.data.agg = aggregation;
     outputs['aggregateNum'] = aggregation;
     const count = aggregation.length;
     console.log(aggregation);
@@ -397,7 +398,7 @@ class MultiplierComponent extends Rete.Component {
 
 class RouteSolverComponent extends Rete.Component {
   constructor() {
-    super('Solver');
+    super('Route Solver');
   }
   builder(node) {
     const inputPackageSizeArr = new Rete.Input('packageArr', 'Packages Sizes', arraySocket);
@@ -417,6 +418,32 @@ class RouteSolverComponent extends Rete.Component {
     node.data.distanceMatrix = inputs['distanceArr'];
     node.data.vehicles = inputs['vehicleCount'];
     node.data.vehicleCapacities = inputs['vehicleArr'];
+    outputs['result'] = node.data.result;
+  }
+}
+
+class ScheduleSolverComponent extends Rete.Component {
+  constructor() {
+    super('Schedule Solver');
+  }
+  builder(node) {
+    const empCount = new Rete.Input('employeeCount', 'Employee Count', numSocket);
+    const shiftCount = new Rete.Input('shiftCount', 'Shift Count', numSocket);
+    const dayCount = new Rete.Input('dayCount', 'Days', numSocket);
+    const prefArr = new Rete.Input('shiftRequests', 'Shift Requests', arraySocket);
+    const result = new Rete.Output('result', 'Result', stringSocket);
+    return node.addInput(empCount)
+        .addInput(shiftCount)
+        .addInput(dayCount)
+        .addInput(prefArr)
+        .addOutput(result);
+  }
+
+  worker(node, inputs, outputs) {
+    node.data.employeeCount = inputs['employeeCount'];
+    node.data.shiftCount =inputs['shiftCount'];
+    node.data.dayCount = inputs['dayCount'];
+    node.data.shiftRequests = inputs['shiftRequests'];
     outputs['result'] = node.data.result;
   }
 }
@@ -491,6 +518,82 @@ class CalculateDistance extends Rete.Component {
   }
 }
 
+
+const vuePrefButtonComponent = {
+  props: ['emitter', 'key', 'nodeid'],
+  template: '<button @click="open($event)">Change Preferences</button>',
+  data() {
+    return;
+  },
+  methods: {
+    open(event) {
+      const calmodal = document.getElementById('prefModal');
+      const instance = M.Modal.getInstance(calmodal);
+      const employeeNode = editor.nodes.find((x) => x.id == this.nodeid);
+      const time = employeeNode.data.days;
+      const shifts = employeeNode.data.shifts;
+      const table =  document.getElementById('prefTable');
+      table.innerHTML = ''
+      createTable(time, shifts);
+      table.setAttribute('data-node-key', this.key);
+      table.setAttribute('data-node-id', this.nodeid);
+      instance.open();
+    },
+  },
+};
+
+class PrefButtonControl extends Rete.Control {
+  constructor(emitter, key, nodeid) {
+    super(key);
+    this.component = vuePrefButtonComponent;
+    this.props = {
+      emitter,
+      key,
+      nodeid,
+    };
+  }
+}
+
+class EmployeeComponent extends Rete.Component {
+  constructor(name = 'Employee') {
+    super(name);
+  }
+  builder(node) {
+    const shifts = new Rete.Input('shifts', 'Shifts', numSocket);
+    const days = new Rete.Input('days', 'Days', numSocket);
+    const preference = new Rete.Output('prefs', 'Preferences', arraySocket);
+    return node.addInput(shifts).addInput(days).addOutput(preference)
+        .addControl(new PrefButtonControl(this.editor, 'prefButton', node.id))
+  }
+  worker(node, inputs, outputs) {
+    node.data.shifts =  inputs['shifts'][0] ? inputs['shifts'][0] : 4 ;
+    node.data.days =  inputs['days'][0] ? inputs['days'][0] : 7 ;
+    outputs["prefs"] = node.data.prefs;
+  }
+}
+
+class WorkComponent extends Rete.Component {
+  constructor() {
+    super('Workplace');
+  }
+  builder(node) {
+    const inputOne = new Rete.Input('shiftCount', 'shiftCount', numSocket);
+    const inputTwo = new Rete.Input('dayCount', 'dayCount', numSocket);
+    const outputOne = new Rete.Output('outOne', 'shiftCount', numSocket);
+    const outputTwo = new Rete.Output('outTwo', 'dayCount', numSocket);
+    return node.addInput(inputOne).addInput(inputTwo)
+        .addOutput(outputOne)
+        .addOutput(outputTwo);
+  }
+
+  worker(node, inputs, outputs) {
+    const x = inputs['shiftCount'].length ? inputs['shiftCount'][0] : 0;
+    const y = inputs['dayCount'].length ? inputs['dayCount'][0] : 0;
+    outputs['outOne'] = x;
+    outputs['outTwo'] = y;
+  }
+}
+
 const container = document.querySelector('#rete');
 const editor = new Rete.NodeEditor('demo@0.1.0', container);
 const add = document.getElementById('add');
@@ -503,16 +606,20 @@ const routeSolver = document.getElementById('route-solver');
 const debug = document.getElementById('debug');
 
 (async () => {
-  const components = [new NumComponent(),
+  const components = [
     new AddComponent(),
-    new DebugComponent(),
-    new MultiplierComponent(),
     new AggregateComponent(),
-    new LogComponent(),
-    new PackageComponent(),
-    new MapOutputComponent(),
     new CalculateDistance(),
+    new DebugComponent(),
+    new EmployeeComponent(),
+    new LogComponent(),
+    new MapOutputComponent(),
+    new MultiplierComponent(),
+    new NumComponent(),
+    new PackageComponent(),
     new RouteSolverComponent(),
+    new ScheduleSolverComponent(),
+    new WorkComponent(),
   ];
 
 
@@ -628,13 +735,15 @@ const findLocations = (nodes) => {
 };
 
 const findSolverInstance = () => {
-  const solverNames = ['Solver']
+  const solverNames = ['Route Solver', 'Schedule Solver']
   const solver = editor.nodes.find((node) => solverNames.includes(node.name));
   return solver;
 }
 
 const applyChanges = (resp) =>{
   console.log(resp);
+  const solver = findSolverInstance();
+  var url;
   /*
    * meta field contains information that is passed on to
    * be stored together with the model's results
@@ -643,7 +752,12 @@ const applyChanges = (resp) =>{
     locations:findLocations(editor.nodes)
   }
   setTimeout(()=>{
-    axios.post(postURL + '/routing', {
+    if (solver.name == 'Route Solver') {
+      url = postURL + '/routing';
+    } else if (solver.name == 'Schedule Solver') {
+      url = postURL + '/scheduling';
+    }
+    axios.post(url, {
       data: resp,
     }).then((response)=> {
       const solver = findSolverInstance();
@@ -672,6 +786,6 @@ function escapeHtml(unsafe) {
 
 
 const returnEditorNodes = async () =>{
-  const solver = editor.nodes.find((node) => node.name == 'Solver');
+  const solver = findSolverInstance();
   return solver.data;
 };

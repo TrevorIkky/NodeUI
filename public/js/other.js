@@ -7,6 +7,7 @@ const appendToNode = document.getElementById('append-val');
 const openNodeMenu = document.getElementById('openNodeMenu');
 const surroundContainer = document.getElementById('surround-container');
 const closeNodeList = document.getElementById('close-node-list');
+const savePref = document.getElementById('save-pref');
 
 const acc = document.getElementsByClassName('accordion');
 let i;
@@ -120,8 +121,8 @@ function saveEditor() {
   const filename = `${Date.now()}.json`;
   if (window.navigator.msSaveOrOpenBlob) // IE10+
   {
-window.navigator.msSaveOrOpenBlob(file, filename);
-}
+    window.navigator.msSaveOrOpenBlob(file, filename);
+  }
   else { // Others
     const a = document.createElement('a');
     const url = URL.createObjectURL(file);
@@ -134,6 +135,58 @@ window.navigator.msSaveOrOpenBlob(file, filename);
       window.URL.revokeObjectURL(url);
     }, 0);
   }
+}
+
+function createTable(time, shifts) {
+  var body = document.getElementById("prefTable");
+  var tbl = document.createElement("table");
+  tbl.setAttribute("id", "prefSelection");
+  var tblBody = document.createElement("tbody");
+  var tblHead = document.createElement("thead");
+  for (var k = 0; k < time; k++) {
+    var head = document.createElement("th");
+    head.innerHTML = `day ${k + 1}`;
+    tblHead.appendChild(head);
+  }
+  tbl.appendChild(tblHead);
+  for (var j = 0; j < shifts; j++) {
+    var row = document.createElement("tr");
+    for (var i = 0; i < time; i++) {
+      var cell = document.createElement("td");
+      cell.onmousedown = function () {
+        if (this.className === "selected") {
+          this.className = "";
+        } else {
+          this.className = "selected";
+        }
+      }
+      row.appendChild(cell);
+    }
+    tblBody.appendChild(row);
+  }
+  tbl.appendChild(tblBody);
+  body.appendChild(tbl);
+}
+
+savePref.onclick = function() {
+  const table =  document.getElementById('prefTable');
+  var pSelect = document.getElementById("prefSelection");
+  var nodeid = table.getAttribute("data-node-id");
+  const employeeNode = editor.nodes.find((x) => x.id == nodeid);
+  var prefs = [];
+  for (var i = 0, row; row = pSelect.rows[i]; i++) {
+    var dayPref = [];
+    for (var j = 0, col; col = row.cells[j]; j++) {
+      if (col.className === "selected") {
+        dayPref.push(1);
+      } else {
+        dayPref.push(0);
+      }
+    }  
+    prefs.push(dayPref);
+  }
+  transPrefs = prefs[0].map((col, i) => prefs.map(row => row[i]));
+  employeeNode.data.prefs = transPrefs;
 }
 
 appendToNode.onclick = function() {
