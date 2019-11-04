@@ -1,0 +1,579 @@
+{
+  "id": "demo@0.1.0",
+  "nodes": {
+    "1": {
+      "id": 1,
+      "data": {
+        "num": 5
+      },
+      "inputs": {},
+      "outputs": {
+        "num": {
+          "connections": [
+            {
+              "node": 2,
+              "input": "shiftCount",
+              "data": {}
+            },
+            {
+              "node": 2,
+              "input": "dayCount",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -734.5,
+        -227.75
+      ],
+      "name": "Number"
+    },
+    "2": {
+      "id": 2,
+      "data": {},
+      "inputs": {
+        "shiftCount": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "num",
+              "data": {}
+            }
+          ]
+        },
+        "dayCount": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "num",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "outOne": {
+          "connections": [
+            {
+              "node": 3,
+              "input": "shifts",
+              "data": {}
+            },
+            {
+              "node": 4,
+              "input": "shifts",
+              "data": {}
+            },
+            {
+              "node": 5,
+              "input": "shifts",
+              "data": {}
+            },
+            {
+              "node": 7,
+              "input": "shiftCount",
+              "data": {}
+            }
+          ]
+        },
+        "outTwo": {
+          "connections": [
+            {
+              "node": 3,
+              "input": "days",
+              "data": {}
+            },
+            {
+              "node": 4,
+              "input": "days",
+              "data": {}
+            },
+            {
+              "node": 5,
+              "input": "days",
+              "data": {}
+            },
+            {
+              "node": 7,
+              "input": "dayCount",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -515.5,
+        -397.25
+      ],
+      "name": "Workplace"
+    },
+    "3": {
+      "id": 3,
+      "data": {
+        "prefs": [
+          [
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        ]
+      },
+      "inputs": {
+        "shifts": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outOne",
+              "data": {}
+            }
+          ]
+        },
+        "days": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outTwo",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "prefs": {
+          "connections": [
+            {
+              "node": 6,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -139.5,
+        -447.25
+      ],
+      "name": "Employee"
+    },
+    "4": {
+      "id": 4,
+      "data": {
+        "prefs": [
+          [
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            1
+          ]
+        ]
+      },
+      "inputs": {
+        "shifts": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outOne",
+              "data": {}
+            }
+          ]
+        },
+        "days": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outTwo",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "prefs": {
+          "connections": [
+            {
+              "node": 6,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -138.5,
+        -204.25
+      ],
+      "name": "Employee"
+    },
+    "5": {
+      "id": 5,
+      "data": {
+        "shifts": 5,
+        "days": 5,
+        "prefs": [
+          [
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "inputs": {
+        "shifts": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outOne",
+              "data": {}
+            }
+          ]
+        },
+        "days": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outTwo",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "prefs": {
+          "connections": [
+            {
+              "node": 6,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -139.5,
+        40.75
+      ],
+      "name": "Employee"
+    },
+    "6": {
+      "id": 6,
+      "data": {
+        "agg": [
+          [
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          [
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          ]
+        ]
+      },
+      "inputs": {
+        "inNum": {
+          "connections": [
+            {
+              "node": 5,
+              "output": "prefs",
+              "data": {}
+            },
+            {
+              "node": 4,
+              "output": "prefs",
+              "data": {}
+            },
+            {
+              "node": 3,
+              "output": "prefs",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "counterNum": {
+          "connections": [
+            {
+              "node": 7,
+              "input": "employeeCount",
+              "data": {}
+            }
+          ]
+        },
+        "aggregateNum": {
+          "connections": [
+            {
+              "node": 7,
+              "input": "shiftRequests",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        75.5,
+        -312.25
+      ],
+      "name": "Aggregate"
+    },
+    "7": {
+      "id": 7,
+      "data": {
+        "employeeCount": [
+          3
+        ],
+        "shiftCount": [
+          5
+        ],
+        "dayCount": [
+          5
+        ],
+        "meta": {
+          "locations": []
+        }
+      },
+      "inputs": {
+        "employeeCount": {
+          "connections": [
+            {
+              "node": 6,
+              "output": "counterNum",
+              "data": {}
+            }
+          ]
+        },
+        "shiftCount": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outOne",
+              "data": {}
+            }
+          ]
+        },
+        "dayCount": {
+          "connections": [
+            {
+              "node": 2,
+              "output": "outTwo",
+              "data": {}
+            }
+          ]
+        },
+        "shiftRequests": {
+          "connections": [
+            {
+              "node": 6,
+              "output": "aggregateNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": []
+        }
+      },
+      "position": [
+        382.5,
+        -282.25
+      ],
+      "name": "Schedule Solver"
+    }
+  },
+  "comments": []
+}
+
