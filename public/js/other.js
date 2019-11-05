@@ -143,14 +143,18 @@ function createTable(time, shifts) {
   tbl.setAttribute("id", "prefSelection");
   var tblBody = document.createElement("tbody");
   var tblHead = document.createElement("thead");
+  tblHead.appendChild(document.createElement('th'));
   for (var k = 0; k < time; k++) {
     var head = document.createElement("th");
-    head.innerHTML = `day ${k + 1}`;
+    head.innerHTML = `Day ${k + 1}`;
     tblHead.appendChild(head);
   }
   tbl.appendChild(tblHead);
   for (var j = 0; j < shifts; j++) {
     var row = document.createElement("tr");
+    var head = document.createElement("th");
+    head.innerHTML = `Shift ${j + 1}`;
+    row.appendChild(head);
     for (var i = 0; i < time; i++) {
       var cell = document.createElement("td");
       cell.onmousedown = function () {

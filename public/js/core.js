@@ -9,7 +9,6 @@ arraySocket.combineWith(anyTypeSocket);
 
 const postURL = 'http://localhost:3000'
 
-
 const vueControlComponent = {
   props: ['readonly', 'emitter', 'ikey', 'getData', 'putData', 'inputtype'],
   template: '<input type="inputtype" :readonly="readonly" :value="value" @input="change($event)" @dblclick.stop="" @pointerdown.stop="" @pointermove.stop=""/>',
@@ -206,14 +205,14 @@ const vueEmbedButtonComponents = {
     embed(event) {
       const solver = findSolverInstance();
       setTimeout(()=>{
-        axios.get('/embed/' + solver.data.problemId).then((response)=> {
+        axios.get('/embed/' + solver.data.result).then((response)=> {
           const rawHTML = response.data["embedding"];
           const embed = document.getElementById('embed');
           embed.innerHTML = escapeHtml(rawHTML);
           const modal = document.getElementById('embedModal');
           var instance = M.Modal.getInstance(modal);
-          PR.prettyPrintOne();
           instance.open();
+          PR.prettyPrint();
         }).catch( (error)=> {
           console.log(error);
         });
@@ -271,7 +270,7 @@ class MapOutputComponent extends Rete.Component {
   }
   worker(node, inputs, outputs) {
     console.log(inputs["location"]);
-    node.data.location =  inputs["location"].length ? inputs['location'][0] : '' ;
+    node.data.location =  inputs["location"] ? '/results/' + inputs['location'] : '' ;
   }
 }
 
@@ -741,7 +740,6 @@ const findSolverInstance = () => {
 }
 
 const applyChanges = (resp) =>{
-  console.log(resp);
   const solver = findSolverInstance();
   var url;
   /*

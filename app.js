@@ -148,6 +148,8 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/embed/:id', (req, res) => {
+  var template
+  console.log(req.params.id)
   if(req.params.id.startsWith('routing')) {
     template = 'map.output.njk';
   }
@@ -166,12 +168,16 @@ app.get('/routing/:id', getRoutingResults, (req, res) => {
 });
 
 app.get('/results/:id', (req, res) => {
+  if (req.params.id.startsWith('routing')) {
   const vals = {
     problemId: req.params.id,
     resultsURL: '/routing/'+ req.params.id,
     accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
   };
   res.render('map.output.njk', vals);
+  } else if (req.params.id.startsWith('scheduling')) {
+    res.status(200);
+  };
 });
 
 app.post('/routing', (req, res) => {

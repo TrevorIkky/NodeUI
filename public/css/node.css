@@ -137,7 +137,9 @@ textarea {
     height: 40px;
 }
 
-
+.control button {
+  font-family: 'Nunito Sans', sans-serif !important;
+}
 
 /* The Modal (background) */
 
@@ -559,8 +561,16 @@ textarea {
   --path-color: green !important;
 }
 
-.selected {
+#prefTable .selected {
     background: lightBlue
+}
+
+#embed {
+  white-space: pre-wrap;
+}
+
+#embedModal {
+  overflow-x: hidden !important;
 }
 
 #prefTable table, th, td {
