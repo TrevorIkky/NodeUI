@@ -115,9 +115,11 @@ function openModal(key, nodeid) {
 // https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
 function saveEditor() {
   M.toast({html: 'Saving Editor State',
-    classes: 'rounded status'}, 10000);
-  const data = editor.toJSON();
-  const file = new Blob([data], {type: 'aplication/json'});
+    classes: 'rounded status'}, 5000);
+  const editorData = JSON.stringify(editor.toJSON(), null, 2);
+  console.log('Saving');
+  console.log(editorData);
+  const file = new Blob([editorData], {type: 'aplication/json'});
   const filename = `${Date.now()}.json`;
   if (window.navigator.msSaveOrOpenBlob) // IE10+
   {
