@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+from __future__ import print_function
+from ortools.sat.python import cp_model
+import json
+import sys
+
+def main():
+    # This program tries to find an optimal assignment of nurses to shifts
+    # (3 shifts per day, for 7 days), subject to some constraints (see below).
+    # Each nurse can request to be assigned to specific shifts.
+    # The optimal assignment maximizes the number of fulfilled shift requests.
+    num_employees = {{ employeeCount }}
+    num_shifts = {{ shiftCount }}
+    num_days = {{ dayCount }}
+    all_employees = range(num_employees)
+    all_shifts = range(num_shifts)
+    all_days = range(num_days)
+    {% if shiftRequests %}
+shift_requests =  {{ shiftRequests | dump }}
+    {% endif %}
+    # Creates the model.
+    model = cp_model.CpModel()
+
+    # Creates shift variables.
+    # shifts[(n, d, s)]: nurse 'n' works shift 's' on day 'd'.
+    shifts = {}
+    for n in all_employees:
+        for d in all_days:
+            for s in all_shifts:
+                shifts[(n, d,
+                        s)] = model.NewBoolVar('shift_n%id%is%i' % (n, d, s))
+
+    # Each shift is assigned to exactly one nurse in .
+    for d in all_days:
+        for s in all_shifts:
+            model.Add(sum(shifts[(n, d, s)] for n in all_employees) == 1)
+
+    # Each nurse works at most one shift per day.
+    for n in all_employees:
+        for d in all_days:
+            model.Add(sum(shifts[(n, d, s)] for s in all_shifts) <= 1)
+
+    # min_shifts_assigned is the largest integer such that every nurse can be
+    # assigned at least that number of shifts.
+    min_shifts_per_nurse = (num_shifts * num_days) // num_employees
+    max_shifts_per_nurse = min_shifts_per_nurse + 1
+    for n in all_employees:
+        num_shifts_worked = sum(
+            shifts[(n, d, s)] for d in all_days for s in all_shifts)
+        model.Add(min_shifts_per_nurse <= num_shifts_worked)
+        model.Add(num_shifts_worked <= max_shifts_per_nurse)
+
+    {% if shiftRequests %}
+    model.Maximize(
+        sum(shift_requests[n][d][s] * shifts[(n, d, s)] for n in all_employees
+            for d in all_days for s in all_shifts))
+    {% endif %}
+    # Creates the solver and solve.
+    solver = cp_model.CpSolver()
+    solver.Solve(model)
+    result = dict()
+    alloc = []
+    for d in all_days:
+        day = [0 for _ in all_shifts]
+        for n in all_employees:
+            for s in all_shifts:
+                if solver.Value(shifts[(n, d, s)]) == 1:
+                    day[s] = n
+        alloc.append(day)
+    result['solver_time'] = solver.WallTime()
+    result['allocation'] = alloc
+    {% if shiftRequests %}
+result['fulfillment_ratio'] = solver.ObjectiveValue() / (num_employees * min_shifts_per_nurse)
+    {% endif %}
+# print(json.dumps(result))
+    with open(sys.argv[1], "w") as ofile:
+        ofile.write(json.dumps(result))
+
+if __name__ == '__main__':
+    main()

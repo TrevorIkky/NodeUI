@@ -137,7 +137,9 @@ textarea {
     height: 40px;
 }
 
-
+.control button {
+  font-family: 'Nunito Sans', sans-serif !important;
+}
 
 
 .menu-options{
@@ -445,4 +447,45 @@ textarea {
 .context-menu .item:hover {
   background-color: #e5e5e5 !important;
   color: #211717 !important;
+}
+
+.input-number path {
+  --path-color: green !important;
+}
+
+#prefTable .selected {
+    background: lightBlue
+}
+
+#embed {
+  white-space: pre-wrap;
+}
+
+#embedModal {
+  overflow-x: hidden !important;
+}
+
+.prefTable table, th, td {
+  border: 1px solid black !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
+.prefTable th, td {
+  height: 75px !important;
+}
+
+#helpModal ol {
+  padding-left: 15px !important;
+}
+
+#helpModal figure img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#helpModal figcaption {
+  text-align:center;
+  padding-top: 15px;
 }

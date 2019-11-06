@@ -243,13 +243,18 @@ app.get('/embed/:id', (req, res) => {
 app.get('/routing/:id', getRoutingResults, (req, res) => {
   res.json(res.results);
 });
+
 app.get('/results/:id', (req, res) => {
+  if (req.params.id.startsWith('routing')) {
   const vals = {
     problemId: req.params.id,
     resultsURL: '/routing/'+ req.params.id,
     accessToken: 'pk.eyJ1IjoiaWtreTExMSIsImEiOiJjazE3aGV1dDgwNTl4M2lyMmFzZ3lmMmdyIn0.ri7326moGLA5Bri_hYzSCQ',
   };
   res.render('map.output.njk', vals);
+  } else if (req.params.id.startsWith('scheduling')) {
+    res.status(200);
+  };
 });
 
 app.post('/routing', (req, res) => {
@@ -280,7 +285,38 @@ app.post('/routing', (req, res) => {
     const resultsObj = new Results.Routing(results);
     resultsObj.save().then(()=>{
       console.log(results);
-      res.status(201).location('/routing/' + base).send();
+      res.status(201).location('/routing/' + results["problemId"]).send();
+    }).catch((err)=>{
+      console.log(err);
+      res.status(422).json({ message: "Could not save results"});;
+    });
+  });
+});
+
+app.get('/scheduling/:id', getSchedulingResults, (req, res) => {
+  res.json(res.results);
+});
+
+app.post('/scheduling', (req, res) => {
+  const data = req.body.data;
+  console.log(data);
+  const vals = {
+    employeeCount: data["employeeCount"][0],
+    shiftCount: data["shiftCount"][0],
+    dayCount: data["dayCount"][0],
+  };
+  if (data["shiftRequests"].length > 0) {
+    vals["shiftRequests"] = data["shiftRequests"][0];
+  }
+  template = 'sched.py.njk';
+  const renderedTemplate = nunjucks.render(template, vals);
+  const base = util.create_source('scheduling', renderedTemplate);
+  util.compile_and_run(base, function(results) {
+    results["problemId"] = base.split('/')[2];
+    const resultsObj = new Results.Scheduling(results);
+    resultsObj.save().then(()=>{
+      console.log(results);
+      res.status(201).location('/scheduling/' + results["problemId"]).send();
     }).catch((err)=>{
       console.log(err);
       res.status(422).json({message: 'Could not save results'}); ;
@@ -302,6 +338,24 @@ async function getRoutingResults(req, res, next) {
     }
   } catch (err) {
     return res.status(500).json({message: err.message});
+  }
+
+  res.results = searchedResult;
+  next();
+}
+
+async function getSchedulingResults(req, res, next) {
+  let results;
+  let searchedResult;
+  try {
+    results = await Results.Scheduling.find({problemId: req.params.id}, (err, result)=>{
+      searchedResult = result;
+    });
+    if (results == null) {
+      return res.status(404).json({ message: "Cannot find problem results"});
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message});
   }
 
   res.results = searchedResult;

@@ -12,6 +12,14 @@ const routingSchema = new mongoose.Schema({
   locations: [[Number]],
 });
 
-module.exports =  mongoose.model('routings', routingSchema);
+const schedulingSchema = new mongoose.Schema({
+  problemId: String,
+  solver_time: Number,
+  fulfillment_ratio: Number,
+  allocation: [[Number]]
+});
 
-
+module.exports = {
+  Routing: mongoose.model('RoutingSchema', routingSchema),
+  Scheduling: mongoose.model('SchedulingSchema', schedulingSchema),
+};

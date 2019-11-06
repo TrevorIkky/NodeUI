@@ -7,6 +7,7 @@ const appendToNode = document.getElementById('append-val');
 const openNodeMenu = document.getElementById('openNodeMenu');
 const surroundContainer = document.getElementById('surround-container');
 const closeNodeList = document.getElementById('close-node-list');
+const savePref = document.getElementById('save-pref');
 
 const acc = document.getElementsByClassName('accordion');
 let i;
@@ -114,14 +115,16 @@ function openModal(key, nodeid) {
 // https://stackoverflow.com/questions/13405129/javascript-create-and-save-file
 function saveEditor() {
   M.toast({html: 'Saving Editor State',
-    classes: 'rounded status'}, 10000);
-  const data = editor.toJSON();
-  const file = new Blob([data], {type: 'aplication/json'});
+    classes: 'rounded status'}, 5000);
+  const editorData = JSON.stringify(editor.toJSON(), null, 2);
+  console.log('Saving');
+  console.log(editorData);
+  const file = new Blob([editorData], {type: 'aplication/json'});
   const filename = `${Date.now()}.json`;
   if (window.navigator.msSaveOrOpenBlob) // IE10+
   {
-window.navigator.msSaveOrOpenBlob(file, filename);
-}
+    window.navigator.msSaveOrOpenBlob(file, filename);
+  }
   else { // Others
     const a = document.createElement('a');
     const url = URL.createObjectURL(file);
@@ -134,6 +137,95 @@ window.navigator.msSaveOrOpenBlob(file, filename);
       window.URL.revokeObjectURL(url);
     }, 0);
   }
+}
+
+function createTable(time, shifts) {
+  var body = document.getElementById("prefTable");
+  var tbl = document.createElement("table");
+  tbl.setAttribute("id", "prefSelection");
+  tbl.setAttribute("class", "prefTable");
+  var tblBody = document.createElement("tbody");
+  var tblHead = document.createElement("thead");
+  tblHead.appendChild(document.createElement('th'));
+  for (var k = 0; k < time; k++) {
+    var head = document.createElement("th");
+    head.innerHTML = `Day ${k + 1}`;
+    tblHead.appendChild(head);
+  }
+  tbl.appendChild(tblHead);
+  for (var j = 0; j < shifts; j++) {
+    var row = document.createElement("tr");
+    var head = document.createElement("th");
+    head.innerHTML = `Shift ${j + 1}`;
+    row.appendChild(head);
+    for (var i = 0; i < time; i++) {
+      var cell = document.createElement("td");
+      cell.onmousedown = function () {
+        if (this.className === "selected") {
+          this.className = "";
+        } else {
+          this.className = "selected";
+        }
+      }
+      row.appendChild(cell);
+    }
+    tblBody.appendChild(row);
+  }
+  tbl.appendChild(tblBody);
+  body.appendChild(tbl);
+}
+
+function createOutputTable(time, shifts, allocation) {
+  console.log(time);
+  console.log(shifts);
+  var body = document.getElementById("prefOutputTable");
+  var tbl = document.createElement("table");
+  tbl.setAttribute("class", "prefTable");
+  var tblBody = document.createElement("tbody");
+  var tblHead = document.createElement("thead");
+  tblHead.appendChild(document.createElement('th'));
+  for (var k = 0; k < time; k++) {
+    var head = document.createElement("th");
+    head.innerHTML = `Day ${k + 1}`;
+    tblHead.appendChild(head);
+  }
+  tbl.appendChild(tblHead);
+  for (var j = 0; j < shifts; j++) {
+    var row = document.createElement("tr");
+    var head = document.createElement("th");
+    head.innerHTML = `Shift ${j + 1}`;
+    row.appendChild(head);
+    for (var i = 0; i < time; i++) {
+      var cell = document.createElement("td");
+      cell.appendChild(document.createTextNode(
+        `Employee ${allocation[i][j]}`));
+      row.appendChild(cell);
+    }
+    tblBody.appendChild(row);
+  }
+  tbl.appendChild(tblBody);
+  body.appendChild(tbl);
+}
+
+savePref.onclick = function() {
+  const table =  document.getElementById('prefTable');
+  var pSelect = document.getElementById("prefSelection");
+  var nodeid = table.getAttribute("data-node-id");
+  const employeeNode = editor.nodes.find((x) => x.id == nodeid);
+  var prefs = [];
+  for (var i = 0, row; row = pSelect.rows[i]; i++) {
+    var dayPref = [];
+    for (var j = 0, col; col = row.cells[j]; j++) {
+      if (col.className === "selected") {
+        dayPref.push(1);
+      } else {
+        dayPref.push(0);
+      }
+    }  
+    prefs.push(dayPref);
+  }
+  transPrefs = prefs[0].map((col, i) => prefs.map(row => row[i]));
+  employeeNode.data.prefs = transPrefs;
 }
 
 appendToNode.onclick = function() {

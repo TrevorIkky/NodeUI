@@ -9,25 +9,26 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
+        "@fullcalendar/core": "^4.3.1",
         "bcrypt": "^3.0.6",
         "body-parser": "^1.19.0",
         "client-sessions": "^0.8.0",
         "ejs": "^2.7.1",
         "express": "^4.17.1",
-        "mapbox-gl": "^1.4.1",
-        "mongoose": "^5.7.6",
+        "mapbox-gl": "^1.5.0",
+        "mongoose": "^5.7.7",
         "nunjucks": "^3.2.0",
         "randomstring": "^1.1.5",
-        "rete": "^1.4.1",
+        "rete": "^1.4.2",
         "rete-connection-plugin": "^0.8.3",
         "rete-vue-render-plugin": "^0.4.0",
         "tmp": "^0.1.0"
     },
     "devDependencies": {
-        "dotenv": "^8.1.0",
-        "eslint": "^6.5.1",
+        "dotenv": "^8.2.0",
+        "eslint": "^6.6.0",
         "eslint-config-google": "^0.14.0",
-        "nodemon": "^1.19.2"
+        "nodemon": "^1.19.4"
     },
     "author": "",
     "license": "ISC"
