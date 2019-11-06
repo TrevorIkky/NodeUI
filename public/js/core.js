@@ -7,7 +7,7 @@ numSocket.combineWith(anyTypeSocket);
 stringSocket.combineWith(anyTypeSocket);
 arraySocket.combineWith(anyTypeSocket);
 
-const postURL = 'http://localhost:3000'
+const postURL = 'http://localhost:3000';
 
 
 const vueControlComponent = {
@@ -83,29 +83,31 @@ const vueTextControl = {
   data() {
     return {
       value: '',
-    }
+    };
   },
   methods: {
-    change(e){
+    change(e) {
       this.value = e.target.value;
       this.update();
     },
     update() {
-      if (this.ikey)
+      if (this.ikey) {
         this.putData(this.ikey, this.value)
+        ;
+      };
       this.emitter.trigger('process');
-    }
+    },
   },
   mounted() {
     this.value = this.getData(this.ikey);
-  }
+  },
 };
 
 class StringControl extends Rete.Control {
   constructor(emitter, key, readonly) {
     super(key);
     this.component = vueTextControl;
-    this.props = { emitter, ikey: key, readonly };
+    this.props = {emitter, ikey: key, readonly};
   }
   setValue(val) {
     this.vueContext.value = val;
@@ -207,11 +209,11 @@ const vueEmbedButtonComponents = {
       const solver = findSolverInstance();
       setTimeout(()=>{
         axios.get('/embed/' + solver.data.problemId).then((response)=> {
-          const rawHTML = response.data["embedding"];
+          const rawHTML = response.data['embedding'];
           const embed = document.getElementById('embed');
           embed.innerHTML = escapeHtml(rawHTML);
           const modal = document.getElementById('embedModal');
-          var instance = M.Modal.getInstance(modal);
+          const instance = M.Modal.getInstance(modal);
           PR.prettyPrintOne();
           instance.open();
         }).catch( (error)=> {
@@ -242,7 +244,7 @@ const vueMapOutputButtonComponents = {
   },
   methods: {
     open(event) {
-      var location = this.emitter.nodes.find(n => n.id == this.nodeid).data.location
+      const location = this.emitter.nodes.find((n) => n.id == this.nodeid).data.location;
       window.open(location);
     },
   },
@@ -265,13 +267,13 @@ class MapOutputComponent extends Rete.Component {
     super(name);
   }
   builder(node) {
-    return node.addInput(new Rete.Input('location', 'Location',stringSocket))
+    return node.addInput(new Rete.Input('location', 'Location', stringSocket))
         .addControl(new MapOutputButtonControl(this.editor, 'mapsButton', node.id))
-        .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id))
+        .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id));
   }
   worker(node, inputs, outputs) {
-    console.log(inputs["location"]);
-    node.data.location =  inputs["location"].length ? inputs['location'][0] : '' ;
+    console.log(inputs['location']);
+    node.data.location = inputs['location'].length ? inputs['location'][0] : '';
   }
 }
 
@@ -289,16 +291,16 @@ class LogComponent extends Rete.Component {
   }
 }
 class DebugComponent extends Rete.Component {
-  constructor(){
+  constructor() {
     super('Debug');
   }
 
-  builder(node){
+  builder(node) {
     node.addOutput(new Rete.Output('res', 'res', stringSocket));
     node.addControl(new StringControl(this.editor, 'text'));
   }
   worker(node, inputs, outputs) {
-    outputs["res"] = node.data.text;
+    outputs['res'] = node.data.text;
   }
   setValue(val) {
     this.vueContext.value = val;
@@ -482,7 +484,7 @@ class CalculateDistance extends Rete.Component {
         const options = {units: 'kilometers'};
         const distance = turf.distance(from, element, options);
         return Math.floor(distance);
-      })
+      });
       console.log(distM);
       distanceArr.push(distM);
     });
@@ -501,7 +503,7 @@ const calcDist = document.getElementById('calc-distance');
 const mapOutput = document.getElementById('map-output');
 const routeSolver = document.getElementById('route-solver');
 const debug = document.getElementById('debug');
-
+const engine = new Rete.Engine('demo@0.1.0');
 (async () => {
   const components = [new NumComponent(),
     new AddComponent(),
@@ -524,7 +526,7 @@ const debug = document.getElementById('debug');
   editor.use(HistoryPlugin);
   editor.use(ConnectionMasteryPlugin.default);
 
-  const engine = new Rete.Engine('demo@0.1.0');
+  
 
   components.map((c) => {
     editor.register(c);
@@ -550,15 +552,17 @@ const debug = document.getElementById('debug');
 
   // TODO...find inprovements to avoid repetition
 
-  document.getElementById('saveNodes').addEventListener('click', async()=>{
-   axios.post('http://localhost:3000/save', {
-     data:  await JSON.stringify(editor.toJSON()),
-   }).then((resp)=>{
-     console.log(resp);
-   }).catch((error)=>{
-     console.log(error);
-   })
-  })
+  document.getElementById('saveNodes').addEventListener('click', async ()=>{
+    axios.post('http://localhost:3000/save', {
+      data: await JSON.stringify(editor.toJSON()),
+      name: document.getElementById('projectName').value,
+    }).then((resp)=>{
+      console.log(resp);
+      M.toast({html: `${resp.data}`});
+    }).catch((error)=>{
+      M.toast({html: 'There was an error!'});
+    });
+  });
 
   add.addEventListener('click', async ()=>{
     const an = await components[1].createNode({num: 2});
@@ -610,10 +614,10 @@ $('#build-solution').on('click', async ()=>{
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  var elems = document.querySelectorAll('.modal');
-  var instances = M.Modal.init(elems, {
+  const elems = document.querySelectorAll('.modal');
+  const instances = M.Modal.init(elems, {
     onOpenEnd: () => {
-      map.resize(); 
+      map.resize();
     },
   });
 });
@@ -621,17 +625,17 @@ document.addEventListener('DOMContentLoaded', function() {
 // Extract all locations from package nodes
 const findLocations = (nodes) => {
   return nodes.filter((node) => node.name == 'Package')
-    .map((elem) => {
-      const coords = elem.data.latlngNode.split(',', 2);
-      return coords.map(parseFloat);
-    });
+      .map((elem) => {
+        const coords = elem.data.latlngNode.split(',', 2);
+        return coords.map(parseFloat);
+      });
 };
 
 const findSolverInstance = () => {
-  const solverNames = ['Solver']
+  const solverNames = ['Solver'];
   const solver = editor.nodes.find((node) => solverNames.includes(node.name));
   return solver;
-}
+};
 
 const applyChanges = (resp) =>{
   console.log(resp);
@@ -639,9 +643,9 @@ const applyChanges = (resp) =>{
    * meta field contains information that is passed on to
    * be stored together with the model's results
    */
-  resp["meta"] = {
-    locations:findLocations(editor.nodes)
-  }
+  resp['meta'] = {
+    locations: findLocations(editor.nodes),
+  };
   setTimeout(()=>{
     axios.post(postURL + '/routing', {
       data: resp,
@@ -658,20 +662,56 @@ const applyChanges = (resp) =>{
 
 const generateRandomInteger = (min, max) =>{
   return Math.floor(min + Math.random()*(max + 1 - min));
-}
+};
 
 // https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
 function escapeHtml(unsafe) {
-    return unsafe
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
- }
+  return unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+}
 
 
 const returnEditorNodes = async () =>{
   const solver = editor.nodes.find((node) => node.name == 'Solver');
   return solver.data;
 };
+
+window.addEventListener('load', ()=>{
+  console.log(document.getElementById('data-holder').innerHTML);
+
+  if (document.getElementById('data-holder').innerHTML!='') {
+    axios.post(postURL + '/projectprogress', {
+      id: document.getElementById('data-holder').innerHTML,
+    }).then((response)=> {
+      buildNodes(response.data).then(()=>{
+      }).catch((err)=>{
+        console.log(err);
+      });
+    }).catch( (error)=> {
+      console.log(error);
+    });
+  } else {
+    console.log('Err');
+  }
+
+
+  /**  */
+});
+
+
+async function buildNodes(jsondata) {
+  const data = JSON.parse(jsondata);
+  await editor.fromJSON(data).then(() => {
+    editor.view.resize();
+    compile();
+  });
+}
+async function compile() {
+  await engine.abort();
+  await engine.process(editor.toJSON());
+}
+

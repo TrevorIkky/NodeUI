@@ -21,10 +21,11 @@
           <div class="grid">
           
             {% for result in results %}
-            <div id = "{{result.problemId}}" onclick = "openCanvas(this.id)" class="grid-item">
-                <p>{{result.solver_time}}</p>
-                    <p>{{result.problemId}}</p>
-                <p>{{result.total_distance}}</p>
+            <div  class="grid-item">
+              <div><i style = "cursor:pointer" id="{{result._id}}" onclick="toCanvas(this.id)"  class="material-icons">add</i></div>
+                <p>{{result._id}}</p>
+                    <p style="font-weight:bold">{{result.name}}</p>
+                <p>{{result.createdAt}}</p>
             </div>
             {% else %}
             <div>Empty!</div>
@@ -60,9 +61,10 @@ $("#search").keypress(function(e) {
         id: $("#search").val(),
       }).then((resp)=>{
         console.log(resp.data);
-         $(".grid-item").remove(); 
+         $(".grid-item").remove();
+         console.log(resp.data) ;
         resp.data.forEach(element=>{
-          $(`<div class = "grid-item"><p>${element.solver_time}</p></div>`).appendTo('.grid');
+          $(`<div class = "grid-item">    <div><i style = "cursor:pointer" id="${element._id}" onclick="toCanvas(this.id)"  class="material-icons">add</i></div><p>${element._id}</p><p>${element.name}</p></div>`).appendTo('.grid');
         })
        
       }).catch((error)=>{
@@ -71,9 +73,8 @@ $("#search").keypress(function(e) {
     }
 });
 
-function openCanvas(id){
-alert(id);
+function toCanvas(id) {
+    window.location = '/project/' + id;
 }
-
   </script>
 </html>

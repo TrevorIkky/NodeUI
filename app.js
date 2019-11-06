@@ -10,14 +10,16 @@ const randomString = require('randomstring');
 const fs = require('fs');
 const session = require('client-sessions');
 
+
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(session({
   cookieName: 'session',
   secret: randomString.generate(10),
-  duration: 30 * 60 * 1000,
+  duration: 60 * 60 * 1000,
   activeDuration: 60 * 60 * 1000,
 }));
 app.use(express.static('public'));
@@ -44,12 +46,72 @@ app.get('/', (req, res) => {
   const sessionData = {
     username: (req.session.username) ? (req.session.username) : 'Account',
     userid: (req.session.userid) ? (req.session.userid) : '',
+    progressid: '',
   };
   return res.render('index.html', sessionData);
 });
 
+app.get('/project/:id', (req, res)=>{
+  const sessionData = {
+    username: (req.session.username) ? (req.session.username) : 'Account',
+    userid: (req.session.userid) ? (req.session.userid) : '',
+    progressid: req.params.id,
+  };
+  return res.render('index.html', sessionData);
+});
+
+app.post('/projectprogress', (req, res)=>{
+  try {
+    Progress.find({_id: req.body.id}, (err, result)=>{
+      if (err) {
+        return res.send('Error');
+      }
+      fs.readFile(result[0].progressPath, 'utf8', (err, data)=>{
+        if (err) {
+          return res.send('Error');
+        }
+        return res.json(data);
+      });
+    });
+  } catch (error) {
+
+  }
+});
+
+
 app.get('/profile', (req, res)=>{
-  return res.render('profile.html');
+  if (req.session.userid != '' && req.session.userid) {
+    try {
+      Progress.find({userId: req.session.userid}, (err, result)=>{
+      }).then((result)=>{
+        // eslint-disable-next-line max-len
+        return res.render('profile.html', {projects: result, username: req.session.username, userid: req.session.userid, desc: req.session.desc});
+      }).catch((err)=>{
+        return res.send('Error');
+      });
+    } catch (err) {
+      return res.send('Error');
+    }
+  } else {
+    return res.send('Error');
+  };
+});
+
+app.post('/profileupdate', (req, res)=>{
+  if (req.session.userid != '' && req.session.userid) {
+    // eslint-disable-next-line max-len
+    console.log(req.body.desc);
+    const newValues = {$set: {profileUrl: req.body.profileUrl, username: req.body.username, about: req.body.desc}};
+    Users.where({_id: req.session.userid}).updateOne(newValues, (err, count)=>{
+      if (err) {
+        res.send('Err');
+      }
+      console.log(count);
+      return res.redirect('/profile');
+    });
+  } else {
+    res.send('Error');
+  }
 });
 
 app.get('/logout', (req, res)=>{
@@ -59,9 +121,20 @@ app.get('/logout', (req, res)=>{
 
 app.get('/discover', (req, res) => {
   try {
-    Results.find({}, (err, result)=>{
-    }).then((result)=>{
-      return res.render('discover.html', {results: result});
+    Progress.find({}, (err, result)=>{
+    }).then((result)=> {
+      const arr = result;
+      currentIndex = arr.length;
+      while (currentIndex !== 0) {
+        // Get a random index
+        const randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        // Swap the values
+        const temporaryValue = arr[currentIndex];
+        arr[currentIndex] = arr[randomIndex];
+        arr[randomIndex] = temporaryValue;
+      }
+      return res.render('discover.html', {results: arr});
     }).catch((error)=>{
       return res.send(error);
     });
@@ -75,13 +148,12 @@ app.post('/search', (req, res) => {
     let searchObj = {};
     if (req.body.id) {
       searchObj = {
-        $or: [
-          {solver_time: parseInt(req.body.id)},
-          {total_distance: parseInt(req.body.id)},
-        ],
+       
+        name: req.body.id,
+
       };
     }
-    Results.find(searchObj, (err, result)=>{
+    Progress.find(searchObj, (err, result)=>{
     }).then((result)=>{
       return res.json(result);
     }).catch((error)=>{
@@ -91,18 +163,24 @@ app.post('/search', (req, res) => {
     res.status(500).send(error);
   }
 });
+
 app.post('/save', (req, res)=>{
-  // Modifiy to accomodate a specific user
   const filePath = './saves/'+ randomString.generate(7)+ '.json';
   fs.writeFile(filePath, req.body.data, (error)=>{
+    console.log(req.session.userid);
     if (error) res.send(error);
     // eslint-disable-next-line max-len
-    const saveObj = new Progress({userId: 'empty', progressPath: filePath});
-    saveObj.save().then((result)=> {
-      return res.json(result);
-    }).catch((err)=>{
-      return res.send(err);
-    });
+    if (req.session.userid != '' && req.session.userid) {
+      // eslint-disable-next-line max-len
+      const saveObj = new Progress({userId: req.session.userid, name: req.body.name, createdAt: Date.now(), progressPath: filePath});
+      saveObj.save().then((result)=> {
+        return res.send('Successfully uploaded online!');
+      }).catch((err)=>{
+        return res.send('Error');
+      });
+    } else {
+      return res.send('Please log in  to save your work!');
+    }
   });
 });
 
@@ -132,7 +210,8 @@ app.post('/login/validate', (req, res) => {
         if (match) {
           req.session.username = user[0].username;
           req.session.userid = user[0]._id;
-          return res.send('OK');    
+          req.session.desc = user[0].about;
+          return res.send('OK');
         } else {
           return res.send('INVALID');
         }
@@ -148,7 +227,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/embed/:id', (req, res) => {
-  if(req.params.id.startsWith('routing')) {
+  if (req.params.id.startsWith('routing')) {
     template = 'map.output.njk';
   }
   const vals = {
@@ -158,7 +237,7 @@ app.get('/embed/:id', (req, res) => {
   };
 
   const renderedTemplate = nunjucks.render(template, vals);
-  res.json({ embedding: renderedTemplate });
+  res.json({embedding: renderedTemplate});
 });
 
 app.get('/routing/:id', getRoutingResults, (req, res) => {
@@ -196,15 +275,15 @@ app.post('/routing', (req, res) => {
   const renderedTemplate = nunjucks.render(template, vals);
   const base = util.create_source('routing', renderedTemplate);
   util.compile_and_run(base, function(results) {
-    results["problemId"] = base.split('/')[2];
-    results["locations"] = data.meta.locations;
+    results['problemId'] = base.split('/')[2];
+    results['locations'] = data.meta.locations;
     const resultsObj = new Results.Routing(results);
     resultsObj.save().then(()=>{
       console.log(results);
       res.status(201).location('/routing/' + base).send();
     }).catch((err)=>{
       console.log(err);
-      res.status(422).json({ message: "Could not save results"});;
+      res.status(422).json({message: 'Could not save results'}); ;
     });
   });
 });
@@ -219,10 +298,10 @@ async function getRoutingResults(req, res, next) {
       searchedResult = result;
     });
     if (results == null) {
-      return res.status(404).json({ message: "Cannot find problem results"});
+      return res.status(404).json({message: 'Cannot find problem results'});
     }
   } catch (err) {
-    return res.status(500).json({ message: err.message});
+    return res.status(500).json({message: err.message});
   }
 
   res.results = searchedResult;

@@ -9,7 +9,7 @@
         <div style="margin-left: 20px; margin-top:20px; margin-right:20px; width:90%; display:flex; justify-content: space-evenly;">
             <a class="tooltipped a-color" data-position="bottom" data-tooltip="Show Nodes"><i  class="material-icons">live_help</i> <a/>  
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Save current project" onclick="saveEditor()"><i class="material-icons md-18">save</i></a>
-            <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Cloud Upload"><i  id="saveNodes" class="material-icons">cloud_upload</i></a>
+            <a href="#cloudUploadModal" style="margin-left:20px; cursor:pointer" class="tooltipped a-color modal-trigger" data-position="bottom" data-tooltip="Cloud Upload"><i  class="material-icons">cloud_upload</i></a>
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Restore previous project" onclick="document.getElementById('file-input').click();"><i class="material-icons md-18">publish</i></a>
             <a id = "logout" style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Log Out" ><i class="material-icons md-18">exit_to_app</i></a>
             <i style="margin-left:20px; cursor:pointer" id="close-node-list" class="material-icons">close</i>
@@ -53,6 +53,21 @@
 
         </div>
     </div>
+    <p style = "display: none;" id = "data-holder">{{progressid}}</p>
+
+    
+  <div id="cloudUploadModal" class="modal">
+        <div class="modal-content">
+          <h5>Please give your project a name...</h5>
+          <div class="input-field col s12">
+                <input id="projectName" type="text" data-length="10">
+                <label for="projectName">Project Name</label>
+              </div>
+        <div class="modal-footer">
+          <a id = "saveNodes" href="#!" class="modal-close waves-effect waves-green btn-flat">DONE</a>
+        </div>
+      </div>
+  </div>
 
     <div id="mapModal" class="modal">
         <div id="map"></div>

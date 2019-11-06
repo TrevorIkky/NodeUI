@@ -10,6 +10,14 @@ const usersSchema = new mongoose.Schema({
   password: {
     type: String,
   },
+  profileUrl: {
+    type: String,
+    default: '...',
+  },
+  about: {
+    type: String,
+    default: 'About me goes here',
+  },
   created: Date,
 
 });
