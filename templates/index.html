@@ -7,7 +7,7 @@
 
     <div class="node-list" id="node-list">
         <div style="margin-left: 20px; margin-top:20px; margin-right:20px; width:90%; display:flex; justify-content: space-evenly;">
-            <a class="tooltipped a-color" data-position="bottom" data-tooltip="Show Nodes"><i  class="material-icons">live_help</i> <a/>  
+            <a class="tooltipped a-color modal-trigger" href="#helpModal" data-position="bottom" data-tooltip="Show Help"><i  class="material-icons">live_help</i> <a/>  
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Save current project" onclick="saveEditor()"><i class="material-icons md-18">save</i></a>
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Cloud Upload"><i  id="saveNodes" class="material-icons">cloud_upload</i></a>
             <a style="margin-left:20px; cursor:pointer" class="tooltipped a-color" data-position="bottom" data-tooltip="Restore previous project" onclick="document.getElementById('file-input').click();"><i class="material-icons md-18">publish</i></a>
@@ -54,21 +54,76 @@
         </div>
     </div>
 
+    <div id="helpModal" class="modal">
+      <div class="modal-content">
+        <h4>Help</h4>
+        <hr>
+        <h5>Getting Started</h5>
+        <p>To get started on a project right click anywhere on the canvas and choose a node from the
+        menu or pick a node from the sidebar. The sidebar can be accessed by clicking on the icon width
+        the <em>Nodes</em> tooltip</p>
+        <figure>
+        <img class="materialboxed" width="700" src="/images/home.png" alt="Home page image">
+        <figcaption><em>View after Right-Clicking or Opening the sidebar</em></figcaption>
+        </figure>
+        <br>
+        <h5>Working with Nodes</h5>
+        <p>There are a couple key functions available once you have added a node.</p>
+        <ol>
+          <li>Duplicating the node, available by right-clicking on it.</li>
+          <li>Deleting the node, also in the right-click menu.</li>
+          <li>Connecting nodes with compatible types together - Done by clicking between inputs/outputs</li>
+          <li>Interacting with the node through controls usually either buttons or input fields
+            on the node itself.</li>
+        </ol> 
+        <figure>
+          <img class="materialboxed" width="700" src="/images/nodes.png" alt="Node Iteraction">
+          <figcaption><em>Interacting with nodes</em></figcaption>
+        </figure>
+        <br>
+        <h5>Managing Projects</h5>
+        <p>Once your nodes are assembled there are a few options available.</p>
+        <ol>
+          <li>Building the model into a usable solution using the build button on the toolbar.</li>
+          <li>If you are logged in saving your nodes to your account resume work at a later time.</li>
+          <li>Saving your work locally.</li>
+        </ol> 
+        <p>If you build the model then results are produced through the various solver nodes and can be combined 
+        together with corresponding output nodes to display the results. Additionally if you wish to embed the
+        results of the model elsewhere then a dialog with the necessary code will popup when you click the
+        embed button on the output nodes</p>
+        <figure>
+          <img class="materialboxed" width="700" src="/images/model.png" alt="Node Iteraction">
+          <figcaption><em>Working with a model</em></figcaption>
+        </figure>
+      </div>
+
+    </div>
+
     <div id="mapModal" class="modal">
         <div id="map"></div>
         <a id="append-val" class="btn-floating btn-medium waves-effect waves-light green"><i class="material-icons">done</i></a>
         <a href="#mapModal" class="modal-close btn-floating btn-medium waves-effect waves-light red"><i class="material-icons">close</i></a>
     </div>
 
-    <div id="prefModal" class="modal">
+    <div id="prefModal" class="modal modal-fixed-footer">
+      <div class="modal-content">
       <h4>Click cell to select a prefered shift allocation</h4>
       <div id="prefTable"></div>
+      </div>
+      <div class="modal-footer">
       <a id="save-pref" href="#!" class="modal-close waves-effect waves-green btn">Save</a>
+      </div>
     </div>
 
-    <div id="embedModal" class="modal">
+    <div id="embedModal" class="modal modal-fixed-footer">
+      <div class="modal-content">
         <h4>Copy and Paste the following to embed the result elsewhere</h4>
         <pre class="prettyprint lang-html lang-css"><code id="embed"></code></pre>
+      </div>
+      <div class="modal-footer">
+      <a class="modal-close waves-effect waves-green btn">Close</a>
+      </div>
     </div>
 
     <div id="schedModal" class="modal">
