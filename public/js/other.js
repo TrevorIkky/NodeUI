@@ -143,6 +143,7 @@ function createTable(time, shifts) {
   var body = document.getElementById("prefTable");
   var tbl = document.createElement("table");
   tbl.setAttribute("id", "prefSelection");
+  tbl.setAttribute("class", "prefTable");
   var tblBody = document.createElement("tbody");
   var tblHead = document.createElement("thead");
   tblHead.appendChild(document.createElement('th'));
@@ -166,6 +167,38 @@ function createTable(time, shifts) {
           this.className = "selected";
         }
       }
+      row.appendChild(cell);
+    }
+    tblBody.appendChild(row);
+  }
+  tbl.appendChild(tblBody);
+  body.appendChild(tbl);
+}
+
+function createOutputTable(time, shifts, allocation) {
+  console.log(time);
+  console.log(shifts);
+  var body = document.getElementById("prefOutputTable");
+  var tbl = document.createElement("table");
+  tbl.setAttribute("class", "prefTable");
+  var tblBody = document.createElement("tbody");
+  var tblHead = document.createElement("thead");
+  tblHead.appendChild(document.createElement('th'));
+  for (var k = 0; k < time; k++) {
+    var head = document.createElement("th");
+    head.innerHTML = `Day ${k + 1}`;
+    tblHead.appendChild(head);
+  }
+  tbl.appendChild(tblHead);
+  for (var j = 0; j < shifts; j++) {
+    var row = document.createElement("tr");
+    var head = document.createElement("th");
+    head.innerHTML = `Shift ${j + 1}`;
+    row.appendChild(head);
+    for (var i = 0; i < time; i++) {
+      var cell = document.createElement("td");
+      cell.appendChild(document.createTextNode(
+        `Employee ${allocation[i][j]}`));
       row.appendChild(cell);
     }
     tblBody.appendChild(row);

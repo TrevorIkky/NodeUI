@@ -204,19 +204,40 @@ const vueEmbedButtonComponents = {
   methods: {
     embed(event) {
       const solver = findSolverInstance();
-      setTimeout(()=>{
-        axios.get('/embed/' + solver.data.result).then((response)=> {
-          const rawHTML = response.data["embedding"];
-          const embed = document.getElementById('embed');
-          embed.innerHTML = escapeHtml(rawHTML);
-          const modal = document.getElementById('embedModal');
-          var instance = M.Modal.getInstance(modal);
-          instance.open();
-          PR.prettyPrint();
-        }).catch( (error)=> {
-          console.log(error);
-        });
-      }, 1000);
+      if (solver.name.startsWith('routing')) {
+        setTimeout(()=>{
+          axios.get('/embed/' + solver.data.result).then((response)=> {
+            const rawHTML = response.data["embedding"];
+            const embed = document.getElementById('embed');
+            embed.innerHTML = escapeHtml(rawHTML);
+            const modal = document.getElementById('embedModal');
+            var instance = M.Modal.getInstance(modal);
+            instance.open();
+            PR.prettyPrint();
+          }).catch( (error)=> {
+            console.log(error);
+          });
+        }, 1000);
+      } else {
+        const solver = findSolverInstance();
+        const time = solver.data.dayCount;
+        const shifts = solver.data.shiftCount;
+        setTimeout(()=>{
+          axios.get(solver.data.result).then((response)=> {
+            const table =  document.getElementById('prefOutputTable');
+            table.innerHTML = ''
+            createOutputTable(time, shifts, response.data[0]["allocation"]);
+            const embed = document.getElementById('embed');
+            embed.innerHTML = escapeHtml(table.innerHTML);
+            const modal = document.getElementById('embedModal');
+            var instance = M.Modal.getInstance(modal);
+            instance.open();
+            PR.prettyPrint();
+          }).catch( (error)=> {
+            console.log(error);
+          });
+        }, 1000);
+      }
     },
   },
 };
@@ -231,7 +252,7 @@ class EmbedButtonControl extends Rete.Control {
       nodeid,
     };
   }
-}
+};
 
 const vueMapOutputButtonComponents = {
   props: ['emitter', 'key', 'nodeid'],
@@ -440,7 +461,7 @@ class ScheduleSolverComponent extends Rete.Component {
 
   worker(node, inputs, outputs) {
     node.data.employeeCount = inputs['employeeCount'];
-    node.data.shiftCount =inputs['shiftCount'];
+    node.data.shiftCount = inputs['shiftCount'];
     node.data.dayCount = inputs['dayCount'];
     node.data.shiftRequests = inputs['shiftRequests'];
     outputs['result'] = node.data.result;
@@ -517,6 +538,60 @@ class CalculateDistance extends Rete.Component {
   }
 }
 
+const vueScheduleOutputButtonComponent = {
+  props: ['emitter', 'key', 'nodeid'],
+  template: '<button @click="open($event)">Open Output Schedule</button>',
+  data() {
+    return;
+  },
+  methods: {
+    open(event) {
+      const schedModal = document.getElementById('schedModal');
+      const instance = M.Modal.getInstance(schedModal);
+      const solver = findSolverInstance();
+      const time = solver.data.dayCount;
+      const shifts = solver.data.shiftCount;
+      setTimeout(()=>{
+        axios.get(solver.data.result).then((response)=> {
+          console.log(response.data[0]);
+          const table =  document.getElementById('prefOutputTable');
+          table.innerHTML = ''
+          createOutputTable(time, shifts, response.data[0]["allocation"]);
+          instance.open();
+        }).catch( (error)=> {
+          console.log(error);
+        });
+      }, 1000);
+    },
+  },
+};
+
+class ScheduleOutputButtonControl extends Rete.Control {
+  constructor(emitter, key, nodeid) {
+    super(key);
+    this.component = vueScheduleOutputButtonComponent;
+    this.props = {
+      emitter,
+      key,
+      nodeid,
+    };
+  }
+}
+
+class ScheduleOutputComponent extends Rete.Component {
+  constructor(name = 'Schedule Output') {
+    super(name);
+  }
+  builder(node) {
+    return node.addInput(new Rete.Input('location', 'Location',stringSocket))
+        .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id))
+        .addControl(new ScheduleOutputButtonControl(this.editor, 'mapsButton', node.id))
+  }
+  worker(node, inputs, outputs) {
+    console.log(inputs["location"]);
+    node.data.location =  inputs["location"] ? '/results/' + inputs['location'] : '' ;
+  }
+}
 
 const vuePrefButtonComponent = {
   props: ['emitter', 'key', 'nodeid'],
@@ -617,6 +692,7 @@ const debug = document.getElementById('debug');
     new NumComponent(),
     new PackageComponent(),
     new RouteSolverComponent(),
+    new ScheduleOutputComponent(),
     new ScheduleSolverComponent(),
     new WorkComponent(),
   ];

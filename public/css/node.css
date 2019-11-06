@@ -573,12 +573,12 @@ textarea {
   overflow-x: hidden !important;
 }
 
-#prefTable table, th, td {
+.prefTable table, th, td {
   border: 1px solid black !important;
   padding-left: 10px !important;
   padding-right: 10px !important;
 }
 
-#prefTable th, td {
+.prefTable th, td {
   height: 75px !important;
 }
