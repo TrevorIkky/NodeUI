@@ -1,0 +1,1327 @@
+{
+  "id": "demo@0.1.0",
+  "nodes": {
+    "1": {
+      "id": 1,
+      "data": {
+        "latlngNode": "36.8167,-1.2833",
+        "sizeOutNode": 0
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -1259.0117504356858,
+        -687.2286932911763
+      ],
+      "name": "Package"
+    },
+    "2": {
+      "id": 2,
+      "data": {
+        "latlngNode": "35.5973,3.1191",
+        "sizeOutNode": 1
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -1249.6692123300863,
+        -244.16141732132598
+      ],
+      "name": "Package"
+    },
+    "3": {
+      "id": 3,
+      "data": {
+        "latlngNode": "37.15943,-0.72025",
+        "sizeOutNode": 8
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -1222.4527213153995,
+        205.03173709986095
+      ],
+      "name": "Package"
+    },
+    "4": {
+      "id": 4,
+      "data": {
+        "latlngNode": "38.05,-0.93333",
+        "sizeOutNode": 1
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -845.4134059597766,
+        -556.6379684376384
+      ],
+      "name": "Package"
+    },
+    "5": {
+      "id": 5,
+      "data": {
+        "latlngNode": "38.01667,-1.36667",
+        "sizeOutNode": 8
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -856.0970619984645,
+        -105.33801900480965
+      ],
+      "name": "Package"
+    },
+    "6": {
+      "id": 6,
+      "data": {
+        "latlngNode": "37.26667,-1.51667",
+        "sizeOutNode": 4
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -786.8271899225075,
+        388.1944050222454
+      ],
+      "name": "Package"
+    },
+    "7": {
+      "id": 7,
+      "data": {
+        "latlngNode": "40.872,0.352",
+        "sizeOutNode": 1
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -397.91841191429654,
+        -705.5383425580567
+      ],
+      "name": "Package"
+    },
+    "8": {
+      "id": 8,
+      "data": {
+        "latlngNode": "40.90028,-2.26861",
+        "sizeOutNode": 2
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -453.67667625157134,
+        -272.8113275900291
+      ],
+      "name": "Package"
+    },
+    "9": {
+      "id": 9,
+      "data": {
+        "latlngNode": "40.90028,-2.26861",
+        "sizeOutNode": 8
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        -424.3300258684182,
+        214.4951167035632
+      ],
+      "name": "Package"
+    },
+    "10": {
+      "id": 10,
+      "data": {
+        "latlngNode": "38.25194,-3.32917",
+        "sizeOutNode": 4
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        848.5565455296162,
+        -680.3005187600273
+      ],
+      "name": "Package"
+    },
+    "11": {
+      "id": 11,
+      "data": {
+        "latlngNode": "36.43333,-0.71667",
+        "sizeOutNode": 1
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        121.12893094356907,
+        -756.4860724097703
+      ],
+      "name": "Package"
+    },
+    "12": {
+      "id": 12,
+      "data": {
+        "latlngNode": "35.86667,-1.08333",
+        "sizeOutNode": 2
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        65.46071763308683,
+        -411.81401326261073
+      ],
+      "name": "Package"
+    },
+    "13": {
+      "id": 13,
+      "data": {
+        "latlngNode": "34.88333,-1",
+        "sizeOutNode": 4
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        154.90321741944763,
+        224.66377582005993
+      ],
+      "name": "Package"
+    },
+    "14": {
+      "id": 14,
+      "data": {
+        "latlngNode": "34.49,-0.55",
+        "sizeOutNode": 1
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        538.9736884347957,
+        274.1817844385208
+      ],
+      "name": "Package"
+    },
+    "15": {
+      "id": 15,
+      "data": {
+        "latlngNode": "35.28333,0.51667",
+        "sizeOutNode": 1
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        465.7269541189927,
+        -744.1026105024324
+      ],
+      "name": "Package"
+    },
+    "16": {
+      "id": 16,
+      "data": {
+        "latlngNode": "34.865,3.70861",
+        "sizeOutNode": 4
+      },
+      "inputs": {},
+      "outputs": {
+        "sizeOutNode": {
+          "connections": [
+            {
+              "node": 17,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        },
+        "locationOutNode": {
+          "connections": [
+            {
+              "node": 18,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        434.28457133847246,
+        -146.0005583970071
+      ],
+      "name": "Package"
+    },
+    "17": {
+      "id": 17,
+      "data": {
+        "agg": [
+          0,
+          1,
+          8,
+          1,
+          8,
+          4,
+          8,
+          1,
+          2,
+          4,
+          1,
+          4,
+          1,
+          4,
+          2,
+          1
+        ]
+      },
+      "inputs": {
+        "inNum": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 2,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 3,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 4,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 5,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 6,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 9,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 11,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 12,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 13,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 15,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 16,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 14,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 10,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 8,
+              "output": "sizeOutNode",
+              "data": {}
+            },
+            {
+              "node": 7,
+              "output": "sizeOutNode",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "counterNum": {
+          "connections": []
+        },
+        "aggregateNum": {
+          "connections": [
+            {
+              "node": 24,
+              "input": "packageArr",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1076.4606892658999,
+        -405.54801374078636
+      ],
+      "name": "Aggregate"
+    },
+    "18": {
+      "id": 18,
+      "data": {},
+      "inputs": {
+        "location": {
+          "connections": [
+            {
+              "node": 1,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 2,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 3,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 4,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 5,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 6,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 7,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 8,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 9,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 11,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 12,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 13,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 15,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 16,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 14,
+              "output": "locationOutNode",
+              "data": {}
+            },
+            {
+              "node": 10,
+              "output": "locationOutNode",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "matrix": {
+          "connections": [
+            {
+              "node": 24,
+              "input": "distanceArr",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1073.0224076387171,
+        -1.5416300822169138
+      ],
+      "name": "Calculate Distance"
+    },
+    "19": {
+      "id": 19,
+      "data": {
+        "num": 15
+      },
+      "inputs": {},
+      "outputs": {
+        "num": {
+          "connections": [
+            {
+              "node": 20,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        836.4473826794479,
+        350.9487651535571
+      ],
+      "name": "Number"
+    },
+    "20": {
+      "id": 20,
+      "data": {
+        "agg": [
+          15,
+          15,
+          15,
+          15
+        ]
+      },
+      "inputs": {
+        "inNum": {
+          "connections": [
+            {
+              "node": 21,
+              "output": "num",
+              "data": {}
+            },
+            {
+              "node": 19,
+              "output": "num",
+              "data": {}
+            },
+            {
+              "node": 22,
+              "output": "num",
+              "data": {}
+            },
+            {
+              "node": 23,
+              "output": "num",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "counterNum": {
+          "connections": [
+            {
+              "node": 24,
+              "input": "vehicleCount",
+              "data": {}
+            }
+          ]
+        },
+        "aggregateNum": {
+          "connections": [
+            {
+              "node": 24,
+              "input": "vehicleArr",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1371.241338232205,
+        90.99773395222381
+      ],
+      "name": "Aggregate"
+    },
+    "21": {
+      "id": 21,
+      "data": {
+        "num": 15
+      },
+      "inputs": {},
+      "outputs": {
+        "num": {
+          "connections": [
+            {
+              "node": 20,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1085.7228973130634,
+        374.4742156376095
+      ],
+      "name": "Number"
+    },
+    "22": {
+      "id": 22,
+      "data": {
+        "num": 15
+      },
+      "inputs": {},
+      "outputs": {
+        "num": {
+          "connections": [
+            {
+              "node": 20,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1229.9600678098966,
+        508.6116687647805
+      ],
+      "name": "Number"
+    },
+    "23": {
+      "id": 23,
+      "data": {
+        "num": 15
+      },
+      "inputs": {},
+      "outputs": {
+        "num": {
+          "connections": [
+            {
+              "node": 20,
+              "input": "inNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        911.6813553135744,
+        570.1490118315726
+      ],
+      "name": "Number"
+    },
+    "24": {
+      "id": 24,
+      "data": {
+        "packageSizes": [
+          [
+            0,
+            1,
+            8,
+            1,
+            8,
+            4,
+            8,
+            1,
+            2,
+            4,
+            1,
+            4,
+            1,
+            4,
+            2,
+            1
+          ]
+        ],
+        "distanceMatrix": [
+          [
+            [
+              0,
+              417,
+              62,
+              140,
+              133,
+              54,
+              472,
+              462,
+              462,
+              66,
+              107,
+              216,
+              235,
+              499,
+              267,
+              240
+            ],
+            [
+              417,
+              0,
+              385,
+              452,
+              481,
+              454,
+              634,
+              754,
+              754,
+              357,
+              380,
+              382,
+              238,
+              97,
+              355,
+              644
+            ],
+            [
+              62,
+              385,
+              0,
+              100,
+              111,
+              71,
+              423,
+              436,
+              436,
+              80,
+              147,
+              254,
+              236,
+              472,
+              297,
+              259
+            ],
+            [
+              140,
+              452,
+              100,
+              0,
+              38,
+              101,
+              332,
+              337,
+              337,
+              180,
+              243,
+              352,
+              333,
+              545,
+              397,
+              210
+            ],
+            [
+              133,
+              481,
+              111,
+              38,
+              0,
+              84,
+              350,
+              329,
+              329,
+              185,
+              240,
+              349,
+              347,
+              573,
+              398,
+              173
+            ],
+            [
+              54,
+              454,
+              71,
+              101,
+              84,
+              0,
+              432,
+              409,
+              409,
+              116,
+              160,
+              269,
+              286,
+              540,
+              320,
+              193
+            ],
+            [
+              472,
+              634,
+              423,
+              332,
+              350,
+              432,
+              0,
+              220,
+              220,
+              502,
+              570,
+              676,
+              621,
+              729,
+              714,
+              429
+            ],
+            [
+              462,
+              754,
+              436,
+              337,
+              329,
+              409,
+              220,
+              0,
+              0,
+              514,
+              569,
+              678,
+              670,
+              851,
+              728,
+              308
+            ],
+            [
+              462,
+              754,
+              436,
+              337,
+              329,
+              409,
+              220,
+              0,
+              0,
+              514,
+              569,
+              678,
+              670,
+              851,
+              728,
+              308
+            ],
+            [
+              66,
+              357,
+              80,
+              180,
+              185,
+              116,
+              502,
+              514,
+              514,
+              0,
+              71,
+              174,
+              169,
+              436,
+              216,
+              306
+            ],
+            [
+              107,
+              380,
+              147,
+              243,
+              240,
+              160,
+              570,
+              569,
+              569,
+              71,
+              0,
+              109,
+              158,
+              448,
+              160,
+              331
+            ],
+            [
+              216,
+              382,
+              254,
+              352,
+              349,
+              269,
+              676,
+              678,
+              678,
+              174,
+              109,
+              0,
+              144,
+              429,
+              60,
+              428
+            ],
+            [
+              235,
+              238,
+              236,
+              333,
+              347,
+              286,
+              621,
+              670,
+              670,
+              169,
+              158,
+              144,
+              0,
+              294,
+              131,
+              475
+            ],
+            [
+              499,
+              97,
+              472,
+              545,
+              573,
+              540,
+              729,
+              851,
+              851,
+              436,
+              448,
+              429,
+              294,
+              0,
+              391,
+              732
+            ],
+            [
+              267,
+              355,
+              297,
+              397,
+              398,
+              320,
+              714,
+              728,
+              728,
+              216,
+              160,
+              60,
+              131,
+              391,
+              0,
+              486
+            ],
+            [
+              240,
+              644,
+              259,
+              210,
+              173,
+              193,
+              429,
+              308,
+              308,
+              306,
+              331,
+              428,
+              475,
+              732,
+              486,
+              0
+            ]
+          ]
+        ],
+        "vehicles": [
+          4
+        ],
+        "vehicleCapacities": [
+          [
+            15,
+            15,
+            15,
+            15
+          ]
+        ]
+      },
+      "inputs": {
+        "packageArr": {
+          "connections": [
+            {
+              "node": 17,
+              "output": "aggregateNum",
+              "data": {}
+            }
+          ]
+        },
+        "distanceArr": {
+          "connections": [
+            {
+              "node": 18,
+              "output": "matrix",
+              "data": {}
+            }
+          ]
+        },
+        "vehicleCount": {
+          "connections": [
+            {
+              "node": 20,
+              "output": "counterNum",
+              "data": {}
+            }
+          ]
+        },
+        "vehicleArr": {
+          "connections": [
+            {
+              "node": 20,
+              "output": "aggregateNum",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {
+        "result": {
+          "connections": [
+            {
+              "node": 25,
+              "input": "location",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "position": [
+        1698.1499237872874,
+        -297.9333131939052
+      ],
+      "name": "Route Solver"
+    },
+    "25": {
+      "id": 25,
+      "data": {
+        "location": "/results/"
+      },
+      "inputs": {
+        "location": {
+          "connections": [
+            {
+              "node": 24,
+              "output": "result",
+              "data": {}
+            }
+          ]
+        }
+      },
+      "outputs": {},
+      "position": [
+        2038.396977015647,
+        -320.1411772202551
+      ],
+      "name": "Map Output"
+    }
+  },
+  "comments": []
+}

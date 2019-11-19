@@ -206,14 +206,14 @@ const vueEmbedButtonComponents = {
   methods: {
     embed(event) {
       const solver = findSolverInstance();
-      if (solver.name.startsWith('routing')) {
+      if (solver.name.startsWith('Route')) {
         setTimeout(()=>{
-          axios.get('/embed/' + solver.data.result).then((response)=> {
-            const rawHTML = response.data["embedding"];
+          axios.get('/embed/' + solver.data.problemId).then((response)=> {
+            const rawHTML = response.data['embedding'];
             const embed = document.getElementById('embed');
             embed.innerHTML = escapeHtml(rawHTML);
             const modal = document.getElementById('embedModal');
-            var instance = M.Modal.getInstance(modal);
+            const instance = M.Modal.getInstance(modal);
             instance.open();
             PR.prettyPrint();
           }).catch( (error)=> {
@@ -226,13 +226,13 @@ const vueEmbedButtonComponents = {
         const shifts = solver.data.shiftCount;
         setTimeout(()=>{
           axios.get(solver.data.result).then((response)=> {
-            const table =  document.getElementById('prefOutputTable');
-            table.innerHTML = ''
-            createOutputTable(time, shifts, response.data[0]["allocation"]);
+            const table = document.getElementById('prefOutputTable');
+            table.innerHTML = '';
+            createOutputTable(time, shifts, response.data[0]['allocation']);
             const embed = document.getElementById('embed');
             embed.innerHTML = escapeHtml(table.innerHTML);
             const modal = document.getElementById('embedModal');
-            var instance = M.Modal.getInstance(modal);
+            const instance = M.Modal.getInstance(modal);
             instance.open();
             PR.prettyPrint();
           }).catch( (error)=> {
@@ -264,7 +264,8 @@ const vueMapOutputButtonComponents = {
   },
   methods: {
     open(event) {
-      const location = this.emitter.nodes.find((n) => n.id == this.nodeid).data.location;
+      const solver = findSolverInstance();
+      const location = '/results/' + solver.data.problemId;
       window.open(location);
     },
   },
@@ -287,13 +288,13 @@ class MapOutputComponent extends Rete.Component {
     super(name);
   }
   builder(node) {
-    return node.addInput(new Rete.Input('location', 'Location',stringSocket))
+    return node.addInput(new Rete.Input('location', 'Location', stringSocket))
         .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id))
         .addControl(new MapOutputButtonControl(this.editor, 'mapsButton', node.id))
   }
   worker(node, inputs, outputs) {
-    console.log(inputs["location"]);
-    node.data.location =  inputs["location"] ? '/results/' + inputs['location'] : '' ;
+    console.log(inputs['location']);
+    node.data.location = inputs['location'] ? '/results/' + inputs['location'] : '';
   }
 }
 
@@ -556,9 +557,9 @@ const vueScheduleOutputButtonComponent = {
       setTimeout(()=>{
         axios.get(solver.data.result).then((response)=> {
           console.log(response.data[0]);
-          const table =  document.getElementById('prefOutputTable');
-          table.innerHTML = ''
-          createOutputTable(time, shifts, response.data[0]["allocation"]);
+          const table = document.getElementById('prefOutputTable');
+          table.innerHTML = '';
+          createOutputTable(time, shifts, response.data[0]['allocation']);
           instance.open();
         }).catch( (error)=> {
           console.log(error);
@@ -585,13 +586,13 @@ class ScheduleOutputComponent extends Rete.Component {
     super(name);
   }
   builder(node) {
-    return node.addInput(new Rete.Input('location', 'Location',stringSocket))
+    return node.addInput(new Rete.Input('location', 'Location', stringSocket))
         .addControl(new EmbedButtonControl(this.editor, 'embedButton', node.id))
         .addControl(new ScheduleOutputButtonControl(this.editor, 'mapsButton', node.id))
   }
   worker(node, inputs, outputs) {
-    console.log(inputs["location"]);
-    node.data.location =  inputs["location"] ? '/results/' + inputs['location'] : '' ;
+    console.log(inputs['location']);
+    node.data.location = inputs['location'] ? '/results/' + inputs['location'] : '' ;
   }
 }
 
@@ -608,8 +609,8 @@ const vuePrefButtonComponent = {
       const employeeNode = editor.nodes.find((x) => x.id == this.nodeid);
       const time = employeeNode.data.days;
       const shifts = employeeNode.data.shifts;
-      const table =  document.getElementById('prefTable');
-      table.innerHTML = ''
+      const table = document.getElementById('prefTable');
+      table.innerHTML = '';
       createTable(time, shifts);
       table.setAttribute('data-node-key', this.key);
       table.setAttribute('data-node-id', this.nodeid);
@@ -639,12 +640,12 @@ class EmployeeComponent extends Rete.Component {
     const days = new Rete.Input('days', 'Days', numSocket);
     const preference = new Rete.Output('prefs', 'Preferences', arraySocket);
     return node.addInput(shifts).addInput(days).addOutput(preference)
-        .addControl(new PrefButtonControl(this.editor, 'prefButton', node.id))
+        .addControl(new PrefButtonControl(this.editor, 'prefButton', node.id));
   }
   worker(node, inputs, outputs) {
-    node.data.shifts =  inputs['shifts'][0] ? inputs['shifts'][0] : 4 ;
-    node.data.days =  inputs['days'][0] ? inputs['days'][0] : 7 ;
-    outputs["prefs"] = node.data.prefs;
+    node.data.shifts = inputs['shifts'][0] ? inputs['shifts'][0] : 4;
+    node.data.days = inputs['days'][0] ? inputs['days'][0] : 7;
+    outputs['prefs'] = node.data.prefs;
   }
 }
 
@@ -677,9 +678,7 @@ const number = document.getElementById('number');
 const package = document.getElementById('package');
 const multiply = document.getElementById('multiply');
 const calcDist = document.getElementById('calc-distance');
-const mapOutput = document.getElementById('map-output');
 const routeSolver = document.getElementById('route-solver');
-const debug = document.getElementById('debug');
 const engine = new Rete.Engine('demo@0.1.0');
 (async () => {
   const components = [
@@ -708,7 +707,6 @@ const engine = new Rete.Engine('demo@0.1.0');
   editor.use(HistoryPlugin);
   editor.use(ConnectionMasteryPlugin.default);
 
-  
 
   components.map((c) => {
     editor.register(c);
@@ -788,7 +786,7 @@ const engine = new Rete.Engine('demo@0.1.0');
 
 
 $('#build-solution').on('click', async ()=>{
-  document.getElementById('progress-loader').style.height = '3px';
+  document.getElementById('progress-loader').style.height = '6px';
   // eslint-disable-next-line max-len
   await returnEditorNodes().then((resp) => {
     applyChanges(resp);
@@ -814,14 +812,14 @@ const findLocations = (nodes) => {
 };
 
 const findSolverInstance = () => {
-  const solverNames = ['Route Solver', 'Schedule Solver']
+  const solverNames = ['Route Solver', 'Schedule Solver'];
   const solver = editor.nodes.find((node) => solverNames.includes(node.name));
   return solver;
 };
 
 const applyChanges = (resp) =>{
   const solver = findSolverInstance();
-  var url;
+  let url;
   /*
    * meta field contains information that is passed on to
    * be stored together with the model's results
@@ -842,6 +840,8 @@ const applyChanges = (resp) =>{
       solver.data.result = response.headers.location;
       solver.data.problemId = response.headers.location.split('/')[2];
       document.getElementById('progress-loader').style.height = '0px';
+      M.toast({html: 'Computation Complete',
+        classes: 'rounded status'}, 5000);
     }).catch( (error)=> {
       console.log(error);
     });
@@ -885,9 +885,6 @@ window.addEventListener('load', ()=>{
   } else {
     console.log('Err');
   }
-
-
-  /**  */
 });
 
 

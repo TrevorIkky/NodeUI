@@ -55,7 +55,7 @@ document.getElementById('account').addEventListener('click', ()=>{
 });
 
 document.getElementById('logout').addEventListener('click', ()=>{
- window.location = '/logout';
+  window.location = '/logout';
 });
 
 document.getElementById('discover').addEventListener('click', ()=>{
@@ -121,11 +121,9 @@ function saveEditor() {
   console.log(editorData);
   const file = new Blob([editorData], {type: 'aplication/json'});
   const filename = `${Date.now()}.json`;
-  if (window.navigator.msSaveOrOpenBlob) // IE10+
-  {
+  if (window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveOrOpenBlob(file, filename);
-  }
-  else { // Others
+  } else { // Others
     const a = document.createElement('a');
     const url = URL.createObjectURL(file);
     a.href = url;
@@ -140,31 +138,31 @@ function saveEditor() {
 }
 
 function createTable(time, shifts) {
-  var body = document.getElementById("prefTable");
-  var tbl = document.createElement("table");
-  tbl.setAttribute("id", "prefSelection");
-  tbl.setAttribute("class", "prefTable");
-  var tblBody = document.createElement("tbody");
-  var tblHead = document.createElement("thead");
+  const body = document.getElementById('prefTable');
+  const tbl = document.createElement('table');
+  tbl.setAttribute('id', 'prefSelection');
+  tbl.setAttribute('class', 'prefTable');
+  let tblBody = document.createElement('tbody');
+  let tblHead = document.createElement('thead');
   tblHead.appendChild(document.createElement('th'));
-  for (var k = 0; k < time; k++) {
-    var head = document.createElement("th");
+  for (let k = 0; k < time; k++) {
+    let head = document.createElement('th');
     head.innerHTML = `Day ${k + 1}`;
     tblHead.appendChild(head);
   }
   tbl.appendChild(tblHead);
-  for (var j = 0; j < shifts; j++) {
-    var row = document.createElement("tr");
-    var head = document.createElement("th");
+  for (let j = 0; j < shifts; j++) {
+    let row = document.createElement('tr');
+    let head = document.createElement('th');
     head.innerHTML = `Shift ${j + 1}`;
     row.appendChild(head);
-    for (var i = 0; i < time; i++) {
-      var cell = document.createElement("td");
+    for (let i = 0; i < time; i++) {
+      let cell = document.createElement('td');
       cell.onmousedown = function () {
-        if (this.className === "selected") {
-          this.className = "";
+        if (this.className === 'selected') {
+          this.className = '';
         } else {
-          this.className = "selected";
+          this.className = 'selected';
         }
       }
       row.appendChild(cell);
@@ -178,27 +176,27 @@ function createTable(time, shifts) {
 function createOutputTable(time, shifts, allocation) {
   console.log(time);
   console.log(shifts);
-  var body = document.getElementById("prefOutputTable");
-  var tbl = document.createElement("table");
-  tbl.setAttribute("class", "prefTable");
-  var tblBody = document.createElement("tbody");
-  var tblHead = document.createElement("thead");
+  const body = document.getElementById('prefOutputTable');
+  const tbl = document.createElement('table');
+  tbl.setAttribute('class', 'prefTable');
+  const tblBody = document.createElement('tbody');
+  const tblHead = document.createElement('thead');
   tblHead.appendChild(document.createElement('th'));
-  for (var k = 0; k < time; k++) {
-    var head = document.createElement("th");
+  for (let k = 0; k < time; k++) {
+    let head = document.createElement('th');
     head.innerHTML = `Day ${k + 1}`;
     tblHead.appendChild(head);
   }
   tbl.appendChild(tblHead);
-  for (var j = 0; j < shifts; j++) {
-    var row = document.createElement("tr");
-    var head = document.createElement("th");
+  for (let j = 0; j < shifts; j++) {
+    let row = document.createElement('tr');
+    let head = document.createElement('th');
     head.innerHTML = `Shift ${j + 1}`;
     row.appendChild(head);
-    for (var i = 0; i < time; i++) {
-      var cell = document.createElement("td");
+    for (let i = 0; i < time; i++) {
+      let cell = document.createElement('td');
       cell.appendChild(document.createTextNode(
-        `Employee ${allocation[i][j]}`));
+          `Employee ${allocation[i][j]}`));
       row.appendChild(cell);
     }
     tblBody.appendChild(row);
@@ -208,25 +206,25 @@ function createOutputTable(time, shifts, allocation) {
 }
 
 savePref.onclick = function() {
-  const table =  document.getElementById('prefTable');
-  var pSelect = document.getElementById("prefSelection");
-  var nodeid = table.getAttribute("data-node-id");
+  const table = document.getElementById('prefTable');
+  const pSelect = document.getElementById('prefSelection');
+  const nodeid = table.getAttribute('data-node-id');
   const employeeNode = editor.nodes.find((x) => x.id == nodeid);
-  var prefs = [];
-  for (var i = 0, row; row = pSelect.rows[i]; i++) {
-    var dayPref = [];
-    for (var j = 0, col; col = row.cells[j]; j++) {
-      if (col.className === "selected") {
+  let prefs = [];
+  for (let i = 0, row; row = pSelect.rows[i]; i++) {
+    let dayPref = [];
+    for (let j = 0, col; col = row.cells[j]; j++) {
+      if (col.className === 'selected') {
         dayPref.push(1);
       } else {
         dayPref.push(0);
       }
-    }  
+    }
     prefs.push(dayPref);
   }
-  transPrefs = prefs[0].map((col, i) => prefs.map(row => row[i]));
+  transPrefs = prefs[0].map((col, i) => prefs.map((row) => row[i]));
   employeeNode.data.prefs = transPrefs;
-}
+};
 
 appendToNode.onclick = function() {
   const nodeId = appendToNode.getAttribute('data-node-id');

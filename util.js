@@ -5,7 +5,7 @@ const {exec} = require('child_process');
 
 module.exports = {
   create_source: function(domain, data) {
-    var tmpObj;
+    let tmpObj;
     if (domain.startsWith('scheduling')) {
       tmpObj = tmp.fileSync({mode: 0744, prefix: domain, postfix: '.py'});
     } else {
@@ -43,19 +43,19 @@ module.exports = {
         console.log(ofile);
         callback(JSON.parse(fs.readFileSync(ofile, 'utf8')));
       });
-    }
-    else { 
-    const ortoolsDir = '/home/kajm/code/JavaScript/is-proj/or-tools';
-    exec(`make build SOURCE=${sourceFile}`, {cwd: ortoolsDir}, (err, stdout, stderr) => {
-      if (err) throw err;
-      exec(`bin/${exe} ${ofile}`, {cwd: ortoolsDir}, (err, stdout, stderr) => {
-        if (err) throw err;
-        console.log(ofile);
-        callback(JSON.parse(fs.readFileSync(ofile, 'utf8')));
-        // console.log('Process says: ' + stdout);
-        // return output;
-      }) ;
-    });
+    } else {
+      console.log(__dirname);
+      const ortoolsDir = __dirname + '/or-tools';
+      exec(`make build SOURCE=${sourceFile}`, {cwd: ortoolsDir},
+          (err, stdout, stderr) => {
+            if (err) throw err;
+            exec(`bin/${exe} ${ofile}`, {cwd: ortoolsDir},
+                (err, stdout, stderr) => {
+                  if (err) throw err;
+                  console.log(ofile);
+                  callback(JSON.parse(fs.readFileSync(ofile, 'utf8')));
+                });
+          });
     }
   },
 };
